@@ -1,5 +1,5 @@
 const Machine = () => {
-  return <h1>Machine</h1>;
-};
+  return <></>
+}
 
-export default Machine;
+export default Machine

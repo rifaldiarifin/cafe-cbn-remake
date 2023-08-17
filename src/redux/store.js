@@ -1,13 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import simpleComboboxReducer from "./slice/simpleComboBoxSlice";
-import documentReducer from "./slice/documentSlice";
+import { configureStore } from '@reduxjs/toolkit'
+import simpleComboboxReducer from './slice/simpleComboBoxSlice'
+import documentReducer from './slice/documentSlice'
 
 const store = configureStore({
   reducer: {
     simpleCombobox: simpleComboboxReducer,
-    document: documentReducer,
-  },
-});
+    document: documentReducer
+  }
+})
 
 // console.log("Oncreate Store : ", store.getState())
 
@@ -15,4 +15,4 @@ const store = configureStore({
 //     console.log("Store Change : ", store.getState().document.data.clickTarget)
 // })
 
-export default store;
+export default store

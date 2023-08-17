@@ -1,28 +1,26 @@
 const SimpleCombobox = (props) => {
-  let stat = true;
-  const { children, select } = props;
+  let stat = true
+  const { children, select } = props
 
   const switchCombo = (e) => {
-    const simplePreview = e.target.parentElement;
-    if (simplePreview.classList.contains("active")) {
-      return simplePreview.classList.remove("active");
+    const simplePreview = e.target.parentElement
+    if (simplePreview.classList.contains('active')) {
+      return simplePreview.classList.remove('active')
     }
-    return simplePreview.classList.add("active");
-  };
+    return simplePreview.classList.add('active')
+  }
 
   const setHMenu = (e) => {
-    const simplePreview = e.target.parentElement;
+    const simplePreview = e.target.parentElement
     if (stat)
       simplePreview.setAttribute(
-        "style",
+        'style',
         `--h-menu: ${
-          e.target.nextElementSibling.offsetHeight >= 200
-            ? 200
-            : e.target.nextElementSibling.offsetHeight
-        }px`,
-      );
-    stat = false;
-  };
+          e.target.nextElementSibling.offsetHeight >= 200 ? 200 : e.target.nextElementSibling.offsetHeight
+        }px`
+      )
+    stat = false
+  }
 
   return (
     <div className="simple-combobox">
@@ -39,7 +37,7 @@ const SimpleCombobox = (props) => {
         {children}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default SimpleCombobox;
+export default SimpleCombobox

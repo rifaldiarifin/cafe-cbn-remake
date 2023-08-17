@@ -1,13 +1,13 @@
 const Input = (props) => {
   const {
-    type = "text",
+    type = 'text',
     name,
     id = undefined,
-    placeHolder = "",
+    placeHolder = '',
     ariaLabel = undefined,
-    autoComplete = "on",
-    onInput = () => {},
-  } = props;
+    autoComplete = 'on',
+    onInput = () => {}
+  } = props
   return (
     <input
       type={type}
@@ -18,7 +18,7 @@ const Input = (props) => {
       autoComplete={autoComplete}
       onInput={(e) => onInput(e)}
     />
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

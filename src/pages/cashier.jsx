@@ -1,5 +1,5 @@
 const Cashier = () => {
-  return <h1>Cashier</h1>;
-};
+  return <h1>Cashier</h1>
+}
 
-export default Cashier;
+export default Cashier

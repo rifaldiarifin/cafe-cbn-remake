@@ -1,47 +1,39 @@
-import { Link } from "react-router-dom";
-import {
-  useDocumentClickTarget,
-  useDocumentTitle,
-} from "../hooks/useDocumentHandler";
-import DualForm from "../components/Layout/DualForm";
-import InputField from "../components/Elements/InputField";
-import Button from "../components/Elements/Button";
-import SimpleCombobox from "../components/Elements/SimpleCombobox";
-import SimpleNav from "../components/Fragments/SimpleNav";
-import SimpleNavLi from "../components/Elements/SimpleNav/SimpleNavLi";
-import SimpleComboLi from "../components/Elements/SimpleCombobox/SimpleComboLi";
+import { Link } from 'react-router-dom'
+import { useDocumentClickTarget, useDocumentTitle } from '../hooks/useDocumentHandler'
+import DualForm from '../components/Layout/DualForm'
+import InputField from '../components/Elements/InputField'
+import Button from '../components/Elements/Button'
+import SimpleCombobox from '../components/Elements/SimpleCombobox'
+import SimpleNav from '../components/Fragments/SimpleNav'
+import SimpleNavLi from '../components/Elements/SimpleNav/SimpleNavLi'
+import SimpleComboLi from '../components/Elements/SimpleCombobox/SimpleComboLi'
 
 const SignInPage = () => {
-  useDocumentClickTarget();
-  useDocumentTitle("SignIn");
+  useDocumentClickTarget()
+  useDocumentTitle('SignIn')
 
   const signInHandler = async (e) => {
     // prevent default
-    e.preventDefault();
+    e.preventDefault()
 
     const value = {
       username: e.target.username.value,
-      password: e.target.password.value,
-    };
-    console.log(value);
-  };
+      password: e.target.password.value
+    }
+    console.log(value)
+  }
   return (
     <DualForm
       content={
         <>
           <h1>WELCOME BACK!</h1>
           <p className="mrgn-t-10 mrgn-b-40">
-            Don&apos;t have a account,{" "}
-            <Link to={"/auth/register"} className="hyperlink">
+            Don&apos;t have a account,{' '}
+            <Link to={'/auth/register'} className="hyperlink">
               Sign Up
             </Link>
           </p>
-          <form
-            action=""
-            method="post"
-            className="w-100"
-            onSubmit={signInHandler}
-          >
+          <form action="" method="post" className="w-100" onSubmit={signInHandler}>
             <InputField
               type="text"
               label="Username"
@@ -63,17 +55,11 @@ const SignInPage = () => {
               moreClass="w-100"
             />
             <div className="box w-100 txt-right mrgn-y-20">
-              <Link to={"/auth/forgetpassword"} className="hyperlink">
+              <Link to={'/auth/forgetpassword'} className="hyperlink">
                 Forget Password?
               </Link>
             </div>
-            <Button
-              type="submit"
-              style="fill"
-              color="default"
-              id="signin"
-              moreClass="mrgn-t-20"
-            >
+            <Button type="submit" style="fill" color="default" id="signin" moreClass="mrgn-t-20">
               Sign In
             </Button>
           </form>
@@ -99,15 +85,11 @@ const SignInPage = () => {
               <a href="/" className="btn icon icons8-filled home"></a>
             </SimpleNavLi>
           </SimpleNav>
-          <img
-            src="/img/paintedbrowncoffeecup.png"
-            className="illustration"
-            alt="paintedbrowncoffeecup"
-          />
+          <img src="/img/paintedbrowncoffeecup.png" className="illustration" alt="paintedbrowncoffeecup" />
         </>
       }
     />
-  );
-};
+  )
+}
 
-export default SignInPage;
+export default SignInPage
