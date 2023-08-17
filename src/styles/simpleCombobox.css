@@ -1,0 +1,108 @@
+.simple-combobox {
+  --h-preview: 40px;
+  --w-menu: 120px;
+  --h-menu: fit-content;
+  --max-h-menu: 200px;
+  position: relative;
+}
+
+.simple-combobox .smpl-preview {
+  height: var(--h-preview);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.simple-combobox .smpl-preview::before {
+  content: attr(data-selected);
+}
+.simple-combobox .smpl-preview span {
+  --i8-ratio: 10px;
+  pointer-events: none;
+  filter: brightness(99);
+  transform: rotateZ(-90deg);
+  transition: var(--trns-02) var(--Cubic-Bezier2);
+}
+
+.simple-combobox.active .smpl-preview span {
+  transform: rotateZ(0deg);
+}
+
+.simple-combobox .smpl-menu {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: var(--w-menu);
+  height: fit-content;
+  max-height: var(--max-h-menu);
+  top: calc(((var(--h-menu) / 2) - var(--h-preview) / 2 - 20%) * -1);
+  right: -20%;
+  transform: scaleY(0) scaleX(0.8);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--rounded1);
+  background-color: var(--main-color);
+  cursor: default;
+  overflow: hidden;
+  overflow-y: auto;
+  border-top: var(--glassmorphism-top);
+  border-bottom: var(--glassmorphism-bottom);
+  box-shadow: var(--box-shadow-1);
+  transition: var(--trns-02) var(--Cubic-Bezier1);
+}
+
+.simple-combobox .smpl-menu li.comboli {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--text2);
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.simple-combobox .smpl-menu li.smpl-combopoint {
+  position: absolute;
+  padding: 6px;
+  opacity: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  width: calc(100%);
+  /* transform: translateY(calc(40px + 4px)); */
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: var(--rounded1);
+  transition: var(--trns-04) var(--Cubic-Bezier1);
+}
+
+.simple-combobox .smpl-menu li.smpl-combopoint::after {
+  content: "";
+  display: block;
+  pointer-events: none;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--third-color);
+}
+
+.simple-combobox .smpl-menu:hover li.smpl-combopoint {
+  opacity: 1;
+}
+
+.simple-combobox.active .smpl-menu {
+  transform: scaleY(1) scaleX(1);
+  top: var(--h-preview);
+  right: 0px;
+  transition: var(--trns-04) var(--Cubic-Bezier1);
+}
+
+.simple-combobox.active .smpl-menu li.comboli {
+  pointer-events: inherit;
+}

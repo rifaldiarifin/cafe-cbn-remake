@@ -1,0 +1,27 @@
+.btn {
+  border: none;
+  background-color: transparent;
+  font-family: SecondFont;
+  font-weight: 500;
+  color: var(--text2);
+  letter-spacing: var(--space-14);
+  cursor: pointer;
+}
+
+.btn.btn-fill.default {
+  --BColor: var(--accent-color1);
+  --BColorHover: var(--accent-color1-hover);
+  --TXTColor: whitesmoke;
+}
+
+.btn.btn-fill {
+  background-color: var(--BColor);
+  color: var(--TXTColor);
+  width: 100px;
+  height: 40px;
+  border-radius: var(--rounded3);
+}
+
+.btn.btn-fill:hover {
+  background-color: var(--BColorHover);
+}

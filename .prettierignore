@@ -1,0 +1,17 @@
+eslintrc.json
+prettierec.json
+package.json
+package-lock.json
+tsconfig.json
+CHANGELOG.md
+readme.md
+nodemon.json
+yarn.lock
+environment.ts
+dist
+build
+public
+node_modules
+
+# Ignore all CSS files:
+*.css

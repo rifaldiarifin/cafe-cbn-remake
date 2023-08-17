@@ -1,0 +1,129 @@
+.dual-panel-form {
+  display: grid;
+  grid-template-columns: 385px 1fr;
+  grid-template-areas: "content banner";
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: var(--main-color);
+  gap: 60px;
+}
+
+.dual-panel-form.reverse {
+  grid-template-columns: 1fr 385px;
+}
+.dual-panel-form.reverse .form-content {
+  grid-area: banner;
+  justify-self: flex-end;
+  padding: 50px 60px 50px 0;
+}
+
+.dual-panel-form.reverse .form-banner {
+  grid-area: content;
+  justify-self: flex-start;
+  padding: 50px 0 50px 60px;
+}
+
+.dual-panel-form .form-content {
+  grid-area: content;
+  width: 100%;
+  justify-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-self: flex-end;
+  box-sizing: border-box;
+  padding: 50px 0 50px 60px;
+}
+
+.dual-panel-form .form-banner {
+  grid-area: banner;
+  width: 100%;
+  display: flex;
+  background-color: var(--accent-color2-hover);
+  flex-direction: column;
+  align-items: flex-end;
+  justify-self: flex-end;
+  position: relative;
+  box-sizing: border-box;
+  padding: 50px 60px 50px 0;
+  color: whitesmoke;
+  overflow: hidden;
+}
+
+.form-content h1 {
+  font-size: 28px;
+  font-weight: 600;
+  font-family: MainFont;
+  letter-spacing: var(--space-14);
+}
+
+.form-content p {
+  font-size: 15px;
+  letter-spacing: var(--space-14);
+}
+
+.form-content a {
+  font-size: 13px;
+}
+
+.form-content button[type="submit"] {
+  width: 100%;
+  font-weight: 700;
+  font-size: 15px;
+  height: 46px;
+}
+.form-banner .illustration {
+  position: absolute;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.form-banner .simple-nav {
+  z-index: 1;
+}
+
+.dual-panel-form.reverse .simple-nav {
+  justify-content: flex-start;
+}
+
+.simple-nav {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 40px;
+}
+
+.simple-nav .ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+  height: 100%;
+}
+
+.simple-nav .ul .li {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 14px;
+  height: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+.simple-nav li button {
+  color: whitesmoke;
+}
+.simple-nav li .icon {
+  filter: brightness(99);
+}
