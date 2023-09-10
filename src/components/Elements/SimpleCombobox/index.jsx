@@ -1,6 +1,6 @@
 const SimpleCombobox = (props) => {
   let stat = true
-  const { children, select } = props
+  const { children, select, styleBox, id, name = 'combo', fullRadius = undefined } = props
 
   const switchCombo = (e) => {
     const simplePreview = e.target.parentElement
@@ -23,13 +23,15 @@ const SimpleCombobox = (props) => {
   }
 
   return (
-    <div className="simple-combobox">
+    <div className={`simple-combobox${styleBox ? ' ' + styleBox : ''}`}>
       <div
         className="smpl-preview"
-        onClick={(e) => switchCombo(e)}
-        onMouseEnter={(e) => setHMenu(e)}
+        onClick={switchCombo}
+        onMouseEnter={setHMenu}
         data-selected={select}
+        style={{ borderRadius: fullRadius && '100px' }}
       >
+        <input type="text" id={id} name={name} defaultValue={select} hidden />
         <span className="icons8-filled back"></span>
       </div>
       <ul className="smpl-menu">

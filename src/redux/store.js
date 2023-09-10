@@ -1,18 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit'
-import simpleComboboxReducer from './slice/simpleComboBoxSlice'
 import documentReducer from './slice/documentSlice'
+import cartOrderReducer from './slice/cartOrder'
+import popupScreenReducer from './slice/popupScreenSlice'
+import darkModeReducer from './slice/darkModeSlice'
+import popupFormReducer from './slice/popupForm'
 
 const store = configureStore({
   reducer: {
-    simpleCombobox: simpleComboboxReducer,
-    document: documentReducer
+    cartOrder: cartOrderReducer,
+    document: documentReducer,
+    popupScreen: popupScreenReducer,
+    darkMode: darkModeReducer,
+    popupForm: popupFormReducer
   }
 })
 
 // console.log("Oncreate Store : ", store.getState())
 
 // store.subscribe(() => {
-//     console.log("Store Change : ", store.getState().document.data.clickTarget)
+//     console.log("Store Change : ", store.getState().popupScreen)
 // })
 
 export default store

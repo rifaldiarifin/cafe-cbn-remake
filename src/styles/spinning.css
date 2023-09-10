@@ -1,0 +1,41 @@
+.spinning-number {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px 32px 32px;
+    height: 32px;
+    align-items: center;
+    border: 1px solid var(--separator);
+    border-radius: var(--rounded1);
+    overflow: hidden;
+}
+
+.spinning-number button {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.spinning-number button span {
+    --i8-ratio: 16px;
+    filter: var(--icon2);
+}
+
+.spinning-number button:active {
+    background-color: var(--hover-color1);
+}
+
+.spinning-number .spin-value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-left: 1px solid var(--separator);
+    border-right: 1px solid var(--separator);
+}
+
+.spinning-number .spin-value::after {
+    content: attr(data-spinvalue);
+    font-size: 15px;
+    font-weight: 600;
+}

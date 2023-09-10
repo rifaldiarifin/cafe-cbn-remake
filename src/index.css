@@ -1,11 +1,23 @@
 @import url("/src/assets/icons8/fluent/main.css");
 @import url("/src/assets/fonts/googlefonts/Montserrat/main.css");
 @import url("/src/assets/fonts/googlefonts/Poppins/main.css");
+@import url("/src/styles/adminPanel-UI1.css");
+@import url("/src/styles/adminPanel-UI2.css");
+@import url("/src/styles/autoScaleImage.css");
+@import url("/src/styles/buyingForm.css");
 @import url("/src/styles/dualForm.css");
+@import url("/src/styles/bannerSlidesPromote.css");
 @import url("/src/styles/inputField.css");
 @import url("/src/styles/hyperLink.css");
 @import url("/src/styles/simpleCombobox.css");
 @import url("/src/styles/button.css");
+@import url("/src/styles/spinning.css");
+@import url("/src/styles/companyLogo.css");
+@import url("/src/styles/userProfile.css");
+@import url("/src/styles/orderGroup.css");
+@import url("/src/styles/cardGroup.css");
+
+@import url("/src/styles/popupAlert.css");
 
 /* GLOBAL ROOT ----------------------------------------- */
 :root {
@@ -74,19 +86,26 @@
 
   /* Accent colors */
 
-  --accent-color1: rgb(111, 65, 65);
+  --accent-color1: rgb(112, 66, 66);
   --accent-color1-hover: rgb(138, 101, 101);
 
-  --accent-color2: rgb(215, 79, 95);
-  --accent-color2-hover: rgb(226, 130, 142);
+  --accent-color2: rgb(254, 183, 3);
+  --accent-color2-hover: rgb(241, 196, 124);
+
+  --accent-color3: rgb(215, 79, 95);
+  --accent-color3-hover: rgb(226, 130, 142);
 
   --link-color: rgb(134, 153, 218);
   --link-color-hover: rgb(174, 187, 230);
 
   --success-color: rgb(113, 190, 52);
-  --warning-color: rgb(254, 183, 3);
+  --success-color-hover: rgb(207, 233, 187);
+  --warning-color: rgb(255, 198, 53);
+  --warning-color-hover: rgb(255, 236, 187);
   --danger-color: rgb(255, 98, 61);
+  --danger-color-hover: rgb(255, 202, 190);
   --info-color: rgb(145, 145, 155);
+  --info-color-hover: rgb(218, 218, 221);
 
   /* Transitions */
   --trns-02: 0.2s;
@@ -117,10 +136,10 @@
 
 .dark {
   --main-color: rgb(35, 35, 60);
-  --second-color: rgb(28, 28, 53);
-  --third-color: rgb(23, 23, 50);
-  --fourth-color: rgb(20, 20, 48);
-  --fifth-color: rgb(16, 16, 20);
+  --second-color: rgb(45, 45, 70);
+  --third-color: rgb(55, 55, 80);
+  --fourth-color: rgb(65, 65, 90);
+  --fifth-color: rgb(75, 75, 100);
 
   --disabled-color1: rgb(120, 120, 150);
   --disabled-color2: rgb(105, 105, 135);
@@ -142,9 +161,9 @@
   --hover-color2: rgb(80, 80, 100);
   --hover-color3: rgb(100, 100, 130);
 
-  --text1: rgb(240, 240, 240);
-  --text2: rgb(220, 220, 225);
-  --text3: rgb(200, 200, 200);
+  --text1: rgb(250, 250, 250);
+  --text2: rgb(240, 240, 245);
+  --text3: rgb(230, 230, 230);
 
   --neumorphism1: -2px -2px 10px -8px rgba(40, 40, 45, 0.8),
     2px 2px 10px -6px rgba(0, 0, 0, 0.2);
@@ -157,7 +176,7 @@
   --box-shadow-2: 1px 20px 60px -3px rgba(0, 0, 0, 0.5);
   --box-shadow-3: 1px 20px 60px -5px rgba(0, 0, 0, 0.6);
 
-  --glassmorphism-top: 1px solid rgba(235, 235, 255, 0.4);
+  --glassmorphism-top: 1px solid rgba(235, 235, 255, 0.1);
   --glassmorphism-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
 
@@ -189,6 +208,9 @@
 .space-12 {letter-spacing: var(--space-12);}
 .space-14 {letter-spacing: var(--space-14);}
 .font-consolas {font-family: consolas;}
+.font-main {font-family: MainFont;}
+.font-second {font-family: SecondFont;}
+.font-third {font-family: ThirdFont;}
 
 /* z-index */
 .z-1 {z-index: 1;}
@@ -339,8 +361,11 @@
 
 /* display */
 .dsp-flex {display: flex;}
-.dsp-grid {display: grid;}
+.dsp-grid {display: grid; grid-template-columns: var(--gd-colm); grid-template-rows: var(--gd-rows);}
 .dsp-block {display: block;}
+.fl-04 {flex: .4;}
+.fl-06 {flex: .6;}
+.fl-08 {flex: .8;}
 .fl-1 {flex: 1;}
 .fl-colm {flex-direction: column;}
 .fl-row {flex-direction: row;}
@@ -351,11 +376,14 @@
 .gd-tmplt-rows-1fr-1 {grid-template-rows: 1fr;}
 .gd-tmplt-rows-1fr-2 {grid-template-rows: 1fr 1fr;}
 .gd-tmplt-rows-1fr-3 {grid-template-rows: 1fr 1fr 1fr;}
+.justify-self-center {justify-self: center;}
+.justify-self-start {justify-self: flex-start;}
+.justify-self-end {justify-self: flex-end;}
 .justify-center {justify-content: center;}
 .justify-start {justify-content: flex-start;}
 .justify-end {justify-content: flex-end;}
 .justify-around {justify-content: space-around;}
-.justify-beetwen {justify-content: space-between;}
+.justify-between {justify-content: space-between;}
 .justify-evenly {justify-content: space-evenly;}
 .align-cnt-center {align-content: center;}
 .align-cnt-around {align-content: space-around;}
@@ -363,6 +391,9 @@
 .align-itms-start {align-items: flex-start;}
 .align-itms-end {align-items: flex-end;}
 .align-itms-center {align-items: center;}
+.align-self-start {align-self: flex-start;}
+.align-self-end {align-self: flex-end;}
+.align-self-center {align-self: center;}
 
 .post-reltv {position: relative;}
 .post-absolt {position: absolute;}
@@ -385,9 +416,14 @@
 .font-size-18 {font-size: 18px;}
 .font-size-22 {font-size: 22px;}
 .font-size-24 {font-size: 24px;}
-.text-1 {color: var(--textb1);}
-.text-2 {color: var(--textb2);}
-.text-3 {color: var(--textb3);}
+.font-size-26 {font-size: 26px;}
+.font-size-28 {font-size: 28px;}
+.font-size-30 {font-size: 30px;}
+.font-size-32 {font-size: 32px;}
+.font-size-34 {font-size: 34px;}
+.text-1 {color: var(--text1);}
+.text-2 {color: var(--text2);}
+.text-3 {color: var(--text3);}
 .disabled-text-1 {color: var(--disabled-color1);}
 .disabled-text-2 {color: var(--disabled-color2);}
 .disabled-text-3 {color: var(--disabled-color3);}
@@ -395,8 +431,18 @@
 .disabled-text-static-2 {color: rgb(130, 130, 135);}
 .accent-col-1 {color: var(--accent-color1);}
 .accent-col-2 {color: var(--accent-color2);}
-.accent-bgcol-1 {color: var(--accent-color1);}
-.accent-bgcol-2 {color: var(--accent-color2);}
+.accent-col-3 {color: var(--accent-color3);}
+.accent-bgcol-1 {background-color: var(--accent-color1);}
+.accent-bgcol-2 {background-color: var(--accent-color2);}
+.accent-bgcol-3 {background-color: var(--accent-color3);}
+.success-bgcol {background-color: var(--success-color);}
+.warning-bgcol {background-color: var(--warning-color);}
+.info-bgcol {background-color: var(--info-color);}
+.danger-bgcol {background-color: var(--danger-color);}
+.success-col {color: var(--success-color);}
+.warning-col {color: var(--warning-color);}
+.info-col {color: var(--info-color);}
+.danger-col {color: var(--danger-color);}
 .nowrap {white-space: nowrap;}
 .break-space {white-space: break-spaces;}
 .text-elips {text-overflow: ellipsis;}
@@ -411,20 +457,35 @@
 
 /* overflow */
 .overflow-hidden {overflow: hidden;}
+.overflow-y-auto {overflow-y: auto;}
+.overflow-x-auto {overflow-x: auto;}
+.overflow-y-hidden {overflow-y: hidden;}
+.overflow-x-hidden {overflow-x: hidden;}
 
 /* panel */
 .box {color: var(--textb1);}
+.border-box {box-sizing: border-box;}
+.box-shadow1 {box-shadow: var(--box-shadow-1);}
+.box-shadow2 {box-shadow: var(--box-shadow-2);}
+.box-shadow3 {box-shadow: var(--box-shadow-3);}
 
 /* 
     * TEMPLATES ----------------------------------------
 */
-#root {background-color: var(--second-color);}
+#root {background-color: var(--second-color);color:var(--text2);}
+
+.icons8-regular,
+.icons8-filled{
+  filter: var(--icon4);
+}
 
 html {scroll-behavior: smooth;}
 
-::-webkit-scrollbar-thumb {background-color: var(--accent-color2);border-radius: 50px;}
+::-webkit-scrollbar-thumb {background-color: var(--fourth-color);border-radius: 50px;}
 ::-webkit-scrollbar {width: 6px;}
 
 body {margin: 0;padding: 0;box-sizing: border-box;display: grid;font-family: SecondFont, sans-serif;font-weight: 500;color: var(--text2);height: fit-content;min-height: 100vh;}
 
-h1,h2,h3,h4,h5,h6,p,label {margin: 0;padding: 0;}
+h1,h2,h3,h4,h5,h6,p,label, ul {margin: 0;padding: 0;}
+
+button,li{-webkit-tap-highlight-color: transparent;}

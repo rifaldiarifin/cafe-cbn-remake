@@ -1,9 +1,10 @@
 const SimpleComboLi = (props) => {
-  const { children } = props
+  const { value } = props
   const switchSelection = (e) => {
     const simplePreview = e.target.parentElement.previousElementSibling
     simplePreview.parentElement.classList.remove('active')
-    return (simplePreview.dataset.selected = children)
+    simplePreview.children[0].value = value
+    return (simplePreview.dataset.selected = value)
   }
   const switchPoint = (e) => {
     const lipoint = e.target.parentElement.children[0]
@@ -13,8 +14,8 @@ const SimpleComboLi = (props) => {
     lipoint.setAttribute('style', transform(e.target.offsetTop))
   }
   return (
-    <li className="comboli" onClick={(e) => switchSelection(e)} onMouseEnter={(e) => switchPoint(e)}>
-      {children}
+    <li className="comboli" data-value={value} onClick={(e) => switchSelection(e)} onMouseEnter={(e) => switchPoint(e)}>
+      {value}
     </li>
   )
 }

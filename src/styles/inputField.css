@@ -1,12 +1,21 @@
 .inputfield {
+  --i-color: var(--accent-color1);
   --h-input: 44px;
   position: relative;
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   min-width: 40px;
 }
 
-.inputfield::before {
+.inputfield.currency .box >.curr {
+  font-size: 14px;
+  color: var(--disabled-color2);
+  position: absolute;
+  margin-left: 16px;
+}
+
+.inputfield.label::before {
   content: attr(data-label);
   margin-bottom: 10px;
   font-size: 15px;
@@ -16,7 +25,7 @@
   z-index: 1;
 }
 
-.inputfield.invalid::before {
+.inputfield.invalid.label::before {
   color: var(--danger-color);
 }
 
@@ -46,20 +55,38 @@
 }
 
 .inputfield input {
+  width: 100%;
   border-radius: var(--rounded3);
-  border: 2px solid var(--accent-color1);
+  border: 1px solid var(--separator);
   box-sizing: border-box;
   height: var(--h-input);
   outline: none;
   font-family: SecondFont;
+  color: var(--text1);
   font-size: 14px;
   font-weight: 500;
   padding: 0 16px;
   background-color: transparent;
-  transition: var(--trns-02) var(--Cubic-Bezier1);
+  transition: var(--trns-04) var(--Cubic-Bezier1);
 }
+
+.inputfield.icon input {
+  padding-left: calc(var(--icon-ratio) + (var(--h-input) / 2));
+}
+.inputfield.currency input {
+  padding-left: 38px;
+  letter-spacing: 1.4px;
+}
+
+.inputfield.icon .icons8-filled,
+.inputfield.icon .icons8-regular {
+  position: absolute;
+  filter: var(--icon2);
+  left: calc(var(--h-input) / 2 - 5px);
+}
+
 .inputfield input:focus {
-  border-color: var(--accent-color1-hover);
+  border-color: var(--i-color)
 }
 
 .inputfield input::placeholder {
@@ -69,16 +96,13 @@
 /* password */
 
 .inputfield span.see-pass {
-  --i8-ratio: 16px;
-  width: 20px;
-  height: 20px;
+  --i8-ratio: 20px;
   filter: var(--icon2);
   display: none;
   text-align: center;
   position: absolute;
   cursor: pointer;
   right: calc(var(--h-input) / 2 - 5px);
-  bottom: calc((var(--h-input) / 2) - 10px);
   user-select: none;
   transition: var(--trns-02);
 }
@@ -98,6 +122,7 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
 .inputfield input[type="number"] {
   -moz-appearance: textfield;
 }

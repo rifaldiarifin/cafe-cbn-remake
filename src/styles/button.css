@@ -1,27 +1,111 @@
 .btn {
   border: none;
+  display: flex;
+  justify-content: center;
+  height: 46px;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  text-decoration: none;
+  white-space: nowrap;
   background-color: transparent;
   font-family: SecondFont;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text2);
-  letter-spacing: var(--space-14);
+  letter-spacing: .8px;
   cursor: pointer;
 }
-
-.btn.btn-fill.default {
+.btn.disabled{
+  opacity: .3;
+  pointer-events: none;
+}
+.btn span.icons8-filled,
+.btn span.icons8-regular{
+  --i8-gradient: var(--accent-color3);
+  --i8-ratio: 24px;
+  pointer-events: none;
+}
+.btn.classic {
+  --BColor: var(--main-color);
+  --BColorHover: var(--hover-color1);
+  --TXTColor: var(--text2);
+  border: 1px solid var(--separator);
+}
+.btn.default {
   --BColor: var(--accent-color1);
   --BColorHover: var(--accent-color1-hover);
+  --TXTColor: whitesmoke;
+}
+.btn.second {
+  --BColor: var(--accent-color2);
+  --BColorHover: var(--accent-color2-hover);
+  --TXTColor: whitesmoke;
+}
+.btn.third {
+  --BColor: var(--accent-color3);
+  --BColorHover: var(--accent-color3-hover);
+  --TXTColor: whitesmoke;
+}
+/* ----- */
+.btn.success {
+  --BColor: var(--success-color);
+  --BColorHover: var(--success-color-hover);
+  --TXTColor: whitesmoke;
+}
+.btn.warning {
+  --BColor: var(--warning-color);
+  --BColorHover: var(--warning-color-hover);
+  --TXTColor: whitesmoke;
+}
+.btn.danger {
+  --BColor: var(--danger-color);
+  --BColorHover: var(--danger-color-hover);
+  --TXTColor: whitesmoke;
+}
+.btn.info {
+  --BColor: var(--info-color);
+  --BColorHover: var(--info-color-hover);
   --TXTColor: whitesmoke;
 }
 
 .btn.btn-fill {
   background-color: var(--BColor);
   color: var(--TXTColor);
-  width: 100px;
-  height: 40px;
+  padding: 0 20px;
   border-radius: var(--rounded3);
+}
+
+.btn.btn-fill .icons8-filled,
+.btn.btn-fill .icons8-regular {
+  filter: brightness(99);
+}
+
+.btn.classic .icons8-filled,
+.btn.classic .icons8-regular {
+  filter: var(--icon4);
 }
 
 .btn.btn-fill:hover {
   background-color: var(--BColorHover);
+}
+
+.btn.icon{
+  aspect-ratio: 1;
+  padding: 0;
+  gap: 0;
+}
+
+/* Regular */
+
+.btn.btn-regular {
+  box-sizing: border-box;
+  border: 1px solid var(--BColor);
+  color: var(--BColor);
+  padding: 0 20px;
+  border-radius: var(--rounded3);
+}
+
+.btn.btn-regular:hover {
+  border-color: var(--BColorHover);
 }

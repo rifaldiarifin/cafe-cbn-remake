@@ -124,6 +124,8 @@
 .simple-nav li button {
   color: whitesmoke;
 }
+.dual-panel-form .form-banner .simple-combobox .smpl-preview .icons8-regular,
+.dual-panel-form .form-banner .simple-combobox .smpl-preview .icons8-filled,
 .simple-nav li .icon {
   filter: brightness(99);
 }

@@ -1,4 +1,5 @@
 .simple-combobox {
+  width: fit-content;
   --h-preview: 40px;
   --w-menu: 120px;
   --h-menu: fit-content;
@@ -10,17 +11,43 @@
   height: var(--h-preview);
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  border-radius: var(--rounded1);
+  padding: 0 18px;
+  font-size: 14px;
+  justify-content: space-between;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: var(--trns-04) var(--Cubic-Bezier1);
+}
+.simple-combobox .smpl-preview > input{
+  width: 100%;
+  border: none;
+  font-weight: 500;
+  font-family: SecondFont;
+  background-color: transparent;
+}
+.simple-combobox.fill .smpl-preview:hover,
+.simple-combobox.active.fill .smpl-preview {
+  border-color: transparent;
+  box-shadow: var(--box-shadow-1);
+  background-color: var(--main-color);
+}
+.simple-combobox.fill .smpl-preview {
+  border: 1px solid var(--separator);
+  /* background-color: var(--main-color); */
 }
 .simple-combobox .smpl-preview::before {
   content: attr(data-selected);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .simple-combobox .smpl-preview span {
   --i8-ratio: 10px;
   pointer-events: none;
-  filter: brightness(99);
+  filter: var(--icon2);
   transform: rotateZ(-90deg);
   transition: var(--trns-02) var(--Cubic-Bezier2);
 }
@@ -29,15 +56,18 @@
   transform: rotateZ(0deg);
 }
 
+.simple-combobox.fill .smpl-menu{
+  translate: 0 6px;
+} 
 .simple-combobox .smpl-menu {
   margin: 0;
   padding: 0;
   position: absolute;
-  width: var(--w-menu);
+  min-width: var(--w-menu);
   height: fit-content;
   max-height: var(--max-h-menu);
   top: calc(((var(--h-menu) / 2) - var(--h-preview) / 2 - 20%) * -1);
-  right: -20%;
+  right: 0;
   transform: scaleY(0) scaleX(0.8);
   box-sizing: border-box;
   display: flex;
@@ -52,6 +82,7 @@
   border-bottom: var(--glassmorphism-bottom);
   box-shadow: var(--box-shadow-1);
   transition: var(--trns-02) var(--Cubic-Bezier1);
+  z-index: 99;
 }
 
 .simple-combobox .smpl-menu li.comboli {
@@ -60,12 +91,16 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  white-space: nowrap;
+  font-size: 14px;
   color: var(--text2);
-  width: 100%;
+  padding: 0 12px;
   height: 40px;
   min-height: 40px;
   cursor: pointer;
   z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .simple-combobox .smpl-menu li.smpl-combopoint {
