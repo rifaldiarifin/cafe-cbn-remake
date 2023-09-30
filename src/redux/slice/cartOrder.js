@@ -4,7 +4,6 @@ const cartOrderSlice = createSlice({
   name: 'cartOrder',
   initialState: {
     data: {
-      navPayment: false,
       cart: []
     }
   },
@@ -24,9 +23,6 @@ const cartOrderSlice = createSlice({
     removeFromCart: (state, action) => {
       if (typeof action.payload !== 'number') throw new Error('payload must be a number!')
       state.data.cart.splice(action.payload, 1)
-    },
-    toggleNav: (state) => {
-      state.data.navPayment = state.data.navPayment ? false : true
     },
     resetCart: (state) => {
       state.data.cart = []

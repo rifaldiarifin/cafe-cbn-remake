@@ -14,6 +14,16 @@ const popupFormSlice = createSlice({
         status: false,
         action: '',
         formData: false
+      },
+      formGroup: {
+        status: false,
+        action: '',
+        formData: false
+      },
+      formGroupMenus: {
+        status: false,
+        action: '',
+        formData: false
       }
     }
   },
@@ -42,9 +52,44 @@ const popupFormSlice = createSlice({
       state.data.formMenu.formData = false
       state.data.status = false
       state.data.formMenu.status = false
+    },
+
+    setFormGroup: (state, action) => {
+      state.data.formGroup.formData = action.payload.formData
+      state.data.formGroup.action = action.payload.action
+      state.data.status = true
+      state.data.formGroup.status = true
+    },
+    closeFormGroup: (state) => {
+      state.data.formGroup.action = ''
+      state.data.formGroup.formData = false
+      state.data.status = false
+      state.data.formGroup.status = false
+    },
+
+    setFormGroupMenus: (state, action) => {
+      state.data.formGroupMenus.formData = action.payload.formData
+      state.data.formGroupMenus.action = action.payload.action
+      state.data.status = true
+      state.data.formGroupMenus.status = true
+    },
+    closeFormGroupMenus: (state) => {
+      state.data.formGroupMenus.action = ''
+      state.data.formGroupMenus.formData = false
+      state.data.status = false
+      state.data.formGroupMenus.status = false
     }
   }
 })
 
-export const { setFormUser, closeFormUser, closeFormMenu, setFormMenu } = popupFormSlice.actions
+export const {
+  setFormUser,
+  closeFormUser,
+  closeFormMenu,
+  setFormMenu,
+  closeFormGroup,
+  setFormGroup,
+  closeFormGroupMenus,
+  setFormGroupMenus
+} = popupFormSlice.actions
 export default popupFormSlice.reducer

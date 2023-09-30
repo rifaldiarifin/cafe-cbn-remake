@@ -12,6 +12,7 @@ const popupScreenSlice = createSlice({
         description: 'Yoo Watsupppp bro :D',
         alertType: 'message',
         alertStyle: 'info',
+        data: false,
         action: {
           yes: false,
           no: false,
@@ -55,9 +56,13 @@ const popupScreenSlice = createSlice({
         ok: false,
         close: false
       }
+    },
+    clearDataPayload: (state) => {
+      state.data.alertData.data = false
     }
   }
 })
 
-export const { closePopup, openPopup, setAlert, clickNo, clickOK, clickYes } = popupScreenSlice.actions
+export const { closePopup, openPopup, setAlert, clickNo, clickOK, clickYes, clearDataPayload } =
+  popupScreenSlice.actions
 export default popupScreenSlice.reducer
