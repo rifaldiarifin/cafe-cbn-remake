@@ -5,16 +5,22 @@ import Button from '../components/Elements/Button'
 import UserProfile from '../components/Elements/UserProfile'
 import CompanyLogo from '../components/Elements/CompanyLogo'
 import AdminPanelUI1 from '../components/Layout/AdminPanelUI1'
-import { useDispatch } from 'react-redux'
-import usePayOrder from '../hooks/usePayOrder'
+import { useDispatch, useSelector } from 'react-redux'
 import { setAlert } from '../redux/slice/popupScreenSlice'
 import useSignOut from '../hooks/useSignOut'
+import getImage from '../utils/getImage'
+import { toggleDarkMode } from '../redux/slice/darkModeSlice'
+import useMenuData from '../hooks/useMenuData'
+import useTransactionToday from '../hooks/useTransactionToday'
 
 const Cashier = () => {
   useDocumentTitle('Home')
-  usePayOrder()
   useSignOut()
+  const transactionToday = useTransactionToday()
+  const menuData = useMenuData()
   const dispatch = useDispatch()
+  const userSession = useSelector((state) => state.auth.data.userSession)
+  const darkMode = useSelector((state) => state.darkMode.data)
 
   const signOut = () => {
     dispatch(
@@ -32,11 +38,24 @@ const Cashier = () => {
     <AdminPanelUI1
       Header={
         <>
-          <div className="box dsp-flex justify-start align-itms-center gap-10">
+          <div className="box dsp-flex justify-start align-itms-center gap-10 fl-1">
             <CompanyLogo img="/img/logos/coffeecup_x128.png" alt="cafecbn" companyName="Cafe CBN" />
           </div>
-          <div className="box dsp-flex justify-end align-itms-center gap-10">
-            <UserProfile img="/me2.png" alt="me" name="Rifaldi Arifin" roleName="Kitchen 1" />
+          <div className="box dsp-flex justify-end align-itms-center gap-10 fl-1">
+            <Button
+              style={'fill'}
+              color="classic"
+              moreClass={'icon'}
+              icon={darkMode ? 'crescent-moon' : 'sun'}
+              iconSize="24px"
+              onClick={() => dispatch(toggleDarkMode())}
+            />
+            <UserProfile
+              img={getImage(userSession?.profileImage, 'noavatar')}
+              alt={userSession?.firstname ?? 'noavatar'}
+              name={`${userSession?.firstname ?? 'Hello'} ${userSession?.lastname ?? 'World'}`}
+              roleName="Cashier"
+            />
             <Button
               style="fill"
               color="third"
@@ -67,8 +86,11 @@ const Cashier = () => {
     >
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/oncooking" element={<OnCooking />} />
-        <Route path="/complete" element={<Complete />} />
+        <Route
+          path="/oncooking"
+          element={<OnCooking userSession={userSession} menuData={menuData} transactionToday={transactionToday} />}
+        />
+        <Route path="/complete" element={<Complete menuData={menuData} transactionToday={transactionToday} />} />
       </Routes>
     </AdminPanelUI1>
   )
