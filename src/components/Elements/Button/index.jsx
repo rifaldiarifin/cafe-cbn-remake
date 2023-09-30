@@ -1,22 +1,23 @@
 import { Link } from 'react-router-dom'
 
-const Button = (props) => {
-  const {
-    children,
-    type = 'button',
-    to = '/',
-    id = undefined,
-    onClick = () => {},
-    style = undefined,
-    color = 'default',
-    disabled = false,
-    icon = undefined,
-    iconStyle = 'regular',
-    iconSize = undefined,
-    brightness = undefined,
-    height = undefined,
-    moreClass = undefined
-  } = props
+const Button = ({
+  children,
+  type = 'button',
+  to = '/',
+  id = undefined,
+  onClick = () => {},
+  style = undefined,
+  color = 'default',
+  disabled = false,
+  icon = undefined,
+  iconStyle = 'regular',
+  iconSize = undefined,
+  iconColor = undefined,
+  brightness = undefined,
+  width = undefined,
+  height = undefined,
+  moreClass = undefined
+}) => {
   switch (type) {
     case 'hyperlink':
       return (
@@ -27,12 +28,12 @@ const Button = (props) => {
           }`}
           id={id}
           onClick={(e) => onClick(e)}
-          style={{ height: height }}
+          style={{ height, minHeight: height, width, minWidth: width }}
         >
           {icon && (
             <span
               className={`icons8-${iconStyle} ${icon}`}
-              style={{ '--i8-ratio': iconSize, filter: brightness }}
+              style={{ '--i8-ratio': iconSize, '--i8-gradient': iconColor, filter: brightness }}
             ></span>
           )}
           <span>{children}</span>
@@ -47,12 +48,12 @@ const Button = (props) => {
           }`}
           id={id}
           onClick={(e) => onClick(e)}
-          style={{ height: height }}
+          style={{ height, minHeight: height, width, minWidth: width }}
         >
           {icon && (
             <span
               className={`icons8-${iconStyle} ${icon}`}
-              style={{ '--i8-ratio': iconSize, filter: brightness }}
+              style={{ '--i8-ratio': iconSize, '--i8-gradient': iconColor, filter: brightness }}
             ></span>
           )}
           <span>{children}</span>
@@ -68,12 +69,12 @@ const Button = (props) => {
           }`}
           id={id}
           onClick={(e) => onClick(e)}
-          style={{ height: height }}
+          style={{ height, minHeight: height, width, minWidth: width }}
         >
           {icon && (
             <span
               className={`icons8-${iconStyle} ${icon}`}
-              style={{ '--i8-ratio': iconSize, filter: brightness }}
+              style={{ '--i8-ratio': iconSize, '--i8-gradient': iconColor, filter: brightness }}
             ></span>
           )}
           <span>{children}</span>

@@ -17,42 +17,58 @@ const SetMessage = (message, parentInput, required) => {
   parentInput.classList.remove('invalid')
 }
 
-const InputField = (props) => {
-  const {
-    label = undefined,
-    addLabel = true,
-    style = 'regular',
-    type = 'text',
-    name,
-    id = undefined,
-    placeHolder = '',
-    autoComplete = 'on',
-    moreClass = undefined,
-    width = undefined,
-    height = undefined,
-    icon = undefined,
-    iconSize = '22px',
-    iconStyle = 'regular',
-    value = '',
-    onChange = () => {},
-    required = false
-  } = props
-  const togglePassword = (e) => {
-    const seePass = e.target
-    const input = seePass.previousElementSibling
-    if (input.type === 'password') {
-      seePass.classList.replace('hide', 'eye')
-      return (input.type = 'text')
-    }
-    seePass.classList.replace('eye', 'hide')
-    input.type = 'password'
+const InputField = ({
+  label = undefined,
+  addLabel = true,
+  style = 'regular',
+  type = 'text',
+  name,
+  id = undefined,
+  placeHolder = '',
+  autoComplete = 'on',
+  moreClass = undefined,
+  width = undefined,
+  height = undefined,
+  icon = undefined,
+  iconSize = '22px',
+  iconStyle = 'regular',
+  value = '',
+  onChange = () => {},
+  min = false,
+  max = false,
+  required = false
+}) => {
+  // validate props
+  if (min) {
+    if (min.length <= 2) throw new Error('Prop "min" at least 2!')
+    if (max && min > max) throw new Error('If prop "max" is used, prop "min" must be below prop "min"!')
   }
+  if (max) {
+    if (max <= 2) throw new Error('Prop "max" at least 2!')
+    if (min && max <= min) throw new Error('If prop "min" is used, prop "max" must be above prop "min"!')
+  }
+
   const triggerInput = {
     text: (e) => {
       const input = e.target
 
       // if input is empty
       if (input.value.length === 0) return SetMessage('Cannot be empty!', input.parentElement.parentElement, required)
+
+      // Min character if min prop true
+      if (min) {
+        if (input.value.length === 1)
+          return SetMessage(`Min ${min} characters`, input.parentElement.parentElement, true)
+        if (input.value.length === min - 1)
+          return SetMessage(`1 more character`, input.parentElement.parentElement, true)
+        if (input.value.length < min)
+          return SetMessage(`${min - input.value.length} more characters`, input.parentElement.parentElement, true)
+        if (input.value.length === min) return SetMessage('', input.parentElement.parentElement, true)
+      }
+
+      // Max character if max prop true
+      if (max && input.value.length > max)
+        return SetMessage(`Max ${max} characters!`, input.parentElement.parentElement, true)
 
       // if input has value
       if (input.value.length > 0) {
@@ -71,8 +87,23 @@ const InputField = (props) => {
       // if input has value
       if (input.value.length > 0) {
         SetMessage('', input.parentElement.parentElement, required)
-        return input.nextElementSibling.classList.add('active')
+        input.nextElementSibling.classList.add('active')
       }
+
+      // Min character if min prop true
+      if (min) {
+        if (input.value.length === 1)
+          return SetMessage(`Min ${min} characters`, input.parentElement.parentElement, true)
+        if (input.value.length === min - 1)
+          return SetMessage(`1 more character`, input.parentElement.parentElement, true)
+        if (input.value.length < min)
+          return SetMessage(`${min - input.value.length} more characters`, input.parentElement.parentElement, true)
+        if (input.value.length === min) return SetMessage('', input.parentElement.parentElement, true)
+      }
+
+      // Max character if max prop true
+      if (max && input.value.length > max)
+        return SetMessage(`Max ${max} characters!`, input.parentElement.parentElement, true)
     },
     email: (e) => {
       const input = e.target
@@ -89,16 +120,15 @@ const InputField = (props) => {
       if (input.value.length === 0) return SetMessage('Cannot be empty!', input.parentElement.parentElement, required)
 
       // if value not contains symbol "@"
-      if (!input.value.includes('@'))
-        return SetMessage(`Invalid email! "@"`, input.parentElement.parentElement, required)
+      if (!input.value.includes('@')) return SetMessage(`Invalid email! "@"`, input.parentElement.parentElement, true)
 
       // if value contains double or more symbol "@"
       if (checkDoubleA(input.value))
-        return SetMessage(`Invalid email double! "@"`, input.parentElement.parentElement, required)
+        return SetMessage(`Invalid email double! "@"`, input.parentElement.parentElement, true)
 
       // if input has value
       if (input.value.length > 0) {
-        SetMessage('', input.parentElement.parentElement, required)
+        SetMessage('', input.parentElement.parentElement, true)
       }
     },
     phoneID: (e) => {
@@ -145,6 +175,18 @@ const InputField = (props) => {
       }
     }
   }
+
+  const togglePassword = (e) => {
+    const seePass = e.target
+    const input = seePass.previousElementSibling
+    if (input.type === 'password') {
+      seePass.classList.replace('hide', 'eye')
+      return (input.type = 'text')
+    }
+    seePass.classList.replace('eye', 'hide')
+    input.type = 'password'
+  }
+
   switch (type) {
     case 'text':
       return (
@@ -155,6 +197,7 @@ const InputField = (props) => {
           }`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -172,7 +215,9 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.text(e)}
+              min={min}
+              max={max}
+              onInput={triggerInput.text}
             ></Input>
           </div>
         </label>
@@ -184,6 +229,7 @@ const InputField = (props) => {
           className={`inputfield ${style}${addLabel ? ' label' : ''}${moreClass ? ' ' + moreClass : ''}`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -201,7 +247,9 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.password(e)}
+              min={min}
+              max={max}
+              onInput={triggerInput.password}
             ></Input>
             <span className="see-pass icons8-regular hide" onClick={(e) => togglePassword(e)} />
           </div>
@@ -214,6 +262,7 @@ const InputField = (props) => {
           className={`inputfield ${style}${addLabel ? ' label' : ''}${moreClass ? ' ' + moreClass : ''}`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -231,7 +280,7 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.email(e)}
+              onInput={triggerInput.email}
             ></Input>
           </div>
         </label>
@@ -243,6 +292,7 @@ const InputField = (props) => {
           className={`inputfield ${style}${addLabel ? ' label' : ''}${moreClass ? ' ' + moreClass : ''}`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -260,7 +310,7 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.phoneID(e)}
+              onInput={triggerInput.phoneID}
             ></Input>
           </div>
         </label>
@@ -272,6 +322,7 @@ const InputField = (props) => {
           className={`inputfield currency ${style}${addLabel ? ' label' : ''}${moreClass ? ' ' + moreClass : ''}`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -290,7 +341,7 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.phoneID(e)}
+              onInput={triggerInput.text}
             ></Input>
           </div>
         </label>
@@ -305,6 +356,7 @@ const InputField = (props) => {
           }`}
           data-label={label}
           data-message=""
+          data-validate={required}
           style={{ '--h-input': height, '--icon-ratio': iconSize, width: width }}
         >
           <div className="box w-100 dsp-flex align-itms-center">
@@ -322,7 +374,7 @@ const InputField = (props) => {
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={(e) => triggerInput.text(e)}
+              onInput={triggerInput.text}
             ></Input>
           </div>
         </label>

@@ -17,9 +17,21 @@ const Spinning = (props) => {
   }
   return (
     <div className="spinning-number">
-      <Button icon="subtract" onClick={(e) => (onClickDown ? onClickDown(e) : spinDown(e))}></Button>
+      <Button
+        icon="subtract"
+        iconSize={'16px'}
+        moreClass={'icon'}
+        height={'100%'}
+        onClick={(e) => (onClickDown ? onClickDown(e) : spinDown(e))}
+      ></Button>
       <span className="spin-value" data-spinvalue={value || spinvalue}></span>
-      <Button icon="plus-math" onClick={(e) => (onClickUp ? onClickUp(e) : spinUp(e))}></Button>
+      <Button
+        icon="plus-math"
+        iconSize={'16px'}
+        moreClass={'icon'}
+        height={'100%'}
+        onClick={(e) => (onClickUp ? onClickUp(e) : spinUp(e))}
+      ></Button>
     </div>
   )
 }

@@ -1,13 +1,10 @@
-import { useDispatch } from 'react-redux'
 import { useDocumentTitle } from '../../hooks/useDocumentHandler'
 import Button from '../Elements/Button'
 import SimpleCombobox from '../Elements/SimpleCombobox'
 import SimpleComboLi from '../Elements/SimpleCombobox/SimpleComboLi'
 import OrderGroup from './OrderGroup'
-import { setAlert } from '../../redux/slice/popupScreenSlice'
-import useTransactionData from '../../hooks/useTransactionData'
 import { dateNow, getDate, getMonthAndYear, getTime, monthAndYearNow } from '../../utils/date'
-import useMenuData from '../../hooks/useMenuData'
+import DefaultSpinner from './DefaultSpinner'
 
 export const Home = () => {
   useDocumentTitle('Home')
@@ -34,35 +31,15 @@ export const Home = () => {
   )
 }
 
-export const OnProcess = () => {
+export const OnProcess = ({ menuData, transactionToday }) => {
   useDocumentTitle('Order')
-  const transactionData = useTransactionData()
-  const menuData = useMenuData()
-  const dispatch = useDispatch()
-  const checkOnProcess = (orders) => {
-    return (
-      orders.length > 0 &&
-      orders.find((order) => getDate(order.createdAt) === dateNow() && order.orderStatus !== 'Complete')
-    )
-  }
   const getTotalQty = (orders) => {
     return orders.reduce((total, curr) => {
       return total + curr.qty
     }, 0)
   }
   const findMenu = (uuid) => {
-    return menuData.find((menu) => menu.uuid === uuid)
-  }
-  const pay = (bill) => {
-    dispatch(
-      setAlert({
-        actionName: 'payOrder',
-        title: 'Payment',
-        description: `Pay for Rp ${bill.toLocaleString('id-ID', { currency: 'IDR' })},00`,
-        alertType: 'confirm',
-        alertStyle: 'info'
-      })
-    )
+    return menuData?.find((menu) => menu?.uuid === uuid)
   }
 
   return (
@@ -70,128 +47,183 @@ export const OnProcess = () => {
       <div className="header-content">
         <h2>Order Today</h2>
       </div>
-      <OrderGroup>
-        {transactionData &&
-          transactionData.map((order, i1) => {
-            const conditionExpand = () => {
-              return order.orderStatus !== 'Cooking' && order.orderStatus !== 'Waiting for Kitchen' ? false : true
-            }
+      {transactionToday?.pending?.length > 0 || transactionToday?.cooking?.length > 0 ? (
+        <OrderGroup>
+          {transactionToday?.cooking.map((order, i1) => {
+            return (
+              <OrderGroup.List key={order.uuid} expand={true} orderStatus={order.orderStatus} index={i1}>
+                <div className="box dsp-flex justify-between gap-10">
+                  <div className="box dsp-flex fl-colm justify-between">
+                    <h3 className="font-size-18">Order : {order.orderCode}</h3>
+                    <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
+                  </div>
+                  <div className="box dsp-flex fl-colm justify-between align-itms-end">
+                    <div className="box dsp-flex align-itms-center gap-4">
+                      <span
+                        className="icons8-regular clock"
+                        style={{ '--i8-ratio': '18px', filter: 'var(--icon1)' }}
+                      ></span>
+                      <p className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</p>
+                    </div>
+                    <div className="box dsp-flex align-itms-center gap-10">
+                      <p className="font-size-22 font-weg-600 mrgn-l-10 accent-col-3">
+                        Rp {order.bill.toLocaleString('id-ID', { currency: 'IDR' })},00
+                      </p>
+                      <p className="order-status">{order.orderStatus.toUpperCase()}</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="box pad-y-10"
+                  style={{
+                    minHeight: '30px',
+                    borderTop: '1px solid var(--separator)'
+                  }}
+                >
+                  <ul className="orders">
+                    {menuData &&
+                      order.orders.map((data, i2) => {
+                        const menu = findMenu(data?.order?.uuid)
+                        return <li key={`${data?.order?.uuid}${i2}`}>{`${menu?.name} (x${data?.qty})`}</li>
+                      })}
+                  </ul>
+                </div>
+              </OrderGroup.List>
+            )
+          })}
+          {transactionToday?.pending.map((order, i1) => {
             const conditionOrder = () => {
-              return order.orderStatus !== 'Complete' && getDate(order.createdAt) === dateNow()
+              return order.orderStatus.toLowerCase() !== 'complete' && getDate(order.createdAt) === dateNow()
             }
             if (conditionOrder())
               return (
-                <OrderGroup.List
-                  key={`${order.uuid}${i1}`}
-                  expand={conditionExpand()}
-                  orderStatus={order.orderStatus}
-                  index={i1}
-                >
+                <OrderGroup.List key={order.uuid} expand={true} orderStatus={order.orderStatus} index={i1}>
                   <div className="box dsp-flex justify-between gap-10">
                     <div className="box dsp-flex fl-colm justify-between">
                       <h3 className="font-size-18">Order : {order.orderCode}</h3>
                       <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
                     </div>
                     <div className="box dsp-flex fl-colm justify-between align-itms-end">
-                      <h4 className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</h4>
+                      <div className="box dsp-flex align-itms-center gap-4">
+                        <span
+                          className="icons8-regular clock"
+                          style={{ '--i8-ratio': '18px', filter: 'var(--icon1)' }}
+                        ></span>
+                        <p className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</p>
+                      </div>
                       <div className="box dsp-flex align-itms-center gap-10">
-                        {order.orderStatus === 'Waiting for Payment' && (
-                          <Button style="fill" color="third" height="40px" onClick={() => pay(order.bill)}>
-                            Pay
-                          </Button>
-                        )}
                         <p className="font-size-22 font-weg-600 mrgn-l-10 accent-col-3">
                           Rp {order.bill.toLocaleString('id-ID', { currency: 'IDR' })},00
                         </p>
-                        <p className="order-status">{order.orderStatus}</p>
+                        <p className="order-status">{order.orderStatus.toUpperCase()}</p>
                       </div>
                     </div>
                   </div>
                   <div
                     className="box pad-y-10"
                     style={{
-                      display: `${!conditionExpand() && 'none'}`,
-                      minHeight: '60px',
-                      borderTop: '1px solid var(--separator)',
-                      borderBottom: '1px solid var(--separator)'
+                      minHeight: '30px',
+                      borderTop: '1px solid var(--separator)'
                     }}
                   >
                     <ul className="orders">
-                      {order.orders.map((data, i2) => {
-                        const menu = findMenu(data.uuid)
-                        return <li key={`${data.uuid}${i2}`}>{`${menu.name} (x${data.qty})`}</li>
-                      })}
+                      {menuData &&
+                        order.orders.map((data, i2) => {
+                          const menu = findMenu(data?.order?.uuid)
+                          return <li key={`${data?.order?.uuid}${i2}`}>{`${menu?.name} (x${data?.qty})`}</li>
+                        })}
                     </ul>
                   </div>
                 </OrderGroup.List>
               )
           })}
-      </OrderGroup>
-      {transactionData && !checkOnProcess(transactionData) && (
-        <div className="box dsp-flex fl-colm align-itms-center">
+        </OrderGroup>
+      ) : transactionToday?.pending?.length === 0 || transactionToday?.cooking?.length === 0 ? (
+        <div className="box dsp-flex fl-colm align-itms-center mrgn-t-30">
           <p className="font-size-16 disabled-text-1">No orders completed at this time</p>
         </div>
+      ) : (
+        <DefaultSpinner />
       )}
     </>
   )
 }
 
-export const Complete = () => {
+export const Complete = ({ menuData, transactionToday }) => {
   useDocumentTitle('Complete')
-  const transactionData = useTransactionData()
   const getTotalQty = (orders) => {
     return orders.reduce((total, curr) => {
       return total + curr.qty
     }, 0)
   }
-  const checkComplete = (orders) => {
-    return (
-      orders.length > 0 &&
-      orders.find((order) => getDate(order.createdAt) === dateNow() && order.orderStatus === 'Complete')
-    )
+  const findMenu = (uuid) => {
+    return menuData?.find((menu) => menu?.uuid === uuid)
   }
   return (
     <>
       <div className="header-content">
         <h2>Finished Today</h2>
       </div>
-      <OrderGroup>
-        {transactionData &&
-          transactionData.map((order, i1) => {
-            if (order.orderStatus === 'Complete' && getDate(order.createdAt) === dateNow())
-              return (
-                <OrderGroup.List key={`${order.uuid}${i1}`} orderStatus={order.orderStatus} index={i1}>
-                  <div className="box dsp-flex justify-between gap-10">
-                    <div className="box dsp-flex fl-colm justify-between">
-                      <h3 className="font-size-18">Order : {order.orderCode}</h3>
-                      <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
-                    </div>
-                    <div className="box dsp-flex fl-colm justify-between align-itms-end">
-                      <h4 className="font-weg-500 disabled-text-2 font-size-14">{getDate(order.createdAt)}</h4>
-                      <div className="box dsp-flex align-itms-center gap-10">
-                        <p className="font-size-22 font-weg-600 mrgn-l-10 accent-col-3">
-                          Rp {order.bill.toLocaleString('id-ID', { currency: 'IDR' })},00
-                        </p>
-                        <p className="order-status">{order.orderStatus}</p>
+      {transactionToday?.complete?.length > 0 ? (
+        <OrderGroup>
+          {transactionToday?.complete &&
+            transactionToday?.complete.map((order, i1) => {
+              if (order.orderStatus.toLowerCase() === 'complete' && getDate(order.createdAt) === dateNow())
+                return (
+                  <OrderGroup.List key={order.uuid} orderStatus={order.orderStatus} index={i1} expand={true}>
+                    <div className="box dsp-flex justify-between gap-10">
+                      <div className="box dsp-flex fl-colm justify-between">
+                        <h3 className="font-size-18">Order : {order.orderCode}</h3>
+                        <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
+                      </div>
+                      <div className="box dsp-flex fl-colm justify-between align-itms-end">
+                        <div className="box dsp-flex align-itms-center gap-4">
+                          <span
+                            className="icons8-regular clock"
+                            style={{ '--i8-ratio': '18px', filter: 'var(--icon1)' }}
+                          ></span>
+                          <p className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</p>
+                        </div>
+                        <div className="box dsp-flex align-itms-center gap-10">
+                          <p className="font-size-22 font-weg-600 mrgn-l-10 accent-col-3">
+                            Rp {order.bill.toLocaleString('id-ID', { currency: 'IDR' })},00
+                          </p>
+                          <p className="order-status">{order.orderStatus.toUpperCase()}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </OrderGroup.List>
-              )
-          })}
-      </OrderGroup>
-      {transactionData && !checkComplete(transactionData) && (
+                    <div
+                      className="box pad-y-10"
+                      style={{
+                        minHeight: '30px',
+                        borderTop: '1px solid var(--separator)'
+                      }}
+                    >
+                      <ul className="orders">
+                        {menuData &&
+                          order.orders.map((data, i2) => {
+                            const menu = findMenu(data?.order?.uuid)
+                            return <li key={`${data?.order?.uuid}${i2}`}>{`${menu?.name} (x${data?.qty})`}</li>
+                          })}
+                      </ul>
+                    </div>
+                  </OrderGroup.List>
+                )
+            })}
+        </OrderGroup>
+      ) : transactionToday?.complete?.length === 0 ? (
         <div className="box dsp-flex fl-colm align-itms-center">
           <p className="font-size-16 disabled-text-1">No orders completed at this time</p>
         </div>
+      ) : (
+        <DefaultSpinner />
       )}
     </>
   )
 }
 
-export const History = () => {
+export const History = ({ transactionData }) => {
   useDocumentTitle('History')
-  const transactionData = useTransactionData()
   const getTotalQty = (orders) => {
     return orders.reduce((total, curr) => {
       return total + curr.qty
@@ -200,7 +232,10 @@ export const History = () => {
   const checkHistory = (orders) => {
     return (
       orders.length > 0 &&
-      orders.find((order) => order.orderStatus === 'Complete' && getMonthAndYear(order.createdAt) === monthAndYearNow())
+      orders.findIndex(
+        (order) =>
+          order.orderStatus.toLowerCase() === 'complete' && getMonthAndYear(order.createdAt) === monthAndYearNow()
+      )
     )
   }
   return (
@@ -215,12 +250,15 @@ export const History = () => {
           <SimpleComboLi>28 August - 31 August</SimpleComboLi>
         </SimpleCombobox>
       </div>
-      <OrderGroup>
-        {transactionData &&
-          transactionData.map((order, i1) => {
-            if (order.orderStatus === 'Complete' && getMonthAndYear(order.createdAt) === monthAndYearNow())
+      {transactionData && checkHistory(transactionData) >= 0 ? (
+        <OrderGroup>
+          {transactionData.map((order, i1) => {
+            if (
+              order.orderStatus.toLowerCase() === 'complete' &&
+              getMonthAndYear(order.createdAt) === monthAndYearNow()
+            )
               return (
-                <OrderGroup.List key={`${order.uuid}${i1}`} orderStatus={order.orderStatus} index={i1}>
+                <OrderGroup.List key={order.uuid} orderStatus={order.orderStatus} index={i1}>
                   <div className="box dsp-flex justify-between gap-10">
                     <div className="box dsp-flex fl-colm justify-between">
                       <h3 className="font-size-18">Order : {order.orderCode}</h3>
@@ -238,11 +276,13 @@ export const History = () => {
                 </OrderGroup.List>
               )
           })}
-      </OrderGroup>
-      {transactionData && !checkHistory(transactionData) && (
+        </OrderGroup>
+      ) : transactionData && checkHistory(transactionData) === -1 ? (
         <div className="box dsp-flex fl-colm align-itms-center">
           <p className="font-size-16 disabled-text-1">No orders at the last month</p>
         </div>
+      ) : (
+        <DefaultSpinner />
       )}
     </>
   )

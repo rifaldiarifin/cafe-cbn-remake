@@ -1,18 +1,26 @@
-import { Route, Routes, useParams } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
+// import custom hooks
 import { useDocumentTitle } from '../../hooks/useDocumentHandler'
+import usePathName from '../../hooks/usePathname'
+import useDeleteAccount from '../../hooks/useDeleteAccount'
+// import redux slices
+import { setAlert } from '../../redux/slice/popupScreenSlice'
+import { setFormGroup, setFormGroupMenus, setFormMenu, setFormUser } from '../../redux/slice/popupForm'
+// import components
 import AdminPanelUI2 from '../Layout/AdminPanelUI2'
 import Button from '../Elements/Button'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useDispatch } from 'react-redux'
-import { setAlert } from '../../redux/slice/popupScreenSlice'
-import usePathName from '../../hooks/usePathname'
-import { useState } from 'react'
-import useTransactionData from '../../hooks/useTransactionData'
 import SimpleComboLi from '../Elements/SimpleCombobox/SimpleComboLi'
 import SimpleCombobox from '../Elements/SimpleCombobox'
 import InputField from '../Elements/InputField'
+import BannerSlidesPromote from './BannerSlidesPromote'
+import { FormGroup, FormMenu, FormMenus, FormUser } from './PopupForms'
+import { bannerData } from '../../services/banner.service'
 import CustomLineChart, { createDatasetLineViews } from './CustomLineChart'
 import CustomBarChart, { createDatasetBar } from './CustomBarChart'
+import CustomDoughnutChart, { createDatasetDoughnut } from './CustomDoughnutChart'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,27 +31,18 @@ import {
   Tooltip,
   Legend,
   BarElement,
-  ArcElement
+  ArcElement,
+  Filler
 } from 'chart.js'
-import CustomDoughnutChart, { createDatasetDoughnut } from './CustomDoughnutChart'
-import { bannerData } from '../../services/bannerData'
-import BannerSlidesPromote from './BannerSlidesPromote'
-import useMenuData from '../../hooks/useMenuData'
-import useGroupingMenu from '../../hooks/useGroupingMenu'
-import useUsersData from '../../hooks/useUsersData'
-import { FormMenu, FormUser } from './PopupForms'
-import { setFormMenu, setFormUser } from '../../redux/slice/popupForm'
+import useDeleteMenu from '../../hooks/useDeleteMenu'
+import CardMenuGroup from './CardMenuGroup'
+import api from '../../api/api'
+import useDeleteGroupMenu from '../../hooks/useDeleteGroupMenu'
+import DefaultSpinner from './DefaultSpinner'
+import { getDate, getTime } from '../../utils/date'
+import getImage from '../../utils/getImage'
 
-export const Intro = () => {
-  useDocumentTitle('Hello')
-  return (
-    <div className="box dsp-flex justify-center align-itms-center w-100 h-100">
-      <h1 className="font-size-18 font-weg-500 disabled-text-2 space-1">Hello World :D</h1>
-    </div>
-  )
-}
-
-export const Default = () => {
+export const Default = ({ staticOverview, totalMostOrderingGroup, totalOrderPerWeek, totalSaleCurrentYear }) => {
   useDocumentTitle('Default')
   ChartJS.register(
     CategoryScale,
@@ -54,30 +53,27 @@ export const Default = () => {
     ArcElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
   )
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const dataLine1 = [
-    7_340_500, 8_221_000, 5_050_000, 12_000_000, 13_564_000, 9_400_000, 10_040_000, 22_500_000, 8_000_500, 6_760_000,
-    10_500_000, 15_020_000
-  ]
-  const dataLine2 = [
-    1_550_000, 7_000_500, 6_234_000, 5_050_000, 7_340_500, 9_400_000, 6_760_000, 8_000_500, 6_760_000, 8_000_500,
-    10_500_000, 9_400_000
-  ]
+  const getItemArrayOfObject = (obj, key) => {
+    if (key === 0) return obj.reduce((prev, curr) => (prev = [...prev, Object.keys(curr)[0]]), [])
+    return obj.reduce((prev, curr) => (prev = [...prev, Object.values(curr)[0]]), [])
+  }
+  const months = getItemArrayOfObject(totalSaleCurrentYear, 0)
+  const dataLine1 = getItemArrayOfObject(totalSaleCurrentYear, 1)
   const datasetsLine = [
-    createDatasetLineViews({ label: 'Current Year', data: dataLine1, borderColor: 'rgb(138, 101, 101)' }),
-    createDatasetLineViews({ label: 'Previous Year', data: dataLine2, borderColor: 'rgb(130, 130, 135)' })
+    createDatasetLineViews({ label: 'Current Year', data: dataLine1, borderColor: 'rgb(138, 101, 101)' })
   ]
 
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  const dataBar1 = [12, 21, 43, 28, 32, 33, 44]
+  const days = getItemArrayOfObject(totalOrderPerWeek, 0)
+  const dataBar1 = getItemArrayOfObject(totalOrderPerWeek, 1)
   const datasetsBar = [
     createDatasetBar({ label: 'Current Week', data: dataBar1, backgroundColor: 'rgb(226, 130, 142)' })
   ]
 
-  const subcategoryLabel = ['Coffee', 'Non Coffee', 'Ice Cream', 'Cake']
-  const dataSc1 = [213, 231, 244, 123]
+  const subcategoryLabel = getItemArrayOfObject(totalMostOrderingGroup, 0)
+  const dataSc1 = getItemArrayOfObject(totalMostOrderingGroup, 1)
   const datasetSc1 = createDatasetDoughnut({
     label: 'Order',
     backgroundColor: ['rgb(138, 101, 101)', 'rgb(241, 196, 124)', 'rgb(226, 130, 142)', 'rgb(174, 187, 230)'],
@@ -89,26 +85,26 @@ export const Default = () => {
         <AdminPanelUI2.CardOverview
           name="Orders"
           icon="purchase-order"
-          value="42"
+          value={staticOverview.totalOrder.toString()}
           style={{ gridArea: 'co1', backgroundColor: 'rgb(216, 203, 203)', color: 'rgb(61,61,61)' }}
         />
         <AdminPanelUI2.CardOverview
           name="Menu"
           icon="cookbook"
-          value="32"
+          value={staticOverview.totalMenu.toString()}
           style={{ gridArea: 'co2', backgroundColor: 'rgb(250, 235, 211)', color: 'rgb(61,61,61)' }}
+        />
+        <AdminPanelUI2.CardOverview
+          name="Groups"
+          icon="books"
+          value={staticOverview.totalGroup.toString()}
+          style={{ gridArea: 'co3', backgroundColor: 'rgb(216, 216, 230)', color: 'rgb(61,61,61)' }}
         />
         <AdminPanelUI2.CardOverview
           name="Sales"
           icon="total-sales"
-          value={`Rp ${(7600000).toLocaleString('id-ID', { currency: 'IDR' })},00`}
-          style={{ gridArea: 'co3', backgroundColor: 'rgb(245, 213, 217)', color: 'rgb(61,61,61)' }}
-        />
-        <AdminPanelUI2.CardOverview
-          name="Other"
-          icon="cookbook"
-          value="12"
-          style={{ gridArea: 'co4', backgroundColor: 'rgb(216, 216, 230)', color: 'rgb(61,61,61)' }}
+          value={`Rp ${staticOverview.totalSale.toLocaleString('id-ID', { currency: 'IDR' })},00`}
+          style={{ gridArea: 'co4', backgroundColor: 'rgb(245, 213, 217)', color: 'rgb(61,61,61)' }}
         />
         <AdminPanelUI2.Card
           name="Total Sales"
@@ -158,22 +154,36 @@ export const Default = () => {
           <div className="box post-relativ dsp-flex justify-between gap-10 align-itms-center h-100">
             <div className="box post-reltv pad-10 border-box">
               <CustomDoughnutChart
-                style={{ width: '150px', height: '150px' }}
+                style={{ height: '150px', width: '150px' }}
                 labels={subcategoryLabel}
                 datasets={[datasetSc1]}
               />
             </div>
-            <div className="box dsp-flex fl-1 fl-colm gap-10">
+            <div className="box dsp-flex fl-1 fl-colm gap-10 overflow-hidden">
               {subcategoryLabel.map((data, i) => (
-                <div key={`chart${data}${i}`} className="box dsp-flex aling-itms-center justify-between gap-10">
-                  <p className="font-size-14 disabled-text-2 font-weg-600 dsp-flex align-itms-center gap-4">
+                <div
+                  key={`chart${data}${i}`}
+                  className="box dsp-flex aling-itms-center justify-between gap-10 overflow-hidden"
+                >
+                  <div className="box dsp-flex align-itms-center gap-4 overflow-hidden">
                     <span
-                      className="dsp-block rounded30"
-                      style={{ width: '10px', height: '10px', backgroundColor: datasetSc1.backgroundColor[i] }}
-                    />
-                    {data}
-                  </p>
-                  <p className="font-size-14 text-2 font-weg-600">{dataSc1[i]}</p>
+                      className="dsp-flex justify-center align-itms-center rounded30 font-size-12 font-weg-600"
+                      style={{
+                        width: '16px',
+                        height: '16px',
+                        minWidth: '16px',
+                        minHeight: '16px',
+                        color: 'white',
+                        backgroundColor: datasetSc1.backgroundColor[i]
+                      }}
+                    >
+                      {i + 1}
+                    </span>
+                    <p className="font-size-14 disabled-text-2 font-weg-600 overflow-hidden text-elips nowrap">
+                      {data}
+                    </p>
+                  </div>
+                  <p className="font-size-14 text-2 font-weg-600">x{dataSc1[i]}</p>
                 </div>
               ))}
             </div>
@@ -188,21 +198,28 @@ export const UserDashboard = () => {
   return <></>
 }
 
-export const Users = () => {
-  const usersData = useUsersData()
+export const Users = ({ usersData }) => {
+  useDeleteAccount()
+  const userSession = useSelector((state) => state.auth.data?.userSession)
   const dispatch = useDispatch()
   const deleteUser = (data) => {
     dispatch(
       setAlert({
-        title: 'Delete this Menu?',
-        description: `Are you sure delete account "${data.firstname} ${data.lastname}"? this will be permanently!`,
+        title: 'Delete Account?',
+        description: `Are you sure delete account "${data.firstname}${
+          data.lastname ? ' ' + data.lastname : ''
+        }"? this will be permanently!`,
         alertType: 'confirm',
-        alertStyle: 'warning'
+        alertStyle: 'warning',
+        actionName: 'deleteAccount',
+        data: { uuid: data.uuid, username: data.username }
       })
     )
   }
-  const editUser = (uuid) => {
-    dispatch(setFormUser({ action: 'update', formData: usersData.find((user) => user.uuid === uuid) }))
+  const editUser = (uuid, avatar) => {
+    const user = { ...usersData.find((user) => user.uuid === uuid) }
+    user.profileImage = avatar
+    dispatch(setFormUser({ action: 'update', formData: user }))
   }
   const styleImg = { width: '60px', height: '60px', objectFit: 'cover', objectPosition: 'center', borderRadius: '50%' }
   const newAccount = () => {
@@ -211,550 +228,700 @@ export const Users = () => {
 
   return (
     <>
-      <div
-        className="box dsp-flex justify-between w-100 mrgn-b-30 gap-10"
-        style={{ position: 'sticky', top: 0, zIndex: 1 }}
-      >
-        <div
-          className="box w-100 rounded30"
-          style={{ maxWidth: '300px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
-        >
-          <InputField
-            type="search"
-            width="100%"
-            iconSize="20px"
-            addLabel={false}
-            icon="search"
-            placeHolder="Search User"
-          />
-        </div>
-        <div className="box dsp-flex align-itms-center gap-14">
+      {usersData.length > 0 ? (
+        <>
           <div
-            className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
-            style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+            className="box dsp-flex justify-between w-100 mrgn-b-30 gap-10"
+            style={{ position: 'sticky', top: 0, zIndex: 1 }}
           >
-            <p className="font-size-14 disabled-text-1 nowrap">Type</p>
-            <SimpleCombobox select="All" styleBox="fill">
-              <SimpleComboLi value="All" />
-              <SimpleComboLi value="CBN Service" />
-              <SimpleComboLi value="Regular" />
-            </SimpleCombobox>
-          </div>
-          <div
-            className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
-            style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
-          >
-            <p className="font-size-14 disabled-text-1 nowrap">Signed up</p>
-            <SimpleCombobox select="All" styleBox="fill">
-              <SimpleComboLi value="All" />
-              <SimpleComboLi value="Today" />
-              <SimpleComboLi value="Current Month" />
-              <SimpleComboLi value="Current Year" />
-            </SimpleCombobox>
-          </div>
-          <Button style="fill" icon="plus-math" moreClass="icon" height="40px" color="second" onClick={newAccount} />
-        </div>
-      </div>
-      <div className="box dsp-flex fl-colm justify-start align-itms-start gap-20">
-        <AdminPanelUI2.Table
-          firstColm
-          tHead={[
-            { label: 'Photo', width: '80px' },
-            { label: 'Name' },
-            { label: 'Role', width: '60px' },
-            { label: 'email' },
-            { label: 'Signed up', width: '100px' },
-            { label: 'Options', width: '90px' }
-          ]}
-          moreClass="w-100"
-        >
-          {usersData &&
-            usersData.map((user, i) => (
-              <AdminPanelUI2.TRow
-                key={`${user.uuid}${i}`}
-                firstColm={i + 1}
-                tRow={[
-                  {
-                    label: (
-                      <LazyLoadImage effect="opacity" src={`${user.profileImage}`} style={styleImg} alt={user.name} />
-                    )
-                  },
-                  { label: `${user.firstname} ${user.lastname}` },
-                  { label: user.access.role },
-                  { label: user.contact.email },
-                  { label: user.createdAt.split(' ')[0] },
-                  {
-                    label: (
-                      <div key={i} className="box dsp-flex align-itms-center">
-                        <Button
-                          icon="ball-point-pen"
-                          height="40px"
-                          iconSize="24px"
-                          brightness="var(--icon2)"
-                          onClick={() => editUser(user.uuid)}
-                        />
-                        <Button
-                          icon="trash"
-                          height="40px"
-                          iconSize="24px"
-                          brightness="var(--icon2)"
-                          onClick={() => deleteUser(user)}
-                        />
-                      </div>
-                    )
-                  }
-                ]}
+            <div
+              className="box w-100 rounded30"
+              style={{ maxWidth: '300px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+            >
+              <InputField
+                type="search"
+                width="100%"
+                iconSize="20px"
+                id={'searchUser'}
+                addLabel={false}
+                icon="search"
+                placeHolder="Search User"
               />
-            ))}
-        </AdminPanelUI2.Table>
-      </div>
-      <FormUser />
-    </>
-  )
-}
-
-export const UsersActivity = () => {
-  return (
-    <>
-      <div
-        className="box dsp-flex justify-center w-100 mrgn-b-30 gap-10"
-        style={{ position: 'sticky', top: 0, zIndex: 1 }}
-      >
-        <div
-          className="box w-100 rounded30"
-          style={{ maxWidth: '600px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
-        >
-          <InputField
-            type="search"
-            width="100%"
-            iconSize="20px"
-            addLabel={false}
-            icon="search"
-            placeHolder="Search Activity"
-          />
-        </div>
-      </div>
-      <div className="box" style={{ marginTop: '0px' }}>
-        <AdminPanelUI2.ListGroup>
-          {[5, 6, 7, 4, 8, 6, 5, 56, 85, 5, 56, 5765, 75, 6].map((data, i) => (
-            <AdminPanelUI2.ListType1
-              key={`${data}${i}`}
-              imgSize="50px"
-              delayAnim={`${0.04 * i}s`}
-              moreClass="separator w-100"
-              img="/me2.png"
-              alt="me2"
-              title="You got one new message!"
-              subTitle="12 minutes ago"
-            />
-          ))}
-        </AdminPanelUI2.ListGroup>
-      </div>
-    </>
-  )
-}
-
-const MenuList = () => {
-  const { category, subCategory } = useParams()
-  const dispatch = useDispatch()
-  const menuData = useMenuData()
-  const menuGroup = useGroupingMenu(menuData)
-  const indexCategory = () => menuGroup.findIndex((menu) => menu.menu.title === category)
-  const indexSubCategory = () => menuGroup[indexCategory()].subMenu.findIndex((menu) => menu.title === subCategory)
-  const styleImg = { width: '60px', height: '60px', objectFit: 'cover', objectPosition: 'center', borderRadius: '50%' }
-  const deleteMenu = (data) => {
-    dispatch(
-      setAlert({
-        title: 'Delete this Menu?',
-        description: `Are you sure delete "${data.name}"? this will be permanently!`,
-        alertType: 'confirm',
-        alertStyle: 'warning'
-      })
-    )
-  }
-  const editMenu = (uuid) => {
-    const menu = menuData.find((data) => data.uuid === uuid)
-    dispatch(setFormMenu({ action: 'updatemenu', formData: menu }))
-  }
-  const addMenu = () => {
-    dispatch(setFormMenu({ action: 'menu' }))
-  }
-  return (
-    <>
-      <Button style="fill" height="40px" color="second" icon="plus-math" iconSize="18px" onClick={addMenu}>
-        Add Menu
-      </Button>
-      <AdminPanelUI2.Table
-        firstColm
-        tHead={[{ label: 'Image' }, { label: 'Menu' }, { label: 'Price' }, { label: 'Options', width: '90px' }]}
-        moreClass="w-100"
-      >
-        {menuGroup && (
-          <>
-            {menuGroup[indexCategory()].subMenu[indexSubCategory()].data.map((menu, i) => (
-              <AdminPanelUI2.TRow
-                firstColm={i + 1}
-                key={`${menu.uuid}${menu.name}${i}`}
-                tRow={[
-                  {
-                    label: (
-                      <LazyLoadImage
-                        key={i}
-                        effect="opacity"
-                        src={`/img/menu_images${menu.img}`}
-                        style={styleImg}
-                        alt={menu.name}
+            </div>
+            <div className="box dsp-flex align-itms-center gap-14">
+              <div
+                className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
+                style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+              >
+                <p className="font-size-14 disabled-text-1 nowrap">Type</p>
+                <SimpleCombobox select="All" styleBox="fill">
+                  <SimpleComboLi value="All" />
+                  <SimpleComboLi value="CBN Service" />
+                  <SimpleComboLi value="Regular" />
+                </SimpleCombobox>
+              </div>
+              <div
+                className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
+                style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+              >
+                <p className="font-size-14 disabled-text-1 nowrap">Signed up</p>
+                <SimpleCombobox select="All" styleBox="fill">
+                  <SimpleComboLi value="All" />
+                  <SimpleComboLi value="Today" />
+                  <SimpleComboLi value="Current Month" />
+                  <SimpleComboLi value="Current Year" />
+                </SimpleCombobox>
+              </div>
+              <Button
+                style="fill"
+                icon="plus-math"
+                moreClass="icon"
+                height="40px"
+                color="second"
+                onClick={newAccount}
+              />
+            </div>
+          </div>
+          <div className="box dsp-flex fl-colm justify-start align-itms-start gap-20 border-box">
+            <AdminPanelUI2.Table
+              firstColm
+              tHead={[
+                { label: 'Photo', width: '80px' },
+                { label: 'Name' },
+                { label: 'Role', width: '60px' },
+                { label: 'email' },
+                { label: 'Signed up', width: '100px' },
+                { label: 'Options', width: '90px' }
+              ]}
+              moreClass="w-100"
+            >
+              {usersData
+                ? usersData.map((user, i) => {
+                    return (
+                      <AdminPanelUI2.TRow
+                        key={`${user.uuid}${i}`}
+                        firstColm={i + 1}
+                        tRow={[
+                          {
+                            label: (
+                              <LazyLoadImage
+                                effect="opacity"
+                                src={getImage(user?.profileImage)}
+                                placeholderSrc="/img/noavatar.jpg"
+                                style={styleImg}
+                                alt={user.name}
+                              />
+                            )
+                          },
+                          { label: `${user.firstname} ${user.lastname}` },
+                          {
+                            label:
+                              userSession?.uuid === user.uuid ? (
+                                <p
+                                  className="accent-bgcol-3 font-size-13 text-center rounded10"
+                                  style={{ padding: '2px 8px', color: 'white' }}
+                                >
+                                  Current
+                                </p>
+                              ) : (
+                                user.access.role
+                              )
+                          },
+                          { label: user.contact.email.length > 0 ? user.contact.email : '-' },
+                          { label: user.createdAt.split(' ')[0] },
+                          {
+                            label: (
+                              <div key={i} className="box dsp-flex align-itms-center">
+                                <Button
+                                  icon="ball-point-pen"
+                                  height="40px"
+                                  iconSize="24px"
+                                  brightness="var(--icon2)"
+                                  onClick={() => editUser(user?.uuid, user?.profileImage)}
+                                />
+                                {userSession?.uuid !== user.uuid ? (
+                                  <Button
+                                    icon="trash"
+                                    height="40px"
+                                    iconSize="24px"
+                                    brightness="var(--icon2)"
+                                    onClick={() => deleteUser(user)}
+                                  />
+                                ) : null}
+                              </div>
+                            )
+                          }
+                        ]}
+                        style={{ '--delay-show': `${0.04 * i}s` }}
                       />
                     )
-                  },
-                  { label: menu.name },
-                  {
-                    label: `Rp ${menu.price.toLocaleString('id-ID', { currency: 'IDR' })}`
-                  },
-                  {
-                    label: (
-                      <div key={i} className="box dsp-flex align-itms-center">
-                        <Button
-                          icon="ball-point-pen"
-                          height="40px"
-                          brightness="var(--icon2)"
-                          iconSize="24px"
-                          onClick={() => editMenu(menu.uuid)}
-                        />
-                        <Button
-                          icon="trash"
-                          height="40px"
-                          brightness="var(--icon2)"
-                          iconSize="24px"
-                          onClick={() => deleteMenu(menu)}
-                        />
-                      </div>
-                    )
-                  }
-                ]}
-                style={{ '--delay-show': `${0.04 * i}s` }}
-              />
-            ))}
-          </>
-        )}
-      </AdminPanelUI2.Table>
-    </>
-  )
-}
-const Subcatogory = () => {
-  const { category } = useParams()
-  const dispatch = useDispatch()
-  const menuData = useMenuData()
-  const menuGroup = useGroupingMenu(menuData)
-  const indexMenu = () => menuGroup.findIndex((menu) => menu.menu.title === category)
-  const pathName = usePathName()
-  const urlSubCategoryNavLinkMatch = () => {
-    return pathName.length >= 6 && `${pathName[5]}/${pathName[6]}`
-  }
-  const newSubCategory = () => {
-    dispatch(setFormMenu({ action: 'subcategory' }))
-  }
-  const editSubCategory = (subCategory) => {
-    dispatch(
-      setFormMenu({
-        action: 'updatesubcategory',
-        formData: { menuType: { subCategory: { title: subCategory.title, image: subCategory.img } } }
-      })
-    )
-  }
-  const deleteSubCategory = (subCategory) => {
-    dispatch(
-      setAlert({
-        title: 'Delete Sub Category?',
-        description: `Are you sure delete Sub Category "${subCategory}"? this will be permanently! also with related menus.`,
-        alertType: 'confirm',
-        alertStyle: 'warning'
-      })
-    )
-  }
-  return (
-    <>
-      <AdminPanelUI2.LabelBox label="Sub Category" moreClass="dsp-flex fl-colm gap-10">
-        <div className="box dsp-flex align-itms-center gap-10 fl-wrap">
-          {menuGroup && (
-            <>
-              {menuGroup[indexMenu()].subMenu.map((subCategory, i2) => {
-                return (
-                  <AdminPanelUI2.NavLinkX
-                    key={`${subCategory.title}${i2}`}
-                    to={`subcategory/${encodeURIComponent(subCategory.title)}`}
-                    match={urlSubCategoryNavLinkMatch()}
-                    img={`/img/menu_images${subCategory.img}`}
-                    name={subCategory.title}
-                    style={{ '--delay-show': `${0.04 * i2}s` }}
-                    onClickDelete={() => deleteSubCategory(subCategory.title)}
-                    onClickEdit={() => editSubCategory(subCategory)}
-                  />
-                )
-              })}
-              <AdminPanelUI2.NavLinkX
-                key={`${menuGroup[indexMenu()].subMenu.length}`}
-                type="button"
-                icon="plus-math gradient"
-                iconSize="22px"
-                name="New"
-                onClick={newSubCategory}
-                style={{ '--delay-show': `${0.04 * menuGroup[indexMenu()].subMenu.length}s` }}
-              />
-            </>
-          )}
+                  })
+                : null}
+            </AdminPanelUI2.Table>
+          </div>
+          <FormUser />
+        </>
+      ) : usersData.length === 0 ? (
+        <div
+          className="box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100"
+          style={{ height: '450px' }}
+        >
+          <span className="icons8-regular user" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{'No user data.'}</p>
         </div>
-      </AdminPanelUI2.LabelBox>
-      <Routes>
-        <Route path="subcategory/:subCategory" lazy={<h1>Loading</h1>} element={<MenuList />} />
-      </Routes>
+      ) : (
+        <DefaultSpinner />
+      )}
     </>
   )
 }
-export const Menu = () => {
-  useDocumentTitle('Menu')
-  const dispatch = useDispatch()
-  const menuData = useMenuData()
-  const menuGroup = useGroupingMenu(menuData)
-  const pathName = usePathName()
-  const [isIntruct, setIsInstruct] = useState(true)
-  const urlCategoryNavLinkMatch = () => {
-    return pathName.length >= 4 && `${pathName[3]}/${pathName[4]}`
-  }
-  const newCategory = () => {
-    dispatch(setFormMenu({ action: 'category' }))
-  }
-  const editCategory = (category) => {
-    dispatch(
-      setFormMenu({
-        action: 'updatecategory',
-        formData: { menuType: { category: { title: category.title, image: category.img } } }
-      })
-    )
-  }
-  const deleteCategory = (category) => {
-    dispatch(
-      setAlert({
-        title: 'Delete Category?',
-        description: `Are you sure delete Category "${category}"? this will be permanently! also with related subcategory and menus.`,
-        alertType: 'confirm',
-        alertStyle: 'warning'
-      })
-    )
-  }
+
+export const UsersActivity = ({ activityData }) => {
   return (
     <>
-      <div className="box dsp-flex fl-colm justify-start align-itms-start gap-20">
-        <AdminPanelUI2.LabelBox label="Category" moreClass="dsp-flex fl-colm gap-10">
-          <div className="box dsp-flex align-itms-center gap-10 fl-wrap">
-            {menuGroup && (
-              <>
-                {menuGroup.map((category, i1) => {
-                  if (category.menu.title === 'Filtering') return
+      {activityData.length > 0 ? (
+        <>
+          <div
+            className="box dsp-flex justify-center w-100 mrgn-b-30 gap-10"
+            style={{ position: 'sticky', top: 0, zIndex: 1 }}
+          >
+            <div
+              className="box w-100 rounded30"
+              style={{ maxWidth: '600px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+            >
+              <InputField
+                type="search"
+                width="100%"
+                iconSize="20px"
+                id={'searchActivity'}
+                addLabel={false}
+                icon="search"
+                placeHolder="Search Activity"
+              />
+            </div>
+          </div>
+          <div className="box" style={{ marginTop: '0px' }}>
+            <AdminPanelUI2.ListGroup>
+              {activityData &&
+                activityData.map((data, i) => {
                   return (
-                    <AdminPanelUI2.NavLinkX
-                      key={`${category.menu.title}${i1}`}
-                      to={`category/${encodeURIComponent(category.menu.title)}`}
-                      match={urlCategoryNavLinkMatch()}
-                      img={`/img/menu_images${category.menu.img}`}
-                      name={category.menu.title}
-                      style={{ '--delay-show': `${0.04 * i1}s` }}
-                      onClick={() => setIsInstruct(false)}
-                      onClickEdit={() => editCategory(category.menu)}
-                      onClickDelete={() => deleteCategory(category.menu.title)}
+                    <AdminPanelUI2.ListType1
+                      key={`${data.uuid}${i}`}
+                      imgSize="50px"
+                      gap={'10px'}
+                      titleSize={'14px'}
+                      delayAnim={`${0.04 * i}s`}
+                      moreClass="separator w-100"
+                      img={getImage(data.user?.data?.profileImage)}
+                      alt={data.user?.fullname}
+                      title={data.activity}
+                      subTitle={moment(
+                        `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
+                        'DD-MM-YYYY HH:mm'
+                      ).fromNow()}
                     />
                   )
                 })}
-                <AdminPanelUI2.NavLinkX
-                  type="button"
-                  icon="plus-math gradient"
-                  iconSize="22px"
-                  name="New"
-                  style={{ '--delay-show': `${0.04 * menuGroup.length}s` }}
-                  onClick={newCategory}
+            </AdminPanelUI2.ListGroup>
+          </div>
+        </>
+      ) : activityData.length === 0 ? (
+        <div
+          className="box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100"
+          style={{ height: '450px' }}
+        >
+          <span
+            className="icons8-regular activity-feed"
+            style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+          ></span>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">
+            {'No order transactions at the moment.'}
+          </p>
+        </div>
+      ) : (
+        <DefaultSpinner />
+      )}
+    </>
+  )
+}
+
+const MenuAll = ({ menuData }) => {
+  useDeleteMenu()
+  const dispatch = useDispatch()
+  const addMenu = () => {
+    dispatch(setFormMenu({ action: 'create' }))
+  }
+  const deleteMenu = (data) => {
+    dispatch(
+      setAlert({
+        title: 'Delete Menu',
+        description: `Are you sure delete menu "${data.name}"?, this will be permanently`,
+        alertType: 'confirm',
+        alertStyle: 'warning',
+        data: { uuid: data.uuid, name: data.name },
+        actionName: 'deleteMenu'
+      })
+    )
+  }
+  const editMenu = (data) => {
+    dispatch(setFormMenu({ action: 'update', formData: data }))
+  }
+  const styleImg = { width: '60px', height: '60px', objectFit: 'cover', objectPosition: 'center', borderRadius: '50%' }
+  return (
+    <>
+      <div className="box dsp-flex fl-colm gap-20">
+        {menuData && menuData.length > 0 ? (
+          <>
+            <div className="box dsp-flex justify-between align-itms-center gap-10">
+              <div className="box fl-1">
+                <InputField
+                  type="search"
+                  width="100%"
+                  height="40px"
+                  id={'searchMenu'}
+                  placeHolder="Search some menu"
+                  icon="search"
+                  iconSize="20px"
+                  addLabel={false}
                 />
-              </>
-            )}
+              </div>
+              <div className="box">
+                <Button
+                  icon={'plus-math'}
+                  style={'fill'}
+                  color="second"
+                  iconSize={'22px'}
+                  brightness={'brightness(9)'}
+                  height={'40px'}
+                  moreClass={'icon'}
+                  onClick={addMenu}
+                />
+              </div>
+            </div>
+            <AdminPanelUI2.Table
+              firstColm
+              tHead={[
+                { label: 'Image', width: '80px' },
+                { label: 'Menu Code', width: '150px' },
+                { label: 'Name' },
+                { label: 'Price' },
+                { label: 'Sold', width: '30px' },
+                { label: 'Options', width: '90px' }
+              ]}
+              moreClass={'w-100'}
+            >
+              {menuData &&
+                menuData.map((menu, index) => (
+                  <AdminPanelUI2.TRow
+                    key={menu.uuid}
+                    firstColm={index + 1}
+                    tRow={[
+                      {
+                        label: (
+                          <LazyLoadImage
+                            effect="opacity"
+                            src={getImage(menu.image, 'nofoodphoto')}
+                            placeholderSrc="/img/nofoodphoto.jpg"
+                            style={styleImg}
+                            alt={menu.name}
+                          />
+                        )
+                      },
+                      {
+                        label: menu.menuCode,
+                        style: { fontSize: '12px', fontWeight: '600', color: 'var(--disabled-color2)' }
+                      },
+                      { label: menu.name },
+                      {
+                        label: `Rp ${menu.price.toLocaleString('id-ID', { currency: 'IDR' })}`,
+                        style: { whiteSpace: 'nowrap' }
+                      },
+                      { label: menu.sold, style: { textAlign: 'center' } },
+                      {
+                        label: (
+                          <div className="box dsp-flex align-itms-center">
+                            <Button
+                              icon="ball-point-pen"
+                              height="40px"
+                              iconSize="24px"
+                              brightness="var(--icon2)"
+                              onClick={() => editMenu(menu)}
+                            />
+                            <Button
+                              icon="trash"
+                              height="40px"
+                              iconSize="24px"
+                              brightness="var(--icon2)"
+                              onClick={() => deleteMenu(menu)}
+                            />
+                          </div>
+                        )
+                      }
+                    ]}
+                    style={{ '--delay-show': `${0.04 * index}s` }}
+                  />
+                ))}
+            </AdminPanelUI2.Table>
+          </>
+        ) : menuData ? (
+          <div
+            className="box dsp-flex justify-center align-itms-center fl-colm gap-10 pad-y-30 w-100"
+            style={{ height: '350px' }}
+          >
+            <span
+              className="icons8-regular book-reading"
+              style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+            ></span>
+            <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">You haven&apos;t created any menus.</p>
+            <p className="font-size-18 font-weg-500 disabled-text-1">let&apos;s make one</p>
+            <Button color="second" icon={'plus-math'} style={'fill'} onClick={addMenu}>
+              Add One
+            </Button>
           </div>
-        </AdminPanelUI2.LabelBox>
-        {isIntruct && (
-          <div className="box mrgn-y-10 dsp-flex align-itms-center gap-4">
-            <span className="icons8-filled up" style={{ '--i8-ratio': '22px', filter: 'var(--icon1)' }} />
-            <p className="font-size-16 font-weg-600 disabled-text-1">Click the menu category to view</p>
-          </div>
+        ) : (
+          <DefaultSpinner />
         )}
-        <Routes>
-          <Route path="category/:category/*" element={<Subcatogory />} />
-        </Routes>
       </div>
       <FormMenu />
     </>
   )
 }
-export const NewCategory = () => {
-  useDocumentTitle('New - Menu')
-  return <>New Category</>
+
+const MenuGroups = ({ menuData, menuGroup }) => {
+  useDeleteGroupMenu()
+  const dispatch = useDispatch()
+  const addGroup = () => {
+    dispatch(setFormGroup({ action: 'create' }))
+  }
+  const addMenusToGroup = (data, groupName, menus) => {
+    dispatch(setFormGroupMenus({ action: 'add', formData: { uuid: data, groupName, menus } }))
+  }
+  const deleteMenusToGroup = (data, groupName, menus) => {
+    dispatch(setFormGroupMenus({ action: 'remove', formData: { uuid: data, groupName, menus } }))
+  }
+  const editGroup = (data) => {
+    dispatch(setFormGroup({ action: 'update', formData: { ...data } }))
+  }
+  const deleteGroup = (data) => {
+    dispatch(
+      setAlert({
+        title: 'Delete Group',
+        description: `Are you sure delete group "${data.groupName}"?, this will be permanently`,
+        alertStyle: 'warning',
+        alertType: 'confirm',
+        data: { uuid: data.uuid, groupName: data.groupName },
+        actionName: 'DELETE_GROUP_MENU'
+      })
+    )
+  }
+  const switchShowOn = async (toggle, uuid) => {
+    try {
+      await api.put(`/menu/groups/${uuid}`, JSON.stringify({ showOn: toggle }), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    } catch (error) {
+      throw new Error(`Failed toggle show on group! :${error.message}`)
+    }
+  }
+  return (
+    <>
+      <div className="box dsp-flex fl-colm gap-20">
+        {menuGroup.length > 0 ? (
+          <>
+            <div className="box dsp-flex justify-between align-itms-center gap-10">
+              <div className="box fl-1">
+                <InputField
+                  type="search"
+                  width="100%"
+                  height="40px"
+                  id={'searchGroup'}
+                  placeHolder="Search some group"
+                  icon="search"
+                  iconSize="20px"
+                  addLabel={false}
+                />
+              </div>
+              <div className="box">
+                <Button
+                  icon={'plus-math'}
+                  style={'fill'}
+                  color="second"
+                  iconSize={'22px'}
+                  brightness={'brightness(9)'}
+                  height={'40px'}
+                  moreClass={'icon'}
+                  onClick={addGroup}
+                />
+              </div>
+            </div>
+            <div
+              className="box dsp-grid w-100 h-100 gap-20 "
+              style={{
+                '--gd-colm': 'repeat(auto-fill, minmax(340px, 1fr))',
+                '--gd-rows': 'repeat(auto-fill, minmax(180px, 1fr))'
+              }}
+            >
+              {menuGroup &&
+                menuGroup.map((group, index) => (
+                  <CardMenuGroup
+                    key={group?.uuid}
+                    name={`showOn${index + 1}`}
+                    id={`showOn${index + 1}`}
+                    groupName={group?.groupName}
+                    image={getImage(group?.image, 'nofoodphoto')}
+                    menus={group?.menus}
+                    initialToggle={group?.showOn}
+                    onAddMenus={() => addMenusToGroup(group?.uuid, group?.groupName, group?.menus)}
+                    onEditClick={() => editGroup({ ...group, image: getImage(group?.image, 'nofoodphoto') })}
+                    onDeleteClick={() => deleteGroup({ ...group, image: getImage(group?.image, 'nofoodphoto') })}
+                    onDeleteMenus={() => deleteMenusToGroup(group?.uuid, group?.groupName, group?.menus)}
+                    callback={(toggle) => switchShowOn(toggle, group?.uuid)}
+                  />
+                ))}
+            </div>
+          </>
+        ) : menuGroup.length === 0 ? (
+          <div
+            className="box dsp-flex justify-center align-itms-center fl-colm gap-10 pad-y-30 w-100"
+            style={{ height: '350px' }}
+          >
+            <span className="icons8-regular books" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
+            <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">You haven&apos;t created any groups.</p>
+            <p className="font-size-18 font-weg-500 disabled-text-1">let&apos;s make one</p>
+            <Button color="second" icon={'plus-math'} style={'fill'} onClick={addGroup}>
+              Add One
+            </Button>
+          </div>
+        ) : (
+          <DefaultSpinner />
+        )}
+      </div>
+      <FormGroup />
+      <FormMenus menuData={menuData} />
+    </>
+  )
 }
-export const NewSubCategory = () => {
-  useDocumentTitle('New - Menu')
-  return <>New Sub Category</>
+
+export const Menu = ({ menuData, menuGroup }) => {
+  useDocumentTitle('Menu')
+  const pathName = usePathName()
+  const urlCategoryNavLinkXMatch = () => {
+    return pathName.length >= 2 && `${pathName[3] ?? ''}`
+  }
+
+  return (
+    <>
+      <div
+        className="box dsp-flex justify-start gap-10 w-100 pad-b-20 mrgn-b-20"
+        style={{ borderBottom: '1px solid var(--separator)' }}
+      >
+        <AdminPanelUI2.NavLinkX to="" match={urlCategoryNavLinkXMatch()} name="All" icon="book-reading" />
+        <AdminPanelUI2.NavLinkX to="groups" match={urlCategoryNavLinkXMatch()} name="Groups" icon="books" />
+      </div>
+      <Routes>
+        <Route index element={<MenuAll menuData={menuData} />} />
+        <Route path="groups" element={<MenuGroups menuData={menuData} menuGroup={menuGroup} />} />
+      </Routes>
+    </>
+  )
 }
-export const Transaction = () => {
+
+export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
   useDocumentTitle('Transaction')
-  const transactionData = useTransactionData()
   const date = (date) => {
     const fulldate = date.split(' ')
     const time = fulldate[1].split(':')
     return [fulldate[0], `${time[0]}:${time[1]}`]
   }
+  const checkTransaction = () => {
+    return transactionData.findIndex((find) => find?.orderStatus.toLowerCase() === 'complete')
+  }
   return (
     <div className="box dsp-flex fl-colm gap-20">
-      <div
-        className="box dsp-grid gap-20 pad-b-20"
-        style={{ '--gd-colm': '.5fr .7fr 1fr', '--gd-rows': '140px', borderBottom: '1px solid var(--separator)' }}
-      >
-        <AdminPanelUI2.CardOverview
-          name="Orders"
-          icon="purchase-order"
-          value="42"
-          style={{ backgroundColor: 'rgb(216, 203, 203)', color: 'rgb(61,61,61)' }}
-        />
-        <AdminPanelUI2.CardOverview
-          name="Sales"
-          icon="total-sales"
-          value={`Rp ${(7600000).toLocaleString('id-ID', { currency: 'IDR' })},00`}
-          style={{ backgroundColor: 'rgb(245, 213, 217)', color: 'rgb(61,61,61)' }}
-        />
-      </div>
-      <div className="box dsp-flex justify-between align-itms-center gap-10">
-        <div className="box fl-1">
-          <InputField
-            type="search"
-            width="100%"
-            height="40px"
-            placeHolder="Search some transaction"
-            icon="search"
-            iconSize="20px"
-            addLabel={false}
-          />
+      {transactionData && checkTransaction() >= 0 ? (
+        <>
+          <div
+            className="box dsp-grid gap-20 pad-b-20"
+            style={{ '--gd-colm': '.5fr .7fr 1fr', '--gd-rows': '140px', borderBottom: '1px solid var(--separator)' }}
+          >
+            <AdminPanelUI2.CardOverview
+              name="Orders"
+              icon="purchase-order"
+              value={totalOrder.toString()}
+              style={{ backgroundColor: 'rgb(216, 203, 203)', color: 'rgb(61,61,61)' }}
+            />
+            <AdminPanelUI2.CardOverview
+              name="Sales"
+              icon="total-sales"
+              value={`Rp ${totalSale.toLocaleString('id-ID', { currency: 'IDR' })},00`}
+              style={{ backgroundColor: 'rgb(245, 213, 217)', color: 'rgb(61,61,61)' }}
+            />
+          </div>
+
+          <div className="box dsp-flex justify-between align-itms-center gap-10">
+            <div className="box fl-1">
+              <InputField
+                type="search"
+                width="100%"
+                height="40px"
+                id={'searchTransaction'}
+                placeHolder="Search some transaction"
+                icon="search"
+                iconSize="20px"
+                addLabel={false}
+              />
+            </div>
+            <div className="box">
+              <SimpleCombobox select="1 August - 7 August" styleBox="fill">
+                <SimpleComboLi value="1 August - 6 August" />
+                <SimpleComboLi value="7 August - 13 August" />
+                <SimpleComboLi value="14 August - 20 August" />
+                <SimpleComboLi value="21 August - 27 August" />
+                <SimpleComboLi value="28 August - 31 August" />
+              </SimpleCombobox>
+            </div>
+          </div>
+          <AdminPanelUI2.Table
+            firstColm
+            tHead={[
+              { label: 'Order Code', width: '130px' },
+              { label: 'Payment' },
+              { label: 'Bill' },
+              { label: 'Date' },
+              { label: 'Time' },
+              { label: 'Status', width: '120px' }
+            ]}
+            moreClass="w-100"
+          >
+            {transactionData.map((data, i) => {
+              if (data.orderStatus === 'complete') {
+                const fullDate = date(data.createdAt)
+                return (
+                  <AdminPanelUI2.TRow
+                    key={`${data.uuid}${i}`}
+                    firstColm={i + 1}
+                    tRow={[
+                      {
+                        label: data.orderCode,
+                        style: { fontFamily: 'consolas', fontWeight: '600', letterSpacing: '1px' }
+                      },
+                      { label: data?.payment, className: 'font-weg-600' },
+                      { label: `Rp ${data?.bill.toLocaleString('id-ID', { currency: 'IDR' })}`, className: 'nowrap' },
+                      { label: fullDate[0], className: 'nowrap' },
+                      { label: fullDate[1], className: 'nowrap' },
+                      {
+                        label: (
+                          <div className="box dsp-flex justify-start">
+                            <div
+                              className={`box font-size-13 pad-t-4 pad-b-4 pad-x-10 dsp-flex justify-center align-itms-center rounded30 ${
+                                data.orderStatus === 'complete'
+                                  ? 'success'
+                                  : data.orderStatus === 'cancel'
+                                  ? 'danger'
+                                  : data.orderStatus === 'cooking'
+                                  ? 'warning'
+                                  : 'info'
+                              }-bgcol`}
+                              style={{ color: 'whitesmoke' }}
+                            >
+                              {data.orderStatus.toUpperCase()}
+                            </div>
+                          </div>
+                        )
+                      }
+                    ]}
+                    style={{ '--delay-show': `${0.04 * i}s` }}
+                  />
+                )
+              }
+            })}
+          </AdminPanelUI2.Table>
+        </>
+      ) : transactionData && checkTransaction() === -1 ? (
+        <div
+          className="box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100"
+          style={{ height: '450px' }}
+        >
+          <span
+            className="icons8-regular purchase-order"
+            style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+          ></span>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">
+            {'No order transactions at the moment.'}
+          </p>
         </div>
-        <div className="box">
-          <SimpleCombobox select="1 August - 7 August" styleBox="fill">
-            <SimpleComboLi value="1 August - 6 August" />
-            <SimpleComboLi value="7 August - 13 August" />
-            <SimpleComboLi value="14 August - 20 August" />
-            <SimpleComboLi value="21 August - 27 August" />
-            <SimpleComboLi value="28 August - 31 August" />
-          </SimpleCombobox>
-        </div>
-      </div>
-      <AdminPanelUI2.Table
-        firstColm
-        tHead={[
-          { label: 'Order Code', width: '130px' },
-          { label: 'User' },
-          { label: 'Date' },
-          { label: 'Time' },
-          { label: 'Status', width: '90px' },
-          { label: 'Options', width: '70px' }
-        ]}
-        moreClass="w-100"
-      >
-        {transactionData &&
-          transactionData.map((data, i) => {
-            if (data.orderStatus === 'Complete') {
-              const fullDate = date(data.createdAt)
-              return (
-                <AdminPanelUI2.TRow
-                  key={`${data.uuid}${i}`}
-                  firstColm={i + 1}
-                  tRow={[
-                    {
-                      label: data.orderCode,
-                      style: { fontFamily: 'consolas', fontWeight: '600', letterSpacing: '1px' }
-                    },
-                    { label: 'Machine 1' },
-                    { label: fullDate[0] },
-                    { label: fullDate[1] },
-                    {
-                      label: (
-                        <div
-                          className={`box font-size-13 pad-t-4 pad-b-4 dsp-flex justify-center align-itms-center rounded30 ${
-                            data.orderStatus === 'Complete'
-                              ? 'success'
-                              : data.orderStatus === 'Cancel'
-                              ? 'danger'
-                              : 'info'
-                          }-bgcol`}
-                          style={{ color: 'whitesmoke' }}
-                        >
-                          {data.orderStatus}
-                        </div>
-                      )
-                    },
-                    {
-                      label: (
-                        <div key={i} className="box dsp-flex align-itms-center">
-                          <Button
-                            type="hyperlink"
-                            to={encodeURIComponent(data.uuid)}
-                            icon="menu-vertical"
-                            iconStyle="filled"
-                            height="40px"
-                            iconSize="24px"
-                          />
-                        </div>
-                      ),
-                      style: { display: 'flex', justifyContent: 'center' }
-                    }
-                  ]}
-                  style={{ '--delay-show': `${0.04 * i}s` }}
-                />
-              )
-            }
-          })}
-      </AdminPanelUI2.Table>
+      ) : (
+        <DefaultSpinner />
+      )}
     </div>
   )
 }
-export const Activity = () => {
+export const Activity = ({ activityData }) => {
   useDocumentTitle('Activity')
   return (
     <>
-      <div
-        className="box dsp-flex justify-center w-100 mrgn-b-30 gap-10"
-        style={{ position: 'sticky', top: 0, zIndex: 1 }}
-      >
+      {activityData.length > 0 ? (
+        <>
+          <div
+            className="box dsp-flex justify-center w-100 mrgn-b-30 gap-10"
+            style={{ position: 'sticky', top: 0, zIndex: 1 }}
+          >
+            <div
+              className="box w-100 rounded30"
+              style={{ maxWidth: '600px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+            >
+              <InputField
+                type="search"
+                width="100%"
+                iconSize="20px"
+                id={'searchActivity'}
+                addLabel={false}
+                icon="search"
+                placeHolder="Search Activity"
+              />
+            </div>
+          </div>
+          <div className="box" style={{ marginTop: '0px' }}>
+            <AdminPanelUI2.ListGroup>
+              {activityData &&
+                activityData.map((data, i) => {
+                  return (
+                    <AdminPanelUI2.ListType1
+                      key={`${data.uuid}${i}`}
+                      imgSize="50px"
+                      gap={'10px'}
+                      titleSize={'14px'}
+                      delayAnim={`${0.04 * i}s`}
+                      moreClass="separator w-100"
+                      img={getImage(data.user?.data?.profileImage)}
+                      alt={data.user?.fullname}
+                      title={data.activity}
+                      subTitle={moment(
+                        `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
+                        'DD-MM-YYYY HH:mm'
+                      ).fromNow()}
+                    />
+                  )
+                })}
+            </AdminPanelUI2.ListGroup>
+          </div>
+        </>
+      ) : activityData.length === 0 ? (
         <div
-          className="box w-100 rounded30"
-          style={{ maxWidth: '600px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
+          className="box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100"
+          style={{ height: '450px' }}
         >
-          <InputField
-            type="search"
-            width="100%"
-            iconSize="20px"
-            addLabel={false}
-            icon="search"
-            placeHolder="Search Activity"
-          />
+          <span
+            className="icons8-regular activity-feed"
+            style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+          ></span>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{'Nothing here, do something!'}</p>
         </div>
-      </div>
-      <div className="box" style={{ marginTop: '0px' }}>
-        <AdminPanelUI2.ListGroup>
-          {[5, 6, 7, 4, 8, 6, 5, 56, 85, 5, 56, 5765, 75, 6].map((data, i) => (
-            <AdminPanelUI2.ListType1
-              key={`${data}${i}`}
-              imgSize="50px"
-              delayAnim={`${0.04 * i}s`}
-              moreClass="separator w-100"
-              img="/me2.png"
-              alt="me2"
-              title="You got one new message!"
-              subTitle="12 minutes ago"
-            />
-          ))}
-        </AdminPanelUI2.ListGroup>
-      </div>
+      ) : (
+        <DefaultSpinner />
+      )}
     </>
   )
 }

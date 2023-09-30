@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 
-const InputCircleImage = (props) => {
-  const { src = undefined, name = 'image', id, size } = props
+const InputCircleImage = ({ src = undefined, name = 'image', id, size }) => {
   const [file, setFile] = useState(false)
   const [preview, setPreview] = useState(false)
   const changeProfile = (e) => {
     if (!e.target.files && !e.target.files.length > 0) return
-    setFile(e.target.files)
-    // if (e.target.accept.length > 0 && e.target.accept.includes(e.target.files[0].type)) {
-    // }
+    if (e.target.value.length > 0) {
+      setFile(e.target.files)
+    }
   }
 
   useEffect(() => {
@@ -25,9 +24,9 @@ const InputCircleImage = (props) => {
   return (
     <label htmlFor={id} className="input-circle-image" style={{ width: size, height: size }}>
       <img
-        src={preview ? preview[0] : src ? src : '/img/dummy_coffee.webp'}
+        src={preview ? preview[0] : src ? src : '/img/nofoodphoto.jpg'}
         className="auto-scale-image"
-        alt={(file && file[0].name) || ''}
+        alt={(file && file[0]?.name) || 'Input Image'}
       />
       <span className="icons8-regular full-image"></span>
       <input type="file" accept="image/png, image/jpg, image/jpeg" onChange={changeProfile} id={id} name={name} />

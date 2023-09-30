@@ -48,6 +48,11 @@ const options = {
         size: 12,
         family: 'MainFont'
       },
+      callbacks: {
+        title: (callback) => {
+          return `${callback[0].label.length > 18 ? callback[0].label.substring(0, 15) + '...' : callback[0].label}`
+        }
+      },
       bodyFont: {
         family: 'SecondFont'
       }

@@ -1,14 +1,13 @@
-const Input = (props) => {
-  const {
-    type = 'text',
-    name = 'myinput',
-    id = undefined,
-    placeHolder = '',
-    ariaLabel = undefined,
-    autoComplete = 'on',
-    value = 'asdasd',
-    onInput = () => {}
-  } = props
+const Input = ({
+  type = 'text',
+  name = 'myinput',
+  id = undefined,
+  placeHolder = '',
+  ariaLabel = undefined,
+  autoComplete = 'on',
+  value = 'asdasd',
+  onInput = () => {}
+}) => {
   return (
     <input
       type={type}

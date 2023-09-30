@@ -1,6 +1,8 @@
-const SimpleCombobox = (props) => {
+import { useEffect, useRef } from 'react'
+
+const SimpleCombobox = ({ children, select, styleBox, id, name = 'combo', fullRadius = undefined }) => {
   let stat = true
-  const { children, select, styleBox, id, name = 'combo', fullRadius = undefined } = props
+  const simpleCombobox = useRef(null)
 
   const switchCombo = (e) => {
     const simplePreview = e.target.parentElement
@@ -22,8 +24,22 @@ const SimpleCombobox = (props) => {
     stat = false
   }
 
+  const useOutsideClick = (combobox) => {
+    useEffect(() => {
+      const handleOutsideClick = (e) => {
+        if (combobox.current && !combobox.current.contains(e.target)) {
+          combobox.current.classList.remove('active')
+        }
+      }
+      document.addEventListener('click', handleOutsideClick)
+      return () => document.removeEventListener('click', handleOutsideClick)
+    }, [combobox])
+  }
+
+  useOutsideClick(simpleCombobox)
+
   return (
-    <div className={`simple-combobox${styleBox ? ' ' + styleBox : ''}`}>
+    <div className={`simple-combobox${styleBox ? ' ' + styleBox : ''}`} ref={simpleCombobox}>
       <div
         className="smpl-preview"
         onClick={switchCombo}

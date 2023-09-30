@@ -1,5 +1,4 @@
-const SimpleComboLi = (props) => {
-  const { value } = props
+const SimpleComboLi = ({ value }) => {
   const switchSelection = (e) => {
     const simplePreview = e.target.parentElement.previousElementSibling
     simplePreview.parentElement.classList.remove('active')
