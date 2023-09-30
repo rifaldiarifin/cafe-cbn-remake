@@ -1,5 +1,9 @@
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useDocumentClickTarget, useDocumentTitle } from '../hooks/useDocumentHandler'
+import { setAlert } from '../redux/slice/popupScreenSlice'
 import DualForm from '../components/Layout/DualForm'
 import InputField from '../components/Elements/InputField'
 import Button from '../components/Elements/Button'
@@ -7,26 +11,31 @@ import SimpleCombobox from '../components/Elements/SimpleCombobox'
 import SimpleNav from '../components/Fragments/SimpleNav'
 import SimpleNavLi from '../components/Elements/SimpleNav/SimpleNavLi'
 import SimpleComboLi from '../components/Elements/SimpleCombobox/SimpleComboLi'
-import { useState } from 'react'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { setAlert } from '../redux/slice/popupScreenSlice'
+import { setIsLoading, setAuth } from '../redux/slice/authSlice'
+import jwtDecode from 'jwt-decode'
+import useAuth from '../hooks/useAuth'
+import { me, writeActivity } from '../utils/activity'
 
 const SignInPage = () => {
   useDocumentClickTarget()
   useDocumentTitle('SignIn')
+  useAuth()
+
   const [formMessage, setFormMessage] = useState(false)
   const dispatch = useDispatch()
 
   const signInHandler = async (e) => {
     // prevent default
     e.preventDefault()
+    // loading white process
+    dispatch(setIsLoading(true))
 
     const value = {
       username: e.target.username,
       password: e.target.password
     }
 
+    // Function Validate
     const validate = (data) => {
       const entries = Object.entries(data).map((input) => {
         const inputField = input[1].parentElement.parentElement
@@ -45,18 +54,32 @@ const SignInPage = () => {
       }, {})
     }
 
+    // Validate input
     const validateForm = validate(value)
-    if (!validateForm) return
+    if (!validateForm) {
+      dispatch(setIsLoading(false))
+      return false
+    }
 
+    // Request to api
     try {
       const response = await axios.post('/auth/login', JSON.stringify(validateForm), {
         baseURL: 'http://localhost:4000',
+        withCredentials: true,
         headers: {
-          'Content-Type': 'application/json',
-          withCredentials: true
+          'Content-Type': 'application/json'
         }
       })
-      console.log(response)
+      setFormMessage('')
+      const accessToken = response?.data?.result.accessToken
+      localStorage.setItem('access_token', accessToken)
+
+      const accessDecode = jwtDecode(accessToken)
+
+      await writeActivity(`${me} signed in on device`)
+      // clear
+      dispatch(setAuth({ userSession: accessDecode, isSignin: true }))
+      dispatch(setIsLoading(false))
     } catch (error) {
       if (!error.response) {
         setFormMessage('No Server Response :(')
@@ -81,6 +104,7 @@ const SignInPage = () => {
           })
         )
       }
+      dispatch(setIsLoading(false))
     }
   }
   return (
