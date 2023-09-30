@@ -3,6 +3,7 @@
 @import url("/src/assets/fonts/googlefonts/Poppins/main.css");
 @import url("/src/styles/adminPanel-UI1.css");
 @import url("/src/styles/adminPanel-UI2.css");
+@import url("/src/styles/unauthorizePage.css");
 @import url("/src/styles/autoScaleImage.css");
 @import url("/src/styles/buyingForm.css");
 @import url("/src/styles/dualForm.css");
@@ -16,6 +17,9 @@
 @import url("/src/styles/userProfile.css");
 @import url("/src/styles/orderGroup.css");
 @import url("/src/styles/cardGroup.css");
+@import url("/src/styles/ldsEllipsis.css");
+@import url("/src/styles/inputToggle.css");
+@import url("/src/styles/inputCheckbox.css");
 
 @import url("/src/styles/popupAlert.css");
 
@@ -26,6 +30,8 @@
   --third-color: rgb(220, 220, 225);
   --fourth-color: rgb(200, 200, 205);
   --fifth-color: rgb(180, 180, 190);
+
+  --overlay-color: linear-gradient(rgba(255, 255, 255, .6), rgba(255, 255, 255, .6));
 
   --disabled-color1: rgb(130, 130, 135);
   --disabled-color2: rgb(150, 150, 155);
@@ -47,7 +53,7 @@
   --icon4: brightness(0);
   --icon5: brightness(99);
 
-  --hover-color1: rgb(240, 240, 245);
+  --hover-color1: rgb(235, 235, 240);
   --hover-color2: rgb(220, 220, 230);
   --hover-color3: rgb(200, 200, 220);
 
@@ -88,12 +94,15 @@
 
   --accent-color1: rgb(112, 66, 66);
   --accent-color1-hover: rgb(138, 101, 101);
+  --accent-color1-hover2: rgb(216, 203, 203);
 
   --accent-color2: rgb(254, 183, 3);
   --accent-color2-hover: rgb(241, 196, 124);
+  --accent-color2-hover2: rgb(250, 235, 211);
 
   --accent-color3: rgb(215, 79, 95);
   --accent-color3-hover: rgb(226, 130, 142);
+  --accent-color3-hover2: rgb(245, 213, 217);
 
   --link-color: rgb(134, 153, 218);
   --link-color-hover: rgb(174, 187, 230);
@@ -135,19 +144,21 @@
 */
 
 .dark {
-  --main-color: rgb(35, 35, 60);
-  --second-color: rgb(45, 45, 70);
-  --third-color: rgb(55, 55, 80);
-  --fourth-color: rgb(65, 65, 90);
-  --fifth-color: rgb(75, 75, 100);
+  --main-color: rgb(35, 35, 45);
+  --second-color: rgb(45, 45, 55);
+  --third-color: rgb(55, 55, 65);
+  --fourth-color: rgb(65, 65, 75);
+  --fifth-color: rgb(75, 75, 85);
 
-  --disabled-color1: rgb(120, 120, 150);
-  --disabled-color2: rgb(105, 105, 135);
-  --disabled-color3: rgb(140, 140, 170);
+  --overlay-color: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6));
 
-  --dark1: rgb(51, 51, 71);
-  --dark2: rgb(71, 71, 91);
-  --dark3: rgb(91, 91, 111);
+  --disabled-color1: rgb(120, 120, 130);
+  --disabled-color2: rgb(105, 105, 115);
+  --disabled-color3: rgb(140, 140, 150);
+
+  --dark1: rgb(51, 51, 61);
+  --dark2: rgb(71, 71, 81);
+  --dark3: rgb(91, 91, 101);
 
   --separator: rgba(255, 255, 255, 0.2);
 
@@ -157,26 +168,26 @@
   --icon4: brightness(99);
   --icon5: brightness(0);
 
-  --hover-color1: rgb(60, 60, 90);
-  --hover-color2: rgb(80, 80, 100);
-  --hover-color3: rgb(100, 100, 130);
+  --hover-color1: rgb(60, 60, 70);
+  --hover-color2: rgb(80, 80, 90);
+  --hover-color3: rgb(100, 100, 110);
 
-  --text1: rgb(250, 250, 250);
-  --text2: rgb(240, 240, 245);
-  --text3: rgb(230, 230, 230);
+  --text1: rgb(250, 250, 255);
+  --text2: rgb(240, 240, 255);
+  --text3: rgb(230, 230, 240);
 
-  --neumorphism1: -2px -2px 10px -8px rgba(40, 40, 45, 0.8),
+  --neumorphism1: -2px -2px 10px -8px rgba(40, 40, 50, 0.8),
     2px 2px 10px -6px rgba(0, 0, 0, 0.2);
-  --neumorphism2: -2px -2px 10px -9px rgba(40, 40, 45, 0.8),
+  --neumorphism2: -2px -2px 10px -9px rgba(40, 40, 50, 0.8),
     2px 2px 10px -5px rgba(0, 0, 0, 0.4);
-  --neumorphism3: -2px -2px 10px -10px rgba(40, 40, 45, 0.8),
+  --neumorphism3: -2px -2px 10px -10px rgba(40, 40, 50, 0.8),
     2px 2px 10px -4px rgba(0, 0, 0, 0.7);
 
   --box-shadow-1: 1px 2px 10px -4px rgba(0, 0, 0, 1);
   --box-shadow-2: 1px 20px 60px -3px rgba(0, 0, 0, 0.5);
   --box-shadow-3: 1px 20px 60px -5px rgba(0, 0, 0, 0.6);
 
-  --glassmorphism-top: 1px solid rgba(235, 235, 255, 0.1);
+  --glassmorphism-top: 1px solid rgba(235, 235, 245, 0.1);
   --glassmorphism-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
 
@@ -207,6 +218,9 @@
 .space-1 {letter-spacing: var(--space-1);}
 .space-12 {letter-spacing: var(--space-12);}
 .space-14 {letter-spacing: var(--space-14);}
+.space-16 {letter-spacing: var(--space-16);}
+.space-18 {letter-spacing: var(--space-18);}
+.space-2 {letter-spacing: var(--space-2);}
 .font-consolas {font-family: consolas;}
 .font-main {font-family: MainFont;}
 .font-second {font-family: SecondFont;}
@@ -312,6 +326,14 @@
 .mrgn-clear {margin: 0;}
 .pad-clear {padding: 0;}
 
+.mrgn-auto{margin: auto;}
+.mrgn-y-auto{margin-top: auto;margin-bottom: auto;}
+.mrgn-x-auto{margin-left: auto;margin-right: auto;}
+.mrgn-t-auto{margin-top: auto;}
+.mrgn-r-auto{margin-right: auto;}
+.mrgn-b-auto{margin-bottom: auto;}
+.mrgn-l-auto{margin-left: auto;}
+
 .mrgn-y-10 {margin-top: 10px;margin-bottom: 10px;}
 .mrgn-x-10 {margin-left: 10px;margin-right: 10px;}
 .mrgn-10 {margin: 10px;}
@@ -370,12 +392,6 @@
 .fl-colm {flex-direction: column;}
 .fl-row {flex-direction: row;}
 .fl-wrap {flex-wrap: wrap;}
-.gd-tmplt-col-1fr-1 {grid-template-columns: 1fr;}
-.gd-tmplt-col-1fr-2 {grid-template-columns: 1fr 1fr;}
-.gd-tmplt-col-1fr-3 {grid-template-columns: 1fr 1fr 1fr;}
-.gd-tmplt-rows-1fr-1 {grid-template-rows: 1fr;}
-.gd-tmplt-rows-1fr-2 {grid-template-rows: 1fr 1fr;}
-.gd-tmplt-rows-1fr-3 {grid-template-rows: 1fr 1fr 1fr;}
 .justify-self-center {justify-self: center;}
 .justify-self-start {justify-self: flex-start;}
 .justify-self-end {justify-self: flex-end;}
@@ -482,9 +498,9 @@
 html {scroll-behavior: smooth;}
 
 ::-webkit-scrollbar-thumb {background-color: var(--fourth-color);border-radius: 50px;}
-::-webkit-scrollbar {width: 6px;}
+::-webkit-scrollbar {width: 6px; height: 6px; background-color: var(--second-color);}
 
-body {margin: 0;padding: 0;box-sizing: border-box;display: grid;font-family: SecondFont, sans-serif;font-weight: 500;color: var(--text2);height: fit-content;min-height: 100vh;}
+body {margin: 0;padding: 0;box-sizing: border-box;display: grid;font-family: SecondFont, sans-serif;font-weight: 400;color: var(--text2);height: fit-content;min-height: 100vh;}
 
 h1,h2,h3,h4,h5,h6,p,label, ul {margin: 0;padding: 0;}
 
