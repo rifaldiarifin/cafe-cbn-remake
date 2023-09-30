@@ -6,14 +6,14 @@ const darkModeSlice = createSlice({
     data: false
   },
   reducers: {
-    setDarkMode: (state, actions) => {
-      if (typeof actions.payload !== 'boolean') throw new Error('payload mus be a boolean')
-      localStorage.setItem('darkMode', actions.payload)
-      state.data = actions.payload
+    setDarkMode: (state, action) => {
+      if (typeof action.payload !== 'boolean') throw new Error('payload mus be a boolean')
+      localStorage.setItem('theme_mode', action.payload ? 'dark' : 'light')
+      state.data = action.payload
     },
     toggleDarkMode: (state) => {
       const bool = state.data ? false : true
-      localStorage.setItem('darkMode', bool)
+      localStorage.setItem('theme_mode', bool ? 'dark' : 'light')
       state.data = bool
     }
   }
