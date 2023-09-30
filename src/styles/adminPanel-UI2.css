@@ -1,6 +1,6 @@
 .admin-panel-ui2 {
     --main-pad: 30px;
-    --width-screen: 1280px;
+    --width-screen: 1440px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -62,12 +62,12 @@
     gap: 8px;
     color: var(--text2);
     font-size: 14px;
-
     box-sizing: border-box;
     padding: 0 10px;
     width: 100%;
     border-radius: var(--rounded1);
     height: 36px;
+    transition: var(--trns-04) var(--Cubic-Bezier1);
 }
 
 .admin-panel-ui2 .navlink:hover {
@@ -122,71 +122,75 @@
     width: 4px;
 }
 
-/* navlinkx */
+/* navlink horizontal */
 .admin-panel-ui2 .navlinkx {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    height: 56px;
     gap: 8px;
     color: var(--text2);
     font-size: 14px;
-    background-color: var(--main-color);
     box-sizing: border-box;
     padding: 0 10px;
+    min-width: 60px;
+    height: 46px;
     border-radius: var(--rounded1);
-    padding: 10px 12px;
-    padding-right: 14px;
-    cursor: pointer;
-    box-shadow: var(--box-shadow-1);
-    overflow: hidden;
-    animation: XAnimation 0.4s var(--Cubic-Bezier2) both;
-    animation-delay: var(--delay-show);
+    transition: var(--trns-04) var(--Cubic-Bezier1);
 }
 
-@keyframes XAnimation {
-    0% {
-        opacity: 0;
-        transform: translateX(90px) scaleX(1.6);
-    }
-
-    100% {
-        transform: translateX(0px);
-    }
+.admin-panel-ui2 .navlinkx:hover {
+    background-color: var(--hover-color1);
 }
 
-.admin-panel-ui2 .navlinkx img {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--rounded1);
-    object-fit: cover;
-    object-position: center;
+.admin-panel-ui2 .navlinkx.active:hover {
+    background-color: var(--hover-color2);
 }
 
-.admin-panel-ui2 .navlinkx span {
-    --i8-gradient: var(--accent-color1)
-}
-
-.admin-panel-ui2 .navlinkx::after {
+.admin-panel-ui2 .navlinkx:after {
     content: '';
     position: absolute;
-    width: 0px;
-    height: calc(100% - 30px);
+    height: 0px;
+    border-top-left-radius: var(--rounded3);
     border-top-right-radius: var(--rounded3);
-    border-bottom-right-radius: var(--rounded3);
-    left: 0;
+    width: calc(100% - 30px);
+    bottom: 0;
     background-color: var(--accent-color2);
     transition: var(--trns-02) var(--Cubic-Bezier1);
 }
 
-.admin-panel-ui2 .navlinkx.active::after {
-    width: 4px;
+.admin-panel-ui2 .navlinkx.admin-link::before{
+    content: 'ADMIN';
+    position: absolute;
+    right: 6px;
+    font-size: 10px;
+    letter-spacing: .4px;
+    border: 1px solid var(--warning-color);
+    padding: 1px 6px;
+    font-weight: 600;
+    font-family: MainFont;
+    border-radius: var(--rounded2);
+    color: var(--warning-color);
 }
 
-/* .admin-panel-ui2 .navlinkx.active {
+.admin-panel-ui2 .header .icons8-filled,
+.admin-panel-ui2 .header .icons8-regular {
+    filter: var(--icon2);
+}
+
+.admin-panel-ui2 .navlinkx .icons8-filled,
+.admin-panel-ui2 .navlinkx .icons8-regular {
+    filter: var(--icon2);
+}
+
+.admin-panel-ui2 .navlinkx.active {
     background-color: var(--hover-color1);
-} */
+}
+
+.admin-panel-ui2 .navlinkx.active::after {
+    height: 4px;
+}
 
 /* CONTENT */
 .admin-panel-ui2 .content {
@@ -248,7 +252,6 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-    overflow: hidden;
     justify-content: flex-start;
     align-items: flex-start;
 }
@@ -258,12 +261,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 6px;
+    gap: 8px;
     padding: 8px;
     box-sizing: border-box;
-    /* overflow: hidden; */
-    /* background-color: red; */
-    animation: YAnimation 0.4s var(--Cubic-Bezier2) backwards;
+    animation: YAnimation 0.4s var(--Cubic-Bezier1) backwards;
     animation-delay: var(--delay-show);
 }
 
@@ -274,6 +275,9 @@
     width: 100%;
     height: 1px;;
     border-bottom: 1px solid var(--separator);
+}
+.admin-panel-ui2 .list-type1.separator:last-child:after {
+    display: none;
 }
 
 .admin-panel-ui2 .list-type1 img {
@@ -297,9 +301,8 @@
 }
 
 .admin-panel-ui2 .list-type1 .box>h3 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -362,25 +365,73 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .admin-panel-ui2 .card {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: var(--second-color);
     border-radius: var(--rounded2);
+    background-color: var(--second-color);
     padding: calc(var(--main-pad) / 2);
     box-shadow: var(--box-shadow-1);
     gap: 10px;
 }
 
-.admin-panel-ui2 .card .header-card>h2 {
+/* not for reusable or modified on under this code */
+
+.admin-panel-ui2 .card .options > .option1{
+    transform: translateY(0px) scaleX(1);
+    opacity: 1;
+    display: flex;
+    pointer-events: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
+    animation: XAnimation var(--trns-04) var(--Cubic-Bezier2) both;
+}
+.admin-panel-ui2 .card .options.active > .option1{
+    transform: translateY(-20px) scaleX(.8);
+    opacity: 0;
+    display: none;
+    pointer-events: none; 
+    -webkit-user-select: none;
+    user-select: none;
+}
+.admin-panel-ui2 .card .options > .option2{
+    transform: translateY(20px) scaleX(.8);
+    opacity: 0;
+    display: none;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.admin-panel-ui2 .card .options > .option2 > .btn{
+    animation: XAnimation var(--trns-04) var(--Cubic-Bezier2);
+}
+.admin-panel-ui2 .card .options.active > .option2{
+    transform: translateY(0px) scaleX(1);
+    opacity: 1;
+    display: flex;
+    pointer-events: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
+}
+
+/* ------------------------------------- */
+
+.admin-panel-ui2 .card.default{
+    background-color: var(--main-color);
+}
+
+.admin-panel-ui2 .card .header-card h2 {
     font-size: 16px;
     font-family: MainFont;
     font-weight: 600;
     letter-spacing: .6px;
 }
-
+.admin-panel-ui2 .card.separator-header .header-card{
+    border-bottom: 1px solid var(--separator);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
 .admin-panel-ui2 .card .header-card {
     display: flex;
     justify-content: space-between;
@@ -396,6 +447,13 @@
 /* ----- */
 .admin-panel-ui2 .table {
     min-width: 300px;
+    position: relative;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.admin-panel-ui2 .table > table {
+    width: 100%;
     position: relative;
     border-collapse: collapse;
     box-sizing: border-box;
@@ -428,7 +486,7 @@
 
 .admin-panel-ui2 .table .t-row {
     border-bottom: 1px solid var(--second-color);
-    animation: YAnimation 0.4s var(--Cubic-Bezier2) backwards;
+    animation: YAnimation 0.4s var(--Cubic-Bezier1) backwards;
     animation-delay: var(--delay-show);
 }
 
@@ -436,7 +494,6 @@
     text-align: left;
     padding: 20px 14px;
     font-size: 14px;
-    font-weight: 500;
 }
 
 @keyframes YAnimation {
@@ -447,6 +504,16 @@
 
     100% {
         transform: translateY(0px);
+    }
+}
+@keyframes XAnimation {
+    0% {
+        opacity: 0;
+        transform: translateX(90px) scaleX(1.6);
+    }
+
+    100% {
+        transform: translateX(0px);
     }
 }
 
@@ -473,21 +540,24 @@
     max-height: min-content;
     max-width: 500px;
     position: relative;
-	border-radius: var(--rounded1);
+	border-radius: var(--rounded2);
 	background-color: var(--main-color);
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    box-sizing: border-box;
+    border-top: var(--glassmorphism-top);
+    border-bottom: var(--glassmorphism-bottom);
     gap: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
 	animation: popup-screen-animation var(--trns-02) var(--Cubic-Bezier1);
 }
 
 .formcard > .close{
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 20px;
+    right: 20px;
     border-radius: 50%;
     cursor: pointer;
     --i8-ratio: 22px;

@@ -1,11 +1,11 @@
-ul.order-group{
+ul.order-group {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
     gap: 12px;
 }
 
-ul.order-group li.order{
+ul.order-group li.order {
     --delay-show: 0s;
     list-style: none;
     position: relative;
@@ -20,17 +20,19 @@ ul.order-group li.order{
     padding: 14px 20px;
     box-shadow: var(--box-shadow-1);
     /* overflow: hidden; */
-	animation: cardMenuAnimation 0.4s var(--Cubic-Bezier2) backwards;
-	animation-delay: var(--delay-show);
+    animation: cardMenuAnimation 0.4s var(--Cubic-Bezier2) backwards;
+    animation-delay: var(--delay-show);
 }
-ul.order-group li.order.expand{
+
+ul.order-group li.order.expand {
     max-height: fit-content;
 }
+
 ul.order-group li.order button {
     min-width: 100px;
 }
 
-ul.order-group li.order::after{
+ul.order-group li.order::after {
     content: '';
     position: absolute;
     bottom: -18px;
@@ -41,58 +43,63 @@ ul.order-group li.order::after{
     height: 12px;
     border-bottom: 1px solid var(--separator);
 }
-@keyframes cardMenuAnimation {
-	0% {
-		opacity: 0;
-		transform: translateY(90px) scaleY(1.07);
-	}
 
-	100% {
-		transform: translateY(0px);
-	}
+@keyframes cardMenuAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(.9);
+    }
 }
+
 /* complete */
-ul.order-group li.order.complete .order-status{
+ul.order-group li.order.complete .order-status {
     background-color: var(--success-color);
     color: white;
 }
+
 /* complete */
-ul.order-group li.order.ready .order-status{
+ul.order-group li.order.ready .order-status {
     background-color: var(--success-color);
     color: white;
 }
-ul.order-group li.order.ready{
+
+ul.order-group li.order.ready {
     border-color: var(--success-color);
     margin-bottom: 20px;
 }
+
+ul.order-group li.order.active::after,
 ul.order-group li.order.ready::after,
 ul.order-group li.order.waiting-for-kitchen::after,
-ul.order-group li.order.cooking::after{
+ul.order-group li.order.cooking::after {
     display: block;
 }
+
 /* cooking */
-ul.order-group li.order.cooking{
+ul.order-group li.order.cooking {
     margin-bottom: 20px;
     border-color: var(--accent-color2);
 }
-ul.order-group li.order.cooking .order-status{
+
+ul.order-group li.order.cooking .order-status {
     background-color: var(--accent-color2);
     color: white;
 }
 
 /* Waiting for Kitchen */
-ul.order-group li.order.waiting-for-kitchen{
+ul.order-group li.order.waiting-for-kitchen {
     margin-bottom: 20px;
     border-color: var(--accent-color2);
 }
+
 /* pending */
 ul.order-group li.order.pending .order-status,
-ul.order-group li.order.waiting-for-payment .order-status{
+ul.order-group li.order.waiting-for-payment .order-status {
     background-color: var(--hover-color2);
     color: var(--text3);
 }
 
-ul.order-group .order-status{
+ul.order-group .order-status {
     background-color: var(--hover-color2);
     padding: 4px 12px;
     font-size: 14px;
@@ -101,11 +108,12 @@ ul.order-group .order-status{
 }
 
 /* ---------- */
-ul.orders{
+ul.orders {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
-ul.orders li{
+
+ul.orders li {
     list-style: none;
     font-size: 16px;
     font-weight: 600;
@@ -113,7 +121,8 @@ ul.orders li{
     align-items: center;
     gap: 6px;
 }
-ul.orders li::before{
+
+ul.orders li::before {
     content: '';
     display: flex;
     justify-content: center;
