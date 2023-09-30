@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Route, Routes, createBrowserRouter } from 'react-router-dom'
 import SignInPage from '../pages/signin'
 import Landing from '../pages/landing'
 import Page404 from '../pages/page404'
@@ -9,7 +9,7 @@ import Order from '../pages/order'
 import PopupScreen from '../utils/PopupScreen'
 import Manager from '../pages/manager'
 import Admin from '../pages/admin'
-// import { Activity, Banner, Blog, Default, Menu, Settings, Transaction } from '../components/Fragments/Manager'
+import RequireAuth from '../pages/requireAuth'
 
 const router = createBrowserRouter([
   // Landing Page
@@ -36,7 +36,9 @@ const router = createBrowserRouter([
     path: '/admin',
     element: (
       <PopupScreen>
-        <Admin />
+        <RequireAuth allowedRole={'admin'}>
+          <Admin />
+        </RequireAuth>
       </PopupScreen>
     ),
     children: [
@@ -63,21 +65,7 @@ const router = createBrowserRouter([
         element: <></>,
         children: [
           {
-            path: 'category/:category',
-            element: <></>,
-            children: [
-              {
-                path: 'subcategory/:subCategory',
-                element: <></>
-              },
-              {
-                path: 'new',
-                element: <></>
-              }
-            ]
-          },
-          {
-            path: 'new',
+            path: 'groups',
             element: <></>
           }
         ]
@@ -108,15 +96,9 @@ const router = createBrowserRouter([
     path: '/manager',
     element: (
       <PopupScreen>
-        <Manager />
-      </PopupScreen>
-    )
-  },
-  {
-    path: '/manager',
-    element: (
-      <PopupScreen>
-        <Manager />
+        <RequireAuth allowedRole={'manager'}>
+          <Manager />
+        </RequireAuth>
       </PopupScreen>
     ),
     children: [
@@ -133,21 +115,7 @@ const router = createBrowserRouter([
         element: <></>,
         children: [
           {
-            path: 'category/:category',
-            element: <></>,
-            children: [
-              {
-                path: 'subcategory/:subCategory',
-                element: <></>
-              },
-              {
-                path: 'new',
-                element: <></>
-              }
-            ]
-          },
-          {
-            path: 'new',
+            path: 'groups',
             element: <></>
           }
         ]
@@ -179,7 +147,9 @@ const router = createBrowserRouter([
     path: '/cashier/*',
     element: (
       <PopupScreen>
-        <Cashier />
+        <RequireAuth allowedRole={'cashier'}>
+          <Cashier />
+        </RequireAuth>
       </PopupScreen>
     )
   },
@@ -188,7 +158,9 @@ const router = createBrowserRouter([
     path: '/kitchen/*',
     element: (
       <PopupScreen>
-        <Kitchen />
+        <RequireAuth allowedRole={'kitchen'}>
+          <Kitchen />
+        </RequireAuth>
       </PopupScreen>
     )
   },
@@ -197,17 +169,20 @@ const router = createBrowserRouter([
     path: '/machine',
     element: (
       <PopupScreen>
-        <GetStarted />
+        <RequireAuth allowedRole={'machine'}>
+          <Routes>
+            <Route index element={<GetStarted />} />
+            <Route path="order" element={<Order />} />
+          </Routes>
+        </RequireAuth>
       </PopupScreen>
-    )
-  },
-  {
-    path: '/machine/order',
-    element: (
-      <PopupScreen>
-        <Order />
-      </PopupScreen>
-    )
+    ),
+    children: [
+      {
+        path: 'order',
+        element: <></>
+      }
+    ]
   }
 ])
 
