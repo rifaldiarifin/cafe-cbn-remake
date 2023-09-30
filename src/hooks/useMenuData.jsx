@@ -1,16 +1,59 @@
 import { useEffect, useRef, useState } from 'react'
-import { menuData } from '../services/menuData'
+import { useSelector } from 'react-redux'
+import { getMenuData } from '../services/menu.service'
 
 const useMenuData = () => {
-  const [menu, setMenu] = useState(false)
+  const [menuData, setMenuData] = useState(false)
+  const menuChanges = useSelector((state) => state.menuChanges.data)
   const ref = useRef(false)
   useEffect(() => {
-    if (!ref.current) {
-      menuData.then((res) => setMenu(res))
-      return () => (ref.current = true)
+    if (!ref.current || menuChanges) {
+      setMenuData(false)
+      const sortingMode = ({ sort = 'name', mode = 'down', data }) => {
+        switch (sort) {
+          case 'name':
+            if (mode === 'down') {
+              data.sort((a, b) => {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                  return -1
+                }
+                if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                  return 1
+                }
+                return 0
+              })
+            } else {
+              data.sort((a, b) => {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                  return 1
+                }
+                if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                  return -1
+                }
+                return 0
+              })
+            }
+            break
+
+          default:
+            break
+        }
+      }
+
+      const newCollectMenu = async () => {
+        try {
+          const response = await getMenuData()
+          sortingMode({ data: response.data.result })
+          setMenuData(response.data.result)
+        } catch (error) {
+          console.error(error.message)
+        }
+      }
+      newCollectMenu()
     }
-  }, [menu])
-  return menu
+    return () => (ref.current = true)
+  }, [menuChanges])
+  return menuData
 }
 
 export default useMenuData
