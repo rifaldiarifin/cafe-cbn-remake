@@ -110,13 +110,13 @@ const SignInPage = () => {
     <DualForm
       content={
         <>
-          <h1>WELCOME BACK!</h1>
-          <p className="mrgn-t-10 mrgn-b-40">
+          <h1 className="mrgn-b-40">WELCOME BACK!</h1>
+          {/* <p className="mrgn-t-10 mrgn-b-40">
             Don&apos;t have a account,{' '}
             <Link to={'/auth/register'} className="hyperlink">
               Sign Up
             </Link>
-          </p>
+          </p> */}
           <form action="" method="post" className="w-100" onSubmit={signInHandler}>
             <InputField
               type="text"
@@ -141,11 +141,11 @@ const SignInPage = () => {
               moreClass="w-100"
               required
             />
-            <div className="box w-100 txt-right mrgn-y-20">
+            {/* <div className="box w-100 txt-right mrgn-y-20">
               <Link to={'/auth/forgetpassword'} className="hyperlink">
                 Forget Password?
               </Link>
-            </div>
+            </div> */}
             {formMessage && (
               <div className="box pad-x-20 text-center border-box w-100">
                 <p className="font-size-14 font-weg-600" style={{ color: 'var(--danger-color)' }}>
@@ -153,7 +153,7 @@ const SignInPage = () => {
                 </p>
               </div>
             )}
-            <Button type="submit" style="fill" color="default" id="signin" moreClass="mrgn-t-20">
+            <Button type="submit" style="fill" color="default" id="signin" moreClass="mrgn-t-40">
               Sign In
             </Button>
           </form>
