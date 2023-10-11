@@ -146,14 +146,14 @@ const SignInPage = () => {
                 Forget Password?
               </Link>
             </div> */}
-            {formMessage && (
-              <div className="box pad-x-20 text-center border-box w-100">
+            <div className="box pad-x-20 pad-t-30 text-center border-box w-100">
+              {formMessage && (
                 <p className="font-size-14 font-weg-600" style={{ color: 'var(--danger-color)' }}>
                   {formMessage}
                 </p>
-              </div>
-            )}
-            <Button type="submit" style="fill" color="default" id="signin" moreClass="mrgn-t-40">
+              )}
+            </div>
+            <Button type="submit" style="fill" color="default" id="signin" moreClass="mrgn-t-20">
               Sign In
             </Button>
           </form>
