@@ -10,7 +10,6 @@ const useActivityData = () => {
   useEffect(() => {
     if (!ref.current || acticityChanges) {
       readAllActivity().then((res) => {
-        // console.log(res)
         const collect = [...res]
         collect.reverse()
         setActivity(collect)
