@@ -5,6 +5,7 @@
   --h-menu: fit-content;
   --max-h-menu: 200px;
   position: relative;
+  z-index: 1;
 }
 
 .simple-combobox .smpl-preview {
@@ -81,7 +82,7 @@
   border-bottom: var(--glassmorphism-bottom);
   box-shadow: var(--box-shadow-1);
   transition: var(--trns-02) var(--Cubic-Bezier1);
-  z-index: 99;
+  z-index: 999;
 }
 
 .simple-combobox .smpl-menu li.comboli {

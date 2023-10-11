@@ -82,6 +82,7 @@
   height: 80px;
   background: var(--overlay-color);
   backdrop-filter: blur(16px);
+  z-index: 1;
   transition: var(--trns-04) var(--Cubic-Bezier1);
 }
 

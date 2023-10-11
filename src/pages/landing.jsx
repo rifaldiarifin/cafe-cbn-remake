@@ -59,7 +59,7 @@ const Landing = () => {
             return <LandingUI1.NavLink key={`${nav.name}${index}`} to={nav.to} name={nav.name} />
           })}
         </LandingUI1.NavGroupX>
-        <div className="box dsp-flex justify-self-end align-itms-center gap-4">
+        <div className="box dsp-flex justify-self-end align-itms-center gap-10">
           <Button
             icon={darkMode ? 'crescent-moon' : 'sun'}
             height="40px"
@@ -67,10 +67,6 @@ const Landing = () => {
             moreClass={'btn-tgldark icon'}
             onClick={() => dispatch(toggleDarkMode())}
           />
-          <SimpleCombobox select="English">
-            <SimpleComboLi value="Indonesia" />
-            <SimpleComboLi value="English" />
-          </SimpleCombobox>
           <Button
             type="hyperlink"
             to="/auth/signin"
