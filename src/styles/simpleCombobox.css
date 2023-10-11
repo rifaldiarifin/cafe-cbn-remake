@@ -5,7 +5,7 @@
   --h-menu: fit-content;
   --max-h-menu: 200px;
   position: relative;
-  z-index: 1;
+  z-index: 5;
 }
 
 .simple-combobox .smpl-preview {

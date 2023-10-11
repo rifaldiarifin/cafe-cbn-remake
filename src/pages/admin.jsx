@@ -218,6 +218,7 @@ const Admin = () => {
                       }
                       alt={data.user?.fullname}
                       title={data.activity}
+                      boldText={data.user?.deleted ? '(Deleted)' : null}
                       subTitle={moment(
                         `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
                         'DD-MM-YYYY HH:mm'

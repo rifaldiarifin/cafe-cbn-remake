@@ -63,15 +63,16 @@ const useGlobalSearch = (pathPage) => {
     const result = globalSearch.filter((curr) => {
       return curr.name.toLowerCase().includes(value.toLowerCase())
     })
-    result.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-        return -1
-      }
-      if (a.name.toLowerCase() > b.name.toLowerCase()) {
-        return 1
-      }
-      return 0
-    })
+    if (result.length > 1)
+      result.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1
+        }
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1
+        }
+        return 0
+      })
     setSearchResult(result)
   }
   return { handleGlobalSearch, searchInput, searchResult }

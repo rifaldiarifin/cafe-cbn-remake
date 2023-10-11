@@ -172,7 +172,7 @@ export const FormUser = () => {
             recollectFormData = { ...recollectFormData, profileImage: `${image}` }
           })
         })
-      } else {
+      } else if (popupForm.formUser.action === 'create') {
         recollectFormData = { ...recollectFormData, profileImage: 'noavatar' }
       }
 
@@ -282,17 +282,16 @@ export const FormUser = () => {
                     id="role"
                     name="role"
                     select={
-                      popupForm.formUser.action === 'update' ? popupForm.formUser.formData.access.role : 'Regular'
+                      popupForm.formUser.action === 'update' ? popupForm.formUser.formData.access.role : 'Cashier'
                     }
                     styleBox="fill"
                     fullRadius
                   >
-                    <SimpleComboLi value="Regular" />
-                    <SimpleComboLi value="Manager" />
-                    <SimpleComboLi value="Machine" />
-                    <SimpleComboLi value="Kitchen" />
-                    <SimpleComboLi value="Cashier" />
                     <SimpleComboLi value="Admin" />
+                    <SimpleComboLi value="Manager" />
+                    <SimpleComboLi value="Cashier" />
+                    <SimpleComboLi value="Kitchen" />
+                    <SimpleComboLi value="Machine" />
                   </SimpleCombobox>
                 </div>
               </div>

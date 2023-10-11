@@ -121,11 +121,12 @@ const useOverviewData = ({ menuData, menuGroup, transactionData }) => {
     if (!ref4.current && menuData) {
       const getMostOrderingMenu = () => {
         const newCollect = menuData.reduce((prev, curr) => (prev = [...prev, { [curr.name]: curr.sold }]), [])
-        newCollect.sort((a, b) => {
-          const keyA = Object.keys(a)[0]
-          const keyB = Object.keys(b)[0]
-          return b[keyB] - a[keyA]
-        })
+        if (newCollect.length > 1)
+          newCollect.sort((a, b) => {
+            const keyA = Object.keys(a)[0]
+            const keyB = Object.keys(b)[0]
+            return b[keyB] - a[keyA]
+          })
         if (newCollect.length > 4) newCollect.splice(4, newCollect.length - 1)
         return newCollect
       }

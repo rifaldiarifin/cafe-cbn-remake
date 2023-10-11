@@ -43,7 +43,7 @@ const useMenuData = () => {
       const newCollectMenu = async () => {
         try {
           const response = await getMenuData()
-          sortingMode({ data: response.data.result })
+          if (response.data.result.length > 1) sortingMode({ data: response.data.result })
           setMenuData(response.data.result)
         } catch (error) {
           console.error(error.message)

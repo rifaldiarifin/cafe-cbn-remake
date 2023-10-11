@@ -21,7 +21,7 @@ const PopupScreen = (props) => {
         ></PopupAlert>
       </div>
       <Spinner isLoading={isLoading} />
-      <Loading />
+      {!isLoading && <Loading />}
     </>
   )
 }

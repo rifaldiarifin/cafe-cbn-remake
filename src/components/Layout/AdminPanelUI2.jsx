@@ -200,6 +200,7 @@ const ListType1 = ({
   subTitle,
   height = undefined,
   imgSize = undefined,
+  boldText = null,
   moreClass,
   delayAnim = undefined,
   gap
@@ -208,7 +209,10 @@ const ListType1 = ({
     <li className={`list-type1${moreClass ? ' ' + moreClass : ''}`} style={{ height, '--delay-show': delayAnim, gap }}>
       <img src={img} alt={alt} style={{ '--ratio': imgSize }} />
       <div className="box">
-        <h3 style={{ fontSize: titleSize }}>{title}</h3>
+        <h3 style={{ fontSize: titleSize }}>
+          {title}
+          {boldText ? <span className="font-weg-700 space-06 accent-col-3"> {boldText}</span> : ''}
+        </h3>
         {subTitle && <p>{subTitle}</p>}
       </div>
     </li>

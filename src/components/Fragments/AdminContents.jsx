@@ -491,6 +491,7 @@ export const UsersActivity = ({ activityData }) => {
                       img={getImage(data.user?.data?.profileImage)}
                       alt={data.user?.fullname}
                       title={data.activity}
+                      boldText={data.user?.deleted ? '(Deleted)' : null}
                       subTitle={moment(
                         `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
                         'DD-MM-YYYY HH:mm'
@@ -511,6 +512,7 @@ export const UsersActivity = ({ activityData }) => {
                       img={getImage(data.user?.data?.profileImage)}
                       alt={data.user?.fullname}
                       title={data.activity}
+                      boldText={data.user?.deleted ? '(Deleted)' : null}
                       subTitle={moment(
                         `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
                         'DD-MM-YYYY HH:mm'
@@ -1149,6 +1151,7 @@ export const Activity = ({ activityData }) => {
                         img={getImage(data.user?.data?.profileImage)}
                         alt={data.user?.fullname}
                         title={data.activity}
+                        boldText={data.user?.deleted ? '(Deleted)' : null}
                         subTitle={moment(
                           `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
                           'DD-MM-YYYY HH:mm'
@@ -1171,6 +1174,7 @@ export const Activity = ({ activityData }) => {
                         img={getImage(data.user?.data?.profileImage)}
                         alt={data.user?.fullname}
                         title={data.activity}
+                        boldText={data.user?.deleted ? '(Deleted)' : null}
                         subTitle={moment(
                           `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
                           'DD-MM-YYYY HH:mm'

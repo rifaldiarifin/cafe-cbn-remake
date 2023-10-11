@@ -7,40 +7,55 @@ export const me = '%us3r%'
 const parseActivity = (stringActivity, dataUser, backupFullname) => {
   const accessToken = localStorage.getItem('access_token')
   const decoded = accessToken ? jwtDecode(accessToken) : null
-  const fullname = {
-    data: backupFullname
+  const newUserData = {
+    data: {
+      name: backupFullname,
+      profileImage: 'noavatar',
+      deleted: true
+    }
   }
-  if (dataUser) {
-    fullname.data =
+
+  if (dataUser !== null) {
+    newUserData.data.name =
       dataUser?.lastname.length > 0 ? `${dataUser?.firstname} ${dataUser?.lastname}` : `${dataUser?.firstname}`
+    newUserData.data.profileImage = dataUser?.profileImage
+    newUserData.data.deleted = false
   }
-  if (dataUser.uuid === decoded?.uuid) {
-    fullname.data = 'You'
+  if (dataUser !== null && dataUser?.uuid === decoded?.uuid) {
+    newUserData.data.name = 'You'
+    newUserData.data.deleted = false
   }
-  return stringActivity.toString().replaceAll(me, fullname.data)
+
+  return {
+    deleted: newUserData.data.deleted,
+    stringName: stringActivity.toString().replaceAll(me, newUserData.data.name),
+    profileImage: newUserData.data.profileImage
+  }
 }
 
 export const writeActivity = async (typeYourActivity) => {
   return await createActivity({ activity: typeYourActivity })
-  // try {
-  //     await createActivity({ activity: typeYourActivity })
-  // } catch (error) {
-  //     if (!error.response) {
-  //         console.error('Error: No Server Response! :(')
-  //     } else if (error?.response?.data?.message) {
-  //         console.error('Error: ', error?.response?.data?.message)
-  //     } else {
-  //         console.log('Error: ', error.message)
-  //     }
-  // }
 }
 
 export const readAllActivity = async () => {
   return customTryCatch(async () => {
     const activityData = await getActivityData()
     return activityData.data.result.reduce((prev, curr) => {
-      const newActivityString = parseActivity(curr.activity, curr.user.data, curr.user.fullname)
-      return (prev = [...prev, { ...curr, activity: newActivityString }])
+      const { profileImage, deleted, stringName } = parseActivity(curr.activity, curr.user.data, curr.user.fullname)
+      return (prev = [
+        ...prev,
+        {
+          ...curr,
+          activity: stringName,
+          user: {
+            ...curr.user,
+            data: {
+              profileImage
+            },
+            deleted
+          }
+        }
+      ])
     }, [])
   })
 }
@@ -49,8 +64,21 @@ export const readMyActivity = async () => {
   return customTryCatch(async () => {
     const myActivity = await getMyActivity()
     return myActivity.data.result.reduce((prev, curr) => {
-      const newActivityString = parseActivity(curr.activity, curr.user.data, curr.user.fullname)
-      return (prev = [...prev, { ...curr, activity: newActivityString }])
+      const { deleted, profileImage, stringName } = parseActivity(curr.activity, curr.user.data, curr.user.fullname)
+      return (prev = [
+        ...prev,
+        {
+          ...curr,
+          activity: stringName,
+          user: {
+            ...curr.user,
+            data: {
+              profileImage
+            },
+            deleted
+          }
+        }
+      ])
     }, [])
   })
 }
