@@ -90,7 +90,7 @@
 }
 
 .admin-panel-ui1 .w-screen {
-  max-width: paddingar(--width-screen);
+  max-width: var(--width-screen);
   padding: 0 40px;
   width: 100%;
   height: 100%;

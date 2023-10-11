@@ -19,6 +19,7 @@ const useSignOut = () => {
         try {
           await signOut()
           await writeActivity(`${me} signed out on the device`)
+          document.body.removeAttribute('style')
           jsCookie.remove('refresh_token', { sameSite: 'Strict' })
           localStorage.removeItem('access_token')
           dispatch(setAuth({ userSession: null, setIsSignin: false }))
