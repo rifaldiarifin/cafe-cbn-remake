@@ -15,4 +15,4 @@ public
 node_modules
 
 # Ignore all CSS files:
-*.css
+index.css

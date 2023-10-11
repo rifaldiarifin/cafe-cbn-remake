@@ -1,57 +1,57 @@
 .inputtoggle {
-    --ratio: 16px;
+  --ratio: 16px;
 }
-.inputtoggle>label {
-    font-size: 14px;
+.inputtoggle > label {
+  font-size: 14px;
 }
-.inputtoggle>input{
-    overflow: hidden;
-    position: absolute;
-    display: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+.inputtoggle > input {
+  overflow: hidden;
+  position: absolute;
+  display: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
-.inputtoggle>.toggle-track {
-    width: 50px;
-    height: var(--ratio);
-    min-width: 50px;
-    min-height: var(--ratio);
-    padding: 4px;
-    background-color: var(--hover-color1);
-    display: flex;
-    position: relative;
-    align-items: center;
-    border-radius: var(--rounded3);
-    cursor: pointer;
-    transition: var(--trns-02) var(--Cubic-Bezier2);
-}
-
-.inputtoggle>.toggle-track .in-track{
-    width: 100%;
-    height: 100%;
-    position: relative;
-    pointer-events: none;
+.inputtoggle > .toggle-track {
+  width: 50px;
+  height: var(--ratio);
+  min-width: 50px;
+  min-height: var(--ratio);
+  padding: 4px;
+  background-color: var(--hover-color1);
+  display: flex;
+  position: relative;
+  align-items: center;
+  border-radius: var(--rounded3);
+  cursor: pointer;
+  transition: var(--trns-02) var(--Cubic-Bezier2);
 }
 
-.inputtoggle>.toggle-track .toggle-thumb {
-    width: var(--ratio);
-    height: var(--ratio);
-    min-width: var(--ratio);
-    min-height: var(--ratio);
-    display: block;
-    border-radius: 50%;
-    background-color: var(--accent-color2);
-    position: absolute;
-    left: 0px;
-    z-index: 1;
-    pointer-events: none;
-    transition: var(--trns-02) var(--Cubic-Bezier2);
+.inputtoggle > .toggle-track .in-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
 }
 
-.inputtoggle>.toggle-track.active {
-    background-color: var(--accent-color2-hover2);
+.inputtoggle > .toggle-track .toggle-thumb {
+  width: var(--ratio);
+  height: var(--ratio);
+  min-width: var(--ratio);
+  min-height: var(--ratio);
+  display: block;
+  border-radius: 50%;
+  background-color: var(--accent-color2);
+  position: absolute;
+  left: 0px;
+  z-index: 1;
+  pointer-events: none;
+  transition: var(--trns-02) var(--Cubic-Bezier2);
 }
-.inputtoggle>.toggle-track.active .toggle-thumb{
-    left: calc(100% - var(--ratio));
+
+.inputtoggle > .toggle-track.active {
+  background-color: var(--accent-color2-hover2);
+}
+.inputtoggle > .toggle-track.active .toggle-thumb {
+  left: calc(100% - var(--ratio));
 }

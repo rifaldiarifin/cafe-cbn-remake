@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import PopupAlert from '../components/Fragments/popupAlert'
 import useDarkMode from '../hooks/useDarkMode'
 import Spinner from '../components/Fragments/Spinner'
+import Loading from '../pages/loading'
 
 const PopupScreen = (props) => {
   useDarkMode()
@@ -20,6 +21,7 @@ const PopupScreen = (props) => {
         ></PopupAlert>
       </div>
       <Spinner isLoading={isLoading} />
+      <Loading />
     </>
   )
 }

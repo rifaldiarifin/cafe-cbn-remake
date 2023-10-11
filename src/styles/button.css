@@ -14,15 +14,16 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text2);
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
   cursor: pointer;
+  transition: var(--trns-02) ease;
 }
-.btn.disabled{
-  opacity: .3;
+.btn.disabled {
+  opacity: 0.3;
   pointer-events: none;
 }
 .btn span.icons8-filled,
-.btn span.icons8-regular{
+.btn span.icons8-regular {
   --i8-gradient: var(--accent-color3);
   --i8-ratio: 24px;
   pointer-events: none;
@@ -76,6 +77,12 @@
   padding: 0 20px;
   border-radius: var(--rounded3);
 }
+.btn.btn-fill.rounded10 {
+  border-radius: var(--rounded1);
+}
+.btn.btn-fill.rounded20 {
+  border-radius: var(--rounded2);
+}
 
 .btn.btn-fill .icons8-filled,
 .btn.btn-fill .icons8-regular {
@@ -91,7 +98,7 @@
   background-color: var(--BColorHover);
 }
 
-.btn.icon{
+.btn.icon {
   aspect-ratio: 1;
   padding: 0;
   gap: 0;

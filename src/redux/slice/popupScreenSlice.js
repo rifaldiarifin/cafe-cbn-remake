@@ -24,13 +24,6 @@ const popupScreenSlice = createSlice({
   },
   reducers: {
     setAlert: (state, action) => {
-      // const alert = state.alertData
-      // alert.actionName = action.payload.actionName
-      // alert.titleBar = action.payload.titleBar
-      // alert.title = action.payload.title
-      // alert.description = action.payload.description
-      // alert.alertType = action.payload.alertType
-      // alert.alertStyle = action.payload.alertStyle
       state.data = {
         isActive: true,
         alertData: { ...state.data.alertData, ...action.payload }

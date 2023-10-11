@@ -1,5 +1,4 @@
-const UserProfile = (props) => {
-  const { img, alt, name, roleName, moreClass } = props
+const UserProfile = ({ img, alt, name, roleName, moreClass }) => {
   return (
     <div className={`user-profile${moreClass ? ' ' + moreClass : ''}`}>
       <img src={img} alt={alt} />

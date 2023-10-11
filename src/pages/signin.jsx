@@ -7,14 +7,13 @@ import { setAlert } from '../redux/slice/popupScreenSlice'
 import DualForm from '../components/Layout/DualForm'
 import InputField from '../components/Elements/InputField'
 import Button from '../components/Elements/Button'
-import SimpleCombobox from '../components/Elements/SimpleCombobox'
 import SimpleNav from '../components/Fragments/SimpleNav'
 import SimpleNavLi from '../components/Elements/SimpleNav/SimpleNavLi'
-import SimpleComboLi from '../components/Elements/SimpleCombobox/SimpleComboLi'
 import { setIsLoading, setAuth } from '../redux/slice/authSlice'
 import jwtDecode from 'jwt-decode'
 import useAuth from '../hooks/useAuth'
 import { me, writeActivity } from '../utils/activity'
+import CONFIG from '../config/environment'
 
 const SignInPage = () => {
   useDocumentClickTarget()
@@ -64,7 +63,7 @@ const SignInPage = () => {
     // Request to api
     try {
       const response = await axios.post('/auth/login', JSON.stringify(validateForm), {
-        baseURL: 'http://localhost:4000',
+        baseURL: CONFIG.BaseUrlAPI,
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json'
@@ -127,8 +126,9 @@ const SignInPage = () => {
               id="username"
               placeHolder="Username"
               autoComplete="off"
-              required={true}
               moreClass="w-100 mrgn-b-20"
+              required
+              autoFocus
             />
             <InputField
               type="password"
@@ -138,8 +138,8 @@ const SignInPage = () => {
               id="password"
               placeHolder="Password"
               autoComplete="off"
-              required={true}
               moreClass="w-100"
+              required
             />
             <div className="box w-100 txt-right mrgn-y-20">
               <Link to={'/auth/forgetpassword'} className="hyperlink">
@@ -162,19 +162,6 @@ const SignInPage = () => {
       banner={
         <>
           <SimpleNav>
-            <SimpleNavLi>Help</SimpleNavLi>
-            <SimpleNavLi>Contact us</SimpleNavLi>
-            <SimpleNavLi>
-              <SimpleCombobox select="English">
-                <SimpleComboLi value="Indonesia" />
-                <SimpleComboLi value="English" />
-              </SimpleCombobox>
-            </SimpleNavLi>
-            <SimpleNavLi>
-              <button className="btn">
-                <span>Sign Up</span>
-              </button>
-            </SimpleNavLi>
             <SimpleNavLi>
               <Link to={'/'} className="btn icon">
                 <span className="icons8-filled home" style={{ filter: 'brightness(99)' }}></span>

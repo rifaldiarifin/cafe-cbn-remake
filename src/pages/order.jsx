@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useDocumentTitle } from '../hooks/useDocumentHandler'
-import useNavigationMenu from '../hooks/useNavigationMenu'
 import useTotalItems from '../hooks/useTotalItems'
 import useMenuData from '../hooks/useMenuData'
 import useGroupingMenu from '../hooks/useGroupingMenu'
@@ -22,6 +21,7 @@ import { setIsLoading } from '../redux/slice/authSlice'
 import useRestartOrderTimer from '../hooks/useRestartOrderTimer'
 import { createTransaction } from '../services/transaction.service'
 import CompanyLogo from '../components/Elements/CompanyLogo'
+import useCollectNavigation from '../hooks/useCollectNavigation'
 
 const Order = () => {
   useDocumentTitle('Order')
@@ -35,7 +35,7 @@ const Order = () => {
     clearCheckout()
   })
   // menu navigate state
-  const { navigationMenu, setNavigationMenu } = useNavigationMenu(menuGroup)
+  const { navigation, setNavigation } = useCollectNavigation(menuGroup)
   const [popupOrder, setPopupOrder] = useState({ popup: false })
   const [navCart, setNavCart] = useState(false)
   const [popup, setPopup] = useState(false)
@@ -49,7 +49,7 @@ const Order = () => {
 
   const switchMenu = (switchIndex) => {
     if (!switchIndex && typeof switchIndex !== 'number') return console.error('You not set switchIndex argument yet.')
-    setNavigationMenu((prevState) => {
+    setNavigation((prevState) => {
       return prevState.reduce((prev, curr, reduceIndex) => {
         if (switchIndex === reduceIndex) return (prev = [...prev, true])
         return (prev = [...prev, false])
@@ -203,7 +203,6 @@ const Order = () => {
         restartCountdown()
         return newState
       })
-      console.log(memRef.current?.data)
     } catch (error) {
       if (error === 'CANCELLED') {
         dispatch(setIsLoading(false))
@@ -316,7 +315,7 @@ const Order = () => {
                       alt={group.groupName}
                       groupName={group.groupName}
                       index={index}
-                      isActive={navigationMenu[index]}
+                      isActive={navigation[index]}
                       onClick={() => switchMenu(index)}
                     />
                   )
@@ -336,7 +335,7 @@ const Order = () => {
                 {menuGroup.map((group, index) => {
                   if (!group?.showOn) return
                   return (
-                    <CardGroupOrder.Ul key={`${group?.uuid}${index}`} isActive={navigationMenu[index]}>
+                    <CardGroupOrder.Ul key={`${group?.uuid}${index}`} isActive={navigation[index]}>
                       {group.menus.map((menu, index2) => (
                         <CardGroupOrder.Li
                           key={`${group?.uuid}${index2}`}
@@ -361,7 +360,7 @@ const Order = () => {
                   className="icons8-regular search-more"
                   style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
                 ></span>
-                <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">
+                <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">
                   Uh Oh..., there is currently no menu available,<br></br> please contact customer service for
                   troubleshooting.
                 </p>

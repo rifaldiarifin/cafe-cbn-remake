@@ -12,7 +12,7 @@ const Li = ({ image, alt, price, name, amount = 0, onClick = () => {}, index = n
   return (
     <li style={{ '--animation-order': index }} onClick={onClick} data-amount={`x${amount}`}>
       <div className="card-image">
-        <LazyLoadImage effect="opacity" src={image} alt={alt} />
+        <LazyLoadImage effect="opacity" src={image} alt={alt} placeholderSrc={'/img/nofoodphoto.jpg'} />
       </div>
       <p className="price">Rp {price.toLocaleString('id-ID', { currency: 'IDR' })}</p>
       <div className="description">

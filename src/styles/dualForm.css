@@ -1,7 +1,7 @@
 .dual-panel-form {
   display: grid;
   grid-template-columns: 385px 1fr;
-  grid-template-areas: "content banner";
+  grid-template-areas: 'content banner';
   min-height: 100vh;
   box-sizing: border-box;
   background-color: var(--main-color);
@@ -66,7 +66,7 @@
   font-size: 13px;
 }
 
-.form-content button[type="submit"] {
+.form-content button[type='submit'] {
   width: 100%;
   font-weight: 700;
   font-size: 15px;
@@ -128,4 +128,47 @@
 .dual-panel-form .form-banner .simple-combobox .smpl-preview .icons8-filled,
 .simple-nav li .icon {
   filter: brightness(99);
+}
+
+@media (max-width: 600px) {
+  .dual-panel-form {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'content';
+  }
+
+  .dual-panel-form.reverse {
+    grid-template-columns: 1fr;
+  }
+  .dual-panel-form.reverse .form-content {
+    grid-area: banner;
+    display: none;
+  }
+
+  .dual-panel-form .form-content {
+    grid-area: content;
+    padding: 50px;
+  }
+
+  .dual-panel-form .form-banner {
+    display: none;
+  }
+}
+
+@media (max-width: 370px) {
+  .form-content h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .form-content p {
+    font-size: 14px;
+    letter-spacing: var(--space-14);
+  }
+
+  .form-content a {
+    font-size: 13px;
+  }
+  .dual-panel-form .form-content {
+    padding: 40px 30px;
+  }
 }

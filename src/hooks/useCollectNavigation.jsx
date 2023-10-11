@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
-const useNavigationMenu = (navGroup, addFiltering = false) => {
-  const [navigationMenu, setNavigationMenu] = useState(false)
+const useCollectNavigation = (navGroup) => {
+  const [navigation, setNavigation] = useState(false)
   const ref = useRef(false)
   useEffect(() => {
     if (!ref.current && navGroup) {
@@ -14,11 +14,11 @@ const useNavigationMenu = (navGroup, addFiltering = false) => {
         collectData[0] = true
         return collectData
       }
-      setNavigationMenu(collectNavMenu())
+      setNavigation(collectNavMenu())
       return () => (ref.current = true)
     }
-  }, [addFiltering, navGroup, navigationMenu])
-  return { navigationMenu, setNavigationMenu }
+  }, [navGroup, navigation])
+  return { navigation, setNavigation }
 }
 
-export default useNavigationMenu
+export default useCollectNavigation

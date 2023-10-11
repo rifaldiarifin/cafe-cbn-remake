@@ -21,7 +21,7 @@
   overflow: hidden;
   transition: var(--trns-04) var(--Cubic-Bezier1);
 }
-.simple-combobox .smpl-preview > input{
+.simple-combobox .smpl-preview > input {
   width: 100%;
   border: none;
   font-weight: 500;
@@ -36,7 +36,6 @@
 }
 .simple-combobox.fill .smpl-preview {
   border: 1px solid var(--separator);
-  /* background-color: var(--main-color); */
 }
 .simple-combobox .smpl-preview::before {
   content: attr(data-selected);
@@ -56,9 +55,9 @@
   transform: rotateZ(0deg);
 }
 
-.simple-combobox.fill .smpl-menu{
+.simple-combobox.fill .smpl-menu {
   translate: 0 6px;
-} 
+}
 .simple-combobox .smpl-menu {
   margin: 0;
   padding: 0;
@@ -110,7 +109,6 @@
   box-sizing: border-box;
   pointer-events: none;
   width: calc(100%);
-  /* transform: translateY(calc(40px + 4px)); */
   height: 40px;
   box-sizing: border-box;
   border-radius: var(--rounded1);
@@ -118,7 +116,7 @@
 }
 
 .simple-combobox .smpl-menu li.smpl-combopoint::after {
-  content: "";
+  content: '';
   display: block;
   pointer-events: none;
   border-radius: 6px;

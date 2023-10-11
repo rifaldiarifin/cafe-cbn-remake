@@ -34,9 +34,11 @@ const InputField = ({
   iconStyle = 'regular',
   value = '',
   onChange = () => {},
+  onInput = null,
   min = false,
   max = false,
-  required = false
+  required = false,
+  autoFocus = false
 }) => {
   // validate props
   if (min) {
@@ -215,6 +217,7 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
+              autoFocus={autoFocus}
               min={min}
               max={max}
               onInput={triggerInput.text}
@@ -247,6 +250,7 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
+              autoFocus={autoFocus}
               min={min}
               max={max}
               onInput={triggerInput.password}
@@ -280,6 +284,7 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
+              autoFocus={autoFocus}
               onInput={triggerInput.email}
             ></Input>
           </div>
@@ -310,6 +315,7 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
+              autoFocus={autoFocus}
               onInput={triggerInput.phoneID}
             ></Input>
           </div>
@@ -341,6 +347,7 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
+              autoFocus={autoFocus}
               onInput={triggerInput.text}
             ></Input>
           </div>
@@ -374,7 +381,8 @@ const InputField = ({
               placeHolder={placeHolder}
               ariaLabel={label}
               autoComplete={autoComplete}
-              onInput={triggerInput.text}
+              autoFocus={autoFocus}
+              onInput={onInput ? onInput : triggerInput.text}
             ></Input>
           </div>
         </label>

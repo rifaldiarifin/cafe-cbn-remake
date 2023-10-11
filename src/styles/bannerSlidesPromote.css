@@ -1,89 +1,89 @@
 .banner-promote {
-    --index-banner: 0;
-    --count-banner: 3;
-    --h-banner: 250px;
-    width: 100%;
-    height: var(--h-banner);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
+  --index-banner: 0;
+  --count-banner: 3;
+  --h-banner: 250px;
+  width: 100%;
+  height: var(--h-banner);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
 
 .banner-promote .bg-banner {
-    min-width: calc(100% * var(--count-banner));
-    max-width: calc(100% * var(--count-banner));
-    width: calc(100% * var(--count-banner));
-    height: 100%;
-    display: flex;
-    position: absolute;
-    background-color: var(--third-color);
-    left: calc(-100% * var(--index-banner));
-    overflow-y: hidden;
-    overflow-x: auto;
-    transition: var(--trns-04) var(--Cubic-Bezier1);
+  min-width: calc(100% * var(--count-banner));
+  max-width: calc(100% * var(--count-banner));
+  width: calc(100% * var(--count-banner));
+  height: 100%;
+  display: flex;
+  position: absolute;
+  background-color: var(--third-color);
+  left: calc(-100% * var(--index-banner));
+  overflow-y: hidden;
+  overflow-x: auto;
+  transition: var(--trns-04) var(--Cubic-Bezier1);
 }
 
 .banner-promote .bg-banner .slide-banner {
-    position: relative;
-    width: calc(100%);
-    height: var(--h-banner);
-    box-sizing: border-box;
-    overflow: hidden;
+  position: relative;
+  width: calc(100%);
+  height: var(--h-banner);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .banner-promote .bg-banner .slide-banner img {
-    display: block;
-    width: 100%;
-    user-select: none;
-    height: var(--h-banner);
+  display: block;
+  width: 100%;
+  user-select: none;
+  height: var(--h-banner);
 }
 
 .banner-promote .bg-banner .slide-banner img.front-img {
-    position: absolute;
-    object-fit: cover;
-    z-index: 1;
+  position: absolute;
+  object-fit: cover;
+  z-index: 1;
 }
-.banner-promote .bg-banner .slide-banner img.front-img.contain{
-    object-fit: contain;
+.banner-promote .bg-banner .slide-banner img.front-img.contain {
+  object-fit: contain;
 }
 
 .banner-promote .bg-banner .slide-banner img.bg-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    filter: blur(30px);
-    object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(30px);
+  object-fit: cover;
 }
 
 .banner-promote .dot-group {
-    position: absolute;
-    bottom: 0;
-    width: fit-content;
-    height: 40px;
-    gap: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
+  position: absolute;
+  bottom: 0;
+  width: fit-content;
+  height: 40px;
+  gap: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
 .banner-promote .dot-group .dot-indic {
-    display: block;
-    width: 6px;
-    height: 6px;
-    box-sizing: border-box;
-    border-radius: var(--rounded3);
-    background-color: var(--fifth-color);
-    transition: var(--trns-04) var(--Cubic-Bezier2);
+  display: block;
+  width: 6px;
+  height: 6px;
+  box-sizing: border-box;
+  border-radius: var(--rounded3);
+  background-color: var(--fifth-color);
+  transition: var(--trns-04) var(--Cubic-Bezier2);
 }
 
 .banner-promote .dot-group .dot-indic.active {
-    width: 12px;
-    height: 12px;
-    background-color: var(--accent-color2);
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent-color2);
 }

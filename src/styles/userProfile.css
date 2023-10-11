@@ -1,34 +1,34 @@
-.user-profile{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-    padding-right: 20px;
-    font-size: 14px;
-    font-family: MainFont;
-    width: 100%;
-    max-width: 220px;
-    min-height: 46px;
-    height: 46px;
-    border-radius: var(--rounded3);
-    border: 1px solid var(--separator);
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    user-select: none;
-    overflow: hidden;
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  padding-right: 20px;
+  font-size: 14px;
+  font-family: MainFont;
+  width: 100%;
+  max-width: 220px;
+  min-height: 46px;
+  height: 46px;
+  border-radius: var(--rounded3);
+  border: 1px solid var(--separator);
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
 }
-.user-profile.noline{
-    border: none;
+.user-profile.noline {
+  border: none;
 }
-.user-profile p{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+.user-profile p {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.user-profile img{
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 50%;
+.user-profile img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }

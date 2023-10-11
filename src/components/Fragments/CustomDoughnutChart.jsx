@@ -1,17 +1,5 @@
 import { Doughnut } from 'react-chartjs-2'
 
-// const overviewData = {
-//     barLabel: ["Hero", "About Me", "My Skills", "My Projects", "Contact Me"],
-//     barValue: document.getElementById("overview").dataset.chart1.split(", "),
-//     backgroundColor: [
-//         'rgba(242, 99, 234, .6)',
-//         'rgba(199, 104, 252, .6)',
-//         'rgba(136, 105, 229, .6)',
-//         'rgba(104, 124, 252, .6)',
-//         'rgba(95, 172, 245, .6)'
-//     ],
-// };
-
 export const createDatasetDoughnut = ({ label, data, backgroundColor }) => {
   return {
     label,

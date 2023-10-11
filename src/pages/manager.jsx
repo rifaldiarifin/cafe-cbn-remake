@@ -2,10 +2,9 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import UserProfile from '../components/Elements/UserProfile'
 import usePathName from '../hooks/usePathname'
 import AdminPanelUI2 from '../components/Layout/AdminPanelUI2'
-import { Default, Activity, Menu, Transaction, AdBanner } from '../components/Fragments/AdminContents'
+import { Default, Activity, Menu, Transaction } from '../components/Fragments/AdminContents'
 import Button from '../components/Elements/Button'
 import InputField from '../components/Elements/InputField'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleDarkMode } from '../redux/slice/darkModeSlice'
 import CommingSoon from './commingSoon'
@@ -18,8 +17,8 @@ import { getDate, getTime } from '../utils/date'
 import useSignOut from '../hooks/useSignOut'
 import { setAlert } from '../redux/slice/popupScreenSlice'
 import getImage from '../utils/getImage'
-import useAutoExpandNavigation from '../hooks/useAutoExpandNavigation'
 import useOverviewData from '../hooks/useOverviewData'
+import useGlobalSearch from '../hooks/useGlobalSearch'
 
 const Manager = () => {
   useSignOut()
@@ -32,20 +31,13 @@ const Manager = () => {
     menuGroup,
     transactionData
   })
+  const { handleGlobalSearch, searchInput, searchResult } = useGlobalSearch('/manager')
   const dispatch = useDispatch()
   const userSession = useSelector((state) => state.auth.data.userSession)
   const darkMode = useSelector((state) => state.darkMode.data)
-  const [sidePanel, setSidePanel] = useState({ nav: true, aside: true })
   const pathName = usePathName()
-  useAutoExpandNavigation({ pathName, state: sidePanel, setState: setSidePanel })
   const urlNavLinkMatch = () => {
     return pathName.length >= 3 && `/manager/${pathName[1]}/${pathName[2]}`
-  }
-  const toggleNav = () => {
-    setSidePanel({ nav: sidePanel.nav ? false : true, aside: sidePanel.aside })
-  }
-  const toggleAside = () => {
-    setSidePanel({ aside: sidePanel.aside ? false : true, nav: sidePanel.nav })
   }
   const signOut = () => {
     dispatch(
@@ -58,47 +50,71 @@ const Manager = () => {
       })
     )
   }
+
   return (
     <AdminPanelUI2
-      isNavActive={sidePanel.nav}
-      isAsideActive={sidePanel.aside}
       Header={
         <>
+          {pathName && (
+            <h1 className="font-size-14 font-weg-600 font-main disabled-text-2 space-06 nowrap">
+              {pathName[1].charAt(0).toUpperCase() + pathName[1].slice(1)} /{' '}
+              <span className="text-2">{pathName[2].charAt(0).toUpperCase() + pathName[2].slice(1)}</span>
+            </h1>
+          )}
           <div className="box dsp-flex align-itms-center gap-10">
-            <Button
-              icon={sidePanel.nav ? 'hide-sidepanel' : 'show-sidepanel'}
-              height="20px"
-              iconSize="24px"
-              onClick={toggleNav}
-            />
-            {pathName && (
-              <h1 className="font-size-14 font-weg-600 font-main disabled-text-2 space-06">
-                {pathName[1].charAt(0).toUpperCase() + pathName[1].slice(1)} /{' '}
-                <span className="text-2">{pathName[2].charAt(0).toUpperCase() + pathName[2].slice(1)}</span>
-              </h1>
-            )}
-          </div>
-          <div className="box dsp-flex align-itms-center gap-10">
-            <InputField
-              type="search"
-              height="40px"
-              placeHolder="Search"
-              icon="search"
-              iconSize="18px"
-              addLabel={false}
-            />
+            <div className="searching-group mini">
+              <InputField
+                type="search"
+                height="40px"
+                id={'globalsearch'}
+                placeHolder="Search"
+                icon="search"
+                iconSize="18px"
+                addLabel={false}
+                onInput={handleGlobalSearch}
+              />
+              <div className={`search-result${searchInput.length > 0 ? ' active' : ''}`}>
+                {searchInput.length > 0 ? (
+                  <>
+                    {searchResult.length > 0 ? (
+                      <>
+                        <div className="box dsp-flex align-itms-center gap-10">
+                          <p className="font-size-14 disabled-text-2">Search Result: {searchResult.length}</p>
+                          <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)' }}></span>
+                        </div>
+                        {searchResult.map((data) => (
+                          <Button
+                            key={data.name}
+                            onClick={data.action}
+                            icon={data.icon}
+                            style="fill"
+                            color="classic"
+                            moreClass={'rounded10 justify-start'}
+                          >
+                            {data.name}
+                          </Button>
+                        ))}
+                      </>
+                    ) : (
+                      <div className="box dsp-flex align-itms-center gap-10">
+                        <p className="word-breakall font-size-14 disabled-text-2">
+                          No result for &quot;{searchInput}&quot;
+                        </p>
+                        <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)' }}></span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>Type something...</>
+                )}
+              </div>
+            </div>
             <Button
               icon={darkMode ? 'crescent-moon' : 'sun'}
-              height="20px"
+              height="40px"
               iconSize="24px"
+              moreClass={'btn-tgldark icon'}
               onClick={() => dispatch(toggleDarkMode())}
-            />
-            <Button icon="notification" height="20px" iconSize="24px" />
-            <Button
-              icon={sidePanel.aside ? 'hide-sidepanel' : 'show-sidepanel'}
-              height="20px"
-              iconSize="24px"
-              onClick={toggleAside}
             />
           </div>
         </>
@@ -150,6 +166,18 @@ const Manager = () => {
               icon="settings"
             />
           </AdminPanelUI2.LabelBox>
+          <div className="btn-tgldark">
+            <Button
+              icon={darkMode ? 'crescent-moon' : 'sun'}
+              height="36px"
+              iconSize="20px"
+              style={'fill'}
+              color="classic"
+              onClick={() => dispatch(toggleDarkMode())}
+            >
+              {darkMode ? 'Dark' : 'Light'} Mode
+            </Button>
+          </div>
           <div className="box dsp-flex justify-center w-100" style={{ marginTop: 'auto' }}>
             <Button height="40px" iconSize="22px" icon="exit" onClick={signOut}>
               Sign Out
@@ -210,7 +238,7 @@ const Manager = () => {
         />
         <Route path="/pages/activity" element={<Activity activityData={myActivityData} />} />
         <Route path="/pages/blog" element={<CommingSoon type="hyperlink" to="/manager/dashboard/default" />} />
-        <Route path="/pages/adbanner" element={<AdBanner />} />
+        <Route path="/pages/adbanner" element={<CommingSoon type="hyperlink" to="/manager/dashboard/default" />} />
         <Route path="/pages/settings" element={<CommingSoon type="hyperlink" to="/manager/dashboard/default" />} />
       </Routes>
     </AdminPanelUI2>

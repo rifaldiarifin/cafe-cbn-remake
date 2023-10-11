@@ -6,9 +6,7 @@ const useTransactionToday = () => {
   const [transaction, setTransaction] = useState(false)
   const transactionChanges = useSelector((state) => state.transactionChanges.data)
   useEffect(() => {
-    // if (transactionChanges) {
     const collectTransaction = async () => {
-      console.log('called')
       try {
         const result = await getTransactionToday()
         const recollect = [...result.data.result]
@@ -42,7 +40,6 @@ const useTransactionToday = () => {
       await collectTransaction()
     }, 3400)
     return () => clearInterval(interval)
-    // }
   }, [transactionChanges])
   return transaction
 }

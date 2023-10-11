@@ -2,232 +2,615 @@
 
 .icons8-filled,
 .icons8-regular {
-    --i8-ratio: 24px;
-    --i8-gradient: linear-gradient(-225deg, #FF057C 0%, #7C64D5 48%, #4CC3FF 100%);
-    --i8-transition: .2s;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: var(--i8-icon-img);
-    display: block;
-    min-width: var(--i8-ratio);
-    min-height: var(--i8-ratio);
-    width: var(--i8-ratio);
-    height: var(--i8-ratio);
+  --i8-ratio: 24px;
+  --i8-gradient: linear-gradient(-225deg, #ff057c 0%, #7c64d5 48%, #4cc3ff 100%);
+  --i8-transition: 0.2s;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: var(--i8-icon-img);
+  display: block;
+  min-width: var(--i8-ratio);
+  min-height: var(--i8-ratio);
+  width: var(--i8-ratio);
+  height: var(--i8-ratio);
 }
 .icons8-filled,
-.icons8-regular{
-    filter: brightness(0);
+.icons8-regular {
+  filter: brightness(0);
 }
 
 .icons8-filled.gradient,
-.icons8-regular.gradient{
-    min-width: var(--i8-ratio);
-    min-height: var(--i8-ratio);
-    width: var(--i8-ratio);
-    height: var(--i8-ratio);
-    filter: brightness(1);
-    background-image: rgba(0,0,0,0);
-    background: var(--i8-gradient);
-    -webkit-mask: var(--i8-icon-img);
-    -webkit-mask-size: 100%;
-    transition-delay: var(--i8-transition);
-    transition: var(--i8-transition) cubic-bezier(0.075, 0.82, 0.165, 1);
+.icons8-regular.gradient {
+  min-width: var(--i8-ratio);
+  min-height: var(--i8-ratio);
+  width: var(--i8-ratio);
+  height: var(--i8-ratio);
+  filter: brightness(1);
+  background-image: rgba(0, 0, 0, 0);
+  background: var(--i8-gradient);
+  -webkit-mask: var(--i8-icon-img);
+  -webkit-mask-size: 100%;
+  transition-delay: var(--i8-transition);
+  transition: var(--i8-transition) cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 /* System Regular ----------------------------------------------------------------------------------- */
-.icons8-regular.activity-feed {--i8-icon-img: url('system_regular/icons8_activity_feed.ico');}
-.icons8-regular.address {--i8-icon-img: url('system_regular/icons8_address.ico');}
-.icons8-regular.administrator-male {--i8-icon-img: url('system_regular/icons8_administrator_male.ico');}
-.icons8-regular.ad-banner {--i8-icon-img: url('system_regular/icons8_ad_banner.ico');}
-.icons8-regular.approval {--i8-icon-img: url('system_regular/icons8_approval.ico');}
-.icons8-regular.back {--i8-icon-img: url('system_regular/icons8_back.ico');}
-.icons8-regular.ball-point-pen {--i8-icon-img: url('system_regular/icons8_ball_point_pen.ico');}
-.icons8-regular.bar-chart {--i8-icon-img: url('system_regular/icons8_bar_chart.ico');}
-.icons8-regular.bill {--i8-icon-img: url('system_regular/icons8_bill.ico');}
-.icons8-regular.blog {--i8-icon-img: url('system_regular/icons8_blog.ico');}
-.icons8-regular.books {--i8-icon-img: url('system_regular/icons8_books.ico');}
-.icons8-regular.book-reading {--i8-icon-img: url('system_regular/icons8_book_reading.ico');}
-.icons8-regular.business {--i8-icon-img: url('system_regular/icons8_business.ico');}
-.icons8-regular.buying {--i8-icon-img: url('system_regular/icons8_buying.ico');}
-.icons8-regular.cake {--i8-icon-img: url('system_regular/icons8_cake.ico');}
-.icons8-regular.calendar {--i8-icon-img: url('system_regular/icons8_calendar.ico');}
-.icons8-regular.camera {--i8-icon-img: url('system_regular/icons8_camera.ico');}
-.icons8-regular.checkmark {--i8-icon-img: url('system_regular/icons8_Checkmark.ico');}
-.icons8-regular.checkout {--i8-icon-img: url('system_regular/icons8_checkout.ico');}
-.icons8-regular.check-document {--i8-icon-img: url('system_regular/icons8_check_document.ico');}
-.icons8-regular.city {--i8-icon-img: url('system_regular/icons8_city.ico');}
-.icons8-regular.clapperboard {--i8-icon-img: url('system_regular/icons8_clapperboard.ico');}
-.icons8-regular.classroom {--i8-icon-img: url('system_regular/icons8_classroom.ico');}
-.icons8-regular.clipboard-list {--i8-icon-img: url('system_regular/icons8_clipboard_list.ico');}
-.icons8-regular.clock {--i8-icon-img: url('system_regular/icons8_clock.ico');}
-.icons8-regular.cloud-mail {--i8-icon-img: url('system_regular/icons8_cloud_mail.ico');}
-.icons8-regular.coffee-cup {--i8-icon-img: url('system_regular/icons8_Coffee_cup.ico');}
-.icons8-regular.coffee-to-go {--i8-icon-img: url('system_regular/icons8_coffee_to_go.ico');}
-.icons8-regular.comments {--i8-icon-img: url('system_regular/icons8_comments.ico');}
-.icons8-regular.cookbook {--i8-icon-img: url('system_regular/icons8_cookbook.ico');}
-.icons8-regular.cookies {--i8-icon-img: url('system_regular/icons8_cookies.ico');}
-.icons8-regular.create {--i8-icon-img: url('system_regular/icons8_create.ico');}
-.icons8-regular.crescent-moon {--i8-icon-img: url('system_regular/icons8_crescent_moon.ico');}
-.icons8-regular.cupcake {--i8-icon-img: url('system_regular/icons8_cupcake.ico');}
-.icons8-regular.dashboard-layout {--i8-icon-img: url('system_regular/icons8_dashboard_layout.ico');}
-.icons8-regular.degrees {--i8-icon-img: url('system_regular/icons8_degrees.ico');}
-.icons8-regular.delete {--i8-icon-img: url('system_regular/icons8_delete.ico');}
-.icons8-regular.delete-row {--i8-icon-img: url('system_regular/icons8_delete_row.ico');}
-.icons8-regular.document {--i8-icon-img: url('system_regular/icons8_document.ico');}
-.icons8-regular.done {--i8-icon-img: url('system_regular/icons8_Done.ico');}
-.icons8-regular.down {--i8-icon-img: url('system_regular/icons8_down.ico');}
-.icons8-regular.downloading-updates {--i8-icon-img: url('system_regular/icons8_downloading_updates.ico');}
-.icons8-regular.edit-property {--i8-icon-img: url('system_regular/icons8_edit_property.ico');}
-.icons8-regular.edit-row {--i8-icon-img: url('system_regular/icons8_edit_row.ico');}
-.icons8-regular.exit {--i8-icon-img: url('system_regular/icons8_exit.ico');}
-.icons8-regular.eye {--i8-icon-img: url('system_regular/icons8_eye.ico');}
-.icons8-regular.fire {--i8-icon-img: url('system_regular/icons8_fire.ico');}
-.icons8-regular.forward {--i8-icon-img: url('system_regular/icons8_forward.ico');}
-.icons8-regular.full-image {--i8-icon-img: url('system_regular/icons8_full_image.ico');}
-.icons8-regular.github {--i8-icon-img: url('system_regular/icons8_github.ico');}
-.icons8-regular.heart {--i8-icon-img: url('system_regular/icons8_heart.ico');}
-.icons8-regular.hide {--i8-icon-img: url('system_regular/icons8_hide.ico');}
-.icons8-regular.hide-sidepanel {--i8-icon-img: url('system_regular/icons8_hide_sidepanel.ico');}
-.icons8-regular.home {--i8-icon-img: url('system_regular/icons8_home.ico');}
-.icons8-regular.ice-cream-sundae {--i8-icon-img: url('system_regular/icons8_ice_cream_sundae.ico');}
-.icons8-regular.info {--i8-icon-img: url('system_regular/icons8_info.ico');}
-.icons8-regular.inquiry {--i8-icon-img: url('system_regular/icons8_inquiry.ico');}
-.icons8-regular.iphone-se {--i8-icon-img: url('system_regular/icons8_iPhone_SE.ico');}
-.icons8-regular.linkedin {--i8-icon-img: url('system_regular/icons8_linkedin.ico');}
-.icons8-regular.location {--i8-icon-img: url('system_regular/icons8_Location.ico');}
-.icons8-regular.lock {--i8-icon-img: url('system_regular/icons8_lock.ico');}
-.icons8-regular.mail {--i8-icon-img: url('system_regular/icons8_mail.ico');}
-.icons8-regular.menu {--i8-icon-img: url('system_regular/icons8_Menu.ico');}
-.icons8-regular.menu-vertical {--i8-icon-img: url('system_regular/icons8_menu_vertical.ico');}
-.icons8-regular.more {--i8-icon-img: url('system_regular/icons8_more.ico');}
-.icons8-regular.mouse-scrolling {--i8-icon-img: url('system_regular/icons8_mouse_scrolling.ico');}
-.icons8-regular.music {--i8-icon-img: url('system_regular/icons8_music.ico');}
-.icons8-regular.new {--i8-icon-img: url('system_regular/icons8_new.ico');}
-.icons8-regular.notification {--i8-icon-img: url('system_regular/icons8_notification.ico');}
-.icons8-regular.password {--i8-icon-img: url('system_regular/icons8_password.ico');}
-.icons8-regular.phone {--i8-icon-img: url('system_regular/icons8_phone.ico');}
-.icons8-regular.pin {--i8-icon-img: url('system_regular/icons8_pin.ico');}
-.icons8-regular.pin-code {--i8-icon-img: url('system_regular/icons8_pin_code.ico');}
-.icons8-regular.plus {--i8-icon-img: url('system_regular/icons8_plus.ico');}
-.icons8-regular.plus-math {--i8-icon-img: url('system_regular/icons8_plus_math.ico');}
-.icons8-regular.print {--i8-icon-img: url('system_regular/icons8_print.ico');}
-.icons8-regular.purchase-order {--i8-icon-img: url('system_regular/icons8_purchase_order.ico');}
-.icons8-regular.reboot {--i8-icon-img: url('system_regular/icons8_reboot.ico');}
-.icons8-regular.search {--i8-icon-img: url('system_regular/icons8_search.ico');}
-.icons8-regular.search-more {--i8-icon-img: url('system_regular/icons8_search_more.ico');}
-.icons8-regular.settings {--i8-icon-img: url('system_regular/icons8_settings.ico');}
-.icons8-regular.shopping-cart {--i8-icon-img: url('system_regular/icons8_shopping_cart.ico');}
-.icons8-regular.show-sidepanel {--i8-icon-img: url('system_regular/icons8_show_sidepanel.ico');}
-.icons8-regular.sorting {--i8-icon-img: url('system_regular/icons8_sorting.ico');}
-.icons8-regular.subtract {--i8-icon-img: url('system_regular/icons8_subtract.ico');}
-.icons8-regular.sun {--i8-icon-img: url('system_regular/icons8_sun.ico');}
-.icons8-regular.total-sales {--i8-icon-img: url('system_regular/icons8_total_sales.ico');}
-.icons8-regular.trash {--i8-icon-img: url('system_regular/icons8_trash.ico');}
-.icons8-regular.two-hearts {--i8-icon-img: url('system_regular/icons8_two_hearts.ico');}
-.icons8-regular.up {--i8-icon-img: url('system_regular/icons8_up.ico');}
-.icons8-regular.upload {--i8-icon-img: url('system_regular/icons8_upload.ico');}
-.icons8-regular.user {--i8-icon-img: url('system_regular/icons8_user.ico');}
-.icons8-regular.whatsapp {--i8-icon-img: url('system_regular/icons8_whatsapp.ico');}
-.icons8-regular.left-arrow {--i8-icon-img: url('system_regular/icons8_left_arrow.ico');}
-.icons8-regular.right-arrow {--i8-icon-img: url('system_regular/icons8_right_arrow.ico');}
-
-
+.icons8-regular.activity-feed {
+  --i8-icon-img: url('system_regular/icons8_activity_feed.ico');
+}
+.icons8-regular.address {
+  --i8-icon-img: url('system_regular/icons8_address.ico');
+}
+.icons8-regular.administrator-male {
+  --i8-icon-img: url('system_regular/icons8_administrator_male.ico');
+}
+.icons8-regular.ad-banner {
+  --i8-icon-img: url('system_regular/icons8_ad_banner.ico');
+}
+.icons8-regular.approval {
+  --i8-icon-img: url('system_regular/icons8_approval.ico');
+}
+.icons8-regular.back {
+  --i8-icon-img: url('system_regular/icons8_back.ico');
+}
+.icons8-regular.ball-point-pen {
+  --i8-icon-img: url('system_regular/icons8_ball_point_pen.ico');
+}
+.icons8-regular.bar-chart {
+  --i8-icon-img: url('system_regular/icons8_bar_chart.ico');
+}
+.icons8-regular.bill {
+  --i8-icon-img: url('system_regular/icons8_bill.ico');
+}
+.icons8-regular.blog {
+  --i8-icon-img: url('system_regular/icons8_blog.ico');
+}
+.icons8-regular.books {
+  --i8-icon-img: url('system_regular/icons8_books.ico');
+}
+.icons8-regular.book-reading {
+  --i8-icon-img: url('system_regular/icons8_book_reading.ico');
+}
+.icons8-regular.business {
+  --i8-icon-img: url('system_regular/icons8_business.ico');
+}
+.icons8-regular.buying {
+  --i8-icon-img: url('system_regular/icons8_buying.ico');
+}
+.icons8-regular.cake {
+  --i8-icon-img: url('system_regular/icons8_cake.ico');
+}
+.icons8-regular.calendar {
+  --i8-icon-img: url('system_regular/icons8_calendar.ico');
+}
+.icons8-regular.camera {
+  --i8-icon-img: url('system_regular/icons8_camera.ico');
+}
+.icons8-regular.checkmark {
+  --i8-icon-img: url('system_regular/icons8_Checkmark.ico');
+}
+.icons8-regular.checkout {
+  --i8-icon-img: url('system_regular/icons8_checkout.ico');
+}
+.icons8-regular.check-document {
+  --i8-icon-img: url('system_regular/icons8_check_document.ico');
+}
+.icons8-regular.city {
+  --i8-icon-img: url('system_regular/icons8_city.ico');
+}
+.icons8-regular.clapperboard {
+  --i8-icon-img: url('system_regular/icons8_clapperboard.ico');
+}
+.icons8-regular.classroom {
+  --i8-icon-img: url('system_regular/icons8_classroom.ico');
+}
+.icons8-regular.clipboard-list {
+  --i8-icon-img: url('system_regular/icons8_clipboard_list.ico');
+}
+.icons8-regular.clock {
+  --i8-icon-img: url('system_regular/icons8_clock.ico');
+}
+.icons8-regular.cloud-mail {
+  --i8-icon-img: url('system_regular/icons8_cloud_mail.ico');
+}
+.icons8-regular.coffee-cup {
+  --i8-icon-img: url('system_regular/icons8_Coffee_cup.ico');
+}
+.icons8-regular.coffee-to-go {
+  --i8-icon-img: url('system_regular/icons8_coffee_to_go.ico');
+}
+.icons8-regular.comments {
+  --i8-icon-img: url('system_regular/icons8_comments.ico');
+}
+.icons8-regular.cookbook {
+  --i8-icon-img: url('system_regular/icons8_cookbook.ico');
+}
+.icons8-regular.cookies {
+  --i8-icon-img: url('system_regular/icons8_cookies.ico');
+}
+.icons8-regular.create {
+  --i8-icon-img: url('system_regular/icons8_create.ico');
+}
+.icons8-regular.crescent-moon {
+  --i8-icon-img: url('system_regular/icons8_crescent_moon.ico');
+}
+.icons8-regular.cupcake {
+  --i8-icon-img: url('system_regular/icons8_cupcake.ico');
+}
+.icons8-regular.dashboard-layout {
+  --i8-icon-img: url('system_regular/icons8_dashboard_layout.ico');
+}
+.icons8-regular.degrees {
+  --i8-icon-img: url('system_regular/icons8_degrees.ico');
+}
+.icons8-regular.delete {
+  --i8-icon-img: url('system_regular/icons8_delete.ico');
+}
+.icons8-regular.delete-row {
+  --i8-icon-img: url('system_regular/icons8_delete_row.ico');
+}
+.icons8-regular.document {
+  --i8-icon-img: url('system_regular/icons8_document.ico');
+}
+.icons8-regular.done {
+  --i8-icon-img: url('system_regular/icons8_Done.ico');
+}
+.icons8-regular.down {
+  --i8-icon-img: url('system_regular/icons8_down.ico');
+}
+.icons8-regular.downloading-updates {
+  --i8-icon-img: url('system_regular/icons8_downloading_updates.ico');
+}
+.icons8-regular.edit-property {
+  --i8-icon-img: url('system_regular/icons8_edit_property.ico');
+}
+.icons8-regular.edit-row {
+  --i8-icon-img: url('system_regular/icons8_edit_row.ico');
+}
+.icons8-regular.exit {
+  --i8-icon-img: url('system_regular/icons8_exit.ico');
+}
+.icons8-regular.eye {
+  --i8-icon-img: url('system_regular/icons8_eye.ico');
+}
+.icons8-regular.fire {
+  --i8-icon-img: url('system_regular/icons8_fire.ico');
+}
+.icons8-regular.forward {
+  --i8-icon-img: url('system_regular/icons8_forward.ico');
+}
+.icons8-regular.full-image {
+  --i8-icon-img: url('system_regular/icons8_full_image.ico');
+}
+.icons8-regular.github {
+  --i8-icon-img: url('system_regular/icons8_github.ico');
+}
+.icons8-regular.heart {
+  --i8-icon-img: url('system_regular/icons8_heart.ico');
+}
+.icons8-regular.hide {
+  --i8-icon-img: url('system_regular/icons8_hide.ico');
+}
+.icons8-regular.hide-sidepanel {
+  --i8-icon-img: url('system_regular/icons8_hide_sidepanel.ico');
+}
+.icons8-regular.home {
+  --i8-icon-img: url('system_regular/icons8_home.ico');
+}
+.icons8-regular.ice-cream-sundae {
+  --i8-icon-img: url('system_regular/icons8_ice_cream_sundae.ico');
+}
+.icons8-regular.info {
+  --i8-icon-img: url('system_regular/icons8_info.ico');
+}
+.icons8-regular.inquiry {
+  --i8-icon-img: url('system_regular/icons8_inquiry.ico');
+}
+.icons8-regular.iphone-se {
+  --i8-icon-img: url('system_regular/icons8_iPhone_SE.ico');
+}
+.icons8-regular.linkedin {
+  --i8-icon-img: url('system_regular/icons8_linkedin.ico');
+}
+.icons8-regular.location {
+  --i8-icon-img: url('system_regular/icons8_Location.ico');
+}
+.icons8-regular.lock {
+  --i8-icon-img: url('system_regular/icons8_lock.ico');
+}
+.icons8-regular.mail {
+  --i8-icon-img: url('system_regular/icons8_mail.ico');
+}
+.icons8-regular.menu {
+  --i8-icon-img: url('system_regular/icons8_Menu.ico');
+}
+.icons8-regular.menu-vertical {
+  --i8-icon-img: url('system_regular/icons8_menu_vertical.ico');
+}
+.icons8-regular.more {
+  --i8-icon-img: url('system_regular/icons8_more.ico');
+}
+.icons8-regular.mouse-scrolling {
+  --i8-icon-img: url('system_regular/icons8_mouse_scrolling.ico');
+}
+.icons8-regular.music {
+  --i8-icon-img: url('system_regular/icons8_music.ico');
+}
+.icons8-regular.new {
+  --i8-icon-img: url('system_regular/icons8_new.ico');
+}
+.icons8-regular.notification {
+  --i8-icon-img: url('system_regular/icons8_notification.ico');
+}
+.icons8-regular.password {
+  --i8-icon-img: url('system_regular/icons8_password.ico');
+}
+.icons8-regular.phone {
+  --i8-icon-img: url('system_regular/icons8_phone.ico');
+}
+.icons8-regular.pin {
+  --i8-icon-img: url('system_regular/icons8_pin.ico');
+}
+.icons8-regular.pin-code {
+  --i8-icon-img: url('system_regular/icons8_pin_code.ico');
+}
+.icons8-regular.plus {
+  --i8-icon-img: url('system_regular/icons8_plus.ico');
+}
+.icons8-regular.plus-math {
+  --i8-icon-img: url('system_regular/icons8_plus_math.ico');
+}
+.icons8-regular.print {
+  --i8-icon-img: url('system_regular/icons8_print.ico');
+}
+.icons8-regular.purchase-order {
+  --i8-icon-img: url('system_regular/icons8_purchase_order.ico');
+}
+.icons8-regular.reboot {
+  --i8-icon-img: url('system_regular/icons8_reboot.ico');
+}
+.icons8-regular.search {
+  --i8-icon-img: url('system_regular/icons8_search.ico');
+}
+.icons8-regular.search-more {
+  --i8-icon-img: url('system_regular/icons8_search_more.ico');
+}
+.icons8-regular.settings {
+  --i8-icon-img: url('system_regular/icons8_settings.ico');
+}
+.icons8-regular.shopping-cart {
+  --i8-icon-img: url('system_regular/icons8_shopping_cart.ico');
+}
+.icons8-regular.show-sidepanel {
+  --i8-icon-img: url('system_regular/icons8_show_sidepanel.ico');
+}
+.icons8-regular.sorting {
+  --i8-icon-img: url('system_regular/icons8_sorting.ico');
+}
+.icons8-regular.subtract {
+  --i8-icon-img: url('system_regular/icons8_subtract.ico');
+}
+.icons8-regular.sun {
+  --i8-icon-img: url('system_regular/icons8_sun.ico');
+}
+.icons8-regular.total-sales {
+  --i8-icon-img: url('system_regular/icons8_total_sales.ico');
+}
+.icons8-regular.trash {
+  --i8-icon-img: url('system_regular/icons8_trash.ico');
+}
+.icons8-regular.two-hearts {
+  --i8-icon-img: url('system_regular/icons8_two_hearts.ico');
+}
+.icons8-regular.up {
+  --i8-icon-img: url('system_regular/icons8_up.ico');
+}
+.icons8-regular.upload {
+  --i8-icon-img: url('system_regular/icons8_upload.ico');
+}
+.icons8-regular.user {
+  --i8-icon-img: url('system_regular/icons8_user.ico');
+}
+.icons8-regular.whatsapp {
+  --i8-icon-img: url('system_regular/icons8_whatsapp.ico');
+}
+.icons8-regular.left-arrow {
+  --i8-icon-img: url('system_regular/icons8_left_arrow.ico');
+}
+.icons8-regular.right-arrow {
+  --i8-icon-img: url('system_regular/icons8_right_arrow.ico');
+}
+.icons8-regular.enter {
+  --i8-icon-img: url('system_regular/icons8_enter.ico');
+}
 
 /* System Filled ------------------------------------------------------------------------------------ */
-.icons8-filled.activity-feed {--i8-icon-img: url('system_filled/icons8_activity_feed.ico');}
-.icons8-filled.address {--i8-icon-img: url('system_filled/icons8_address.ico');}
-.icons8-filled.administrator-male {--i8-icon-img: url('system_filled/icons8_administrator_male.ico');}
-.icons8-filled.ad-banner {--i8-icon-img: url('system_filled/icons8_ad_banner.ico');}
-.icons8-filled.approval {--i8-icon-img: url('system_filled/icons8_approval.ico');}
-.icons8-filled.back {--i8-icon-img: url('system_filled/icons8_back.ico');}
-.icons8-filled.ball-point-pen {--i8-icon-img: url('system_filled/icons8_ball_point_pen.ico');}
-.icons8-filled.bar-chart {--i8-icon-img: url('system_filled/icons8_bar_chart.ico');}
-.icons8-filled.bill {--i8-icon-img: url('system_filled/icons8_bill.ico');}
-.icons8-filled.blog {--i8-icon-img: url('system_filled/icons8_blog.ico');}
-.icons8-filled.books {--i8-icon-img: url('system_filled/icons8_books.ico');}
-.icons8-filled.book-reading {--i8-icon-img: url('system_filled/icons8_book_reading.ico');}
-.icons8-filled.business {--i8-icon-img: url('system_filled/icons8_business.ico');}
-.icons8-filled.buying {--i8-icon-img: url('system_filled/icons8_buying.ico');}
-.icons8-filled.cake {--i8-icon-img: url('system_filled/icons8_cake.ico');}
-.icons8-filled.calendar {--i8-icon-img: url('system_filled/icons8_calendar.ico');}
-.icons8-filled.camera {--i8-icon-img: url('system_filled/icons8_camera.ico');}
-.icons8-filled.checkmark {--i8-icon-img: url('system_filled/icons8_Checkmark.ico');}
-.icons8-filled.checkout {--i8-icon-img: url('system_filled/icons8_checkout.ico');}
-.icons8-filled.check-document {--i8-icon-img: url('system_filled/icons8_check_document.ico');}
-.icons8-filled.city {--i8-icon-img: url('system_filled/icons8_city.ico');}
-.icons8-filled.clapperboard {--i8-icon-img: url('system_filled/icons8_clapperboard.ico');}
-.icons8-filled.classroom {--i8-icon-img: url('system_filled/icons8_classroom.ico');}
-.icons8-filled.clipboard-list {--i8-icon-img: url('system_filled/icons8_clipboard_list.ico');}
-.icons8-filled.clock {--i8-icon-img: url('system_filled/icons8_clock.ico');}
-.icons8-filled.cloud-mail {--i8-icon-img: url('system_filled/icons8_cloud_mail.ico');}
-.icons8-filled.coffee-cup {--i8-icon-img: url('system_filled/icons8_Coffee_cup.ico');}
-.icons8-filled.coffee-to-go {--i8-icon-img: url('system_filled/icons8_coffee_to_go.ico');}
-.icons8-filled.comments {--i8-icon-img: url('system_filled/icons8_comments.ico');}
-.icons8-filled.cookbook {--i8-icon-img: url('system_filled/icons8_cookbook.ico');}
-.icons8-filled.cookies {--i8-icon-img: url('system_filled/icons8_cookies.ico');}
-.icons8-filled.create {--i8-icon-img: url('system_filled/icons8_create.ico');}
-.icons8-filled.crescent-moon {--i8-icon-img: url('system_filled/icons8_crescent_moon.ico');}
-.icons8-filled.cupcake {--i8-icon-img: url('system_filled/icons8_cupcake.ico');}
-.icons8-filled.dashboard-layout {--i8-icon-img: url('system_filled/icons8_dashboard_layout.ico');}
-.icons8-filled.degrees {--i8-icon-img: url('system_filled/icons8_degrees.ico');}
-.icons8-filled.delete {--i8-icon-img: url('system_filled/icons8_delete.ico');}
-.icons8-filled.delete-row {--i8-icon-img: url('system_filled/icons8_delete_row.ico');}
-.icons8-filled.document {--i8-icon-img: url('system_filled/icons8_document.ico');}
-.icons8-filled.done {--i8-icon-img: url('system_filled/icons8_Done.ico');}
-.icons8-filled.down {--i8-icon-img: url('system_filled/icons8_down.ico');}
-.icons8-filled.downloading-updates {--i8-icon-img: url('system_filled/icons8_downloading_updates.ico');}
-.icons8-filled.edit-property {--i8-icon-img: url('system_filled/icons8_edit_property.ico');}
-.icons8-filled.edit-row {--i8-icon-img: url('system_filled/icons8_edit_row.ico');}
-.icons8-filled.exit {--i8-icon-img: url('system_filled/icons8_exit.ico');}
-.icons8-filled.eye {--i8-icon-img: url('system_filled/icons8_eye.ico');}
-.icons8-filled.fire {--i8-icon-img: url('system_filled/icons8_fire.ico');}
-.icons8-filled.forward {--i8-icon-img: url('system_filled/icons8_forward.ico');}
-.icons8-filled.full-image {--i8-icon-img: url('system_filled/icons8_full_image.ico');}
-.icons8-filled.github {--i8-icon-img: url('system_filled/icons8_github.ico');}
-.icons8-filled.heart {--i8-icon-img: url('system_filled/icons8_heart.ico');}
-.icons8-filled.hide {--i8-icon-img: url('system_filled/icons8_hide.ico');}
-.icons8-filled.hide-sidepanel {--i8-icon-img: url('system_filled/icons8_hide_sidepanel.ico');}
-.icons8-filled.home {--i8-icon-img: url('system_filled/icons8_home.ico');}
-.icons8-filled.ice-cream-sundae {--i8-icon-img: url('system_filled/icons8_ice_cream_sundae.ico');}
-.icons8-filled.info {--i8-icon-img: url('system_filled/icons8_info.ico');}
-.icons8-filled.inquiry {--i8-icon-img: url('system_filled/icons8_inquiry.ico');}
-.icons8-filled.iphone-se {--i8-icon-img: url('system_filled/icons8_iPhone_SE.ico');}
-.icons8-filled.linkedin {--i8-icon-img: url('system_filled/icons8_linkedin.ico');}
-.icons8-filled.location {--i8-icon-img: url('system_filled/icons8_Location.ico');}
-.icons8-filled.lock {--i8-icon-img: url('system_filled/icons8_lock.ico');}
-.icons8-filled.mail {--i8-icon-img: url('system_filled/icons8_mail.ico');}
-.icons8-filled.menu {--i8-icon-img: url('system_filled/icons8_Menu.ico');}
-.icons8-filled.menu-vertical {--i8-icon-img: url('system_filled/icons8_menu_vertical.ico');}
-.icons8-filled.more {--i8-icon-img: url('system_filled/icons8_more.ico');}
-.icons8-filled.mouse-scrolling {--i8-icon-img: url('system_filled/icons8_mouse_scrolling.ico');}
-.icons8-filled.music {--i8-icon-img: url('system_filled/icons8_music.ico');}
-.icons8-filled.new {--i8-icon-img: url('system_filled/icons8_new.ico');}
-.icons8-filled.notification {--i8-icon-img: url('system_filled/icons8_notification.ico');}
-.icons8-filled.password {--i8-icon-img: url('system_filled/icons8_password.ico');}
-.icons8-filled.phone {--i8-icon-img: url('system_filled/icons8_phone.ico');}
-.icons8-filled.pin {--i8-icon-img: url('system_filled/icons8_pin.ico');}
-.icons8-filled.pin-code {--i8-icon-img: url('system_filled/icons8_pin_code.ico');}
-.icons8-filled.plus {--i8-icon-img: url('system_filled/icons8_plus.ico');}
-.icons8-filled.plus-math {--i8-icon-img: url('system_filled/icons8_plus_math.ico');}
-.icons8-filled.print {--i8-icon-img: url('system_filled/icons8_print.ico');}
-.icons8-filled.purchase-order {--i8-icon-img: url('system_filled/icons8_purchase_order.ico');}
-.icons8-filled.reboot {--i8-icon-img: url('system_filled/icons8_reboot.ico');}
-.icons8-filled.search {--i8-icon-img: url('system_filled/icons8_search.ico');}
-.icons8-filled.search-more {--i8-icon-img: url('system_filled/icons8_search_more.ico');}
-.icons8-filled.settings {--i8-icon-img: url('system_filled/icons8_settings.ico');}
-.icons8-filled.shopping-cart {--i8-icon-img: url('system_filled/icons8_shopping_cart.ico');}
-.icons8-filled.show-sidepanel {--i8-icon-img: url('system_filled/icons8_show_sidepanel.ico');}
-.icons8-filled.sorting {--i8-icon-img: url('system_filled/icons8_sorting.ico');}
-.icons8-filled.subtract {--i8-icon-img: url('system_filled/icons8_subtract.ico');}
-.icons8-filled.sun {--i8-icon-img: url('system_filled/icons8_sun.ico');}
-.icons8-filled.total-sales {--i8-icon-img: url('system_filled/icons8_total_sales.ico');}
-.icons8-filled.trash {--i8-icon-img: url('system_filled/icons8_trash.ico');}
-.icons8-filled.two-hearts {--i8-icon-img: url('system_filled/icons8_two_hearts.ico');}
-.icons8-filled.up {--i8-icon-img: url('system_filled/icons8_up.ico');}
-.icons8-filled.upload {--i8-icon-img: url('system_filled/icons8_upload.ico');}
-.icons8-filled.user {--i8-icon-img: url('system_filled/icons8_user.ico');}
-.icons8-filled.whatsapp {--i8-icon-img: url('system_filled/icons8_whatsapp.ico');}
-.icons8-filled.left-arrow {--i8-icon-img: url('system_filled/icons8_left_arrow.ico');}
-.icons8-filled.right-arrow {--i8-icon-img: url('system_filled/icons8_right_arrow.ico');}
-
+.icons8-filled.activity-feed {
+  --i8-icon-img: url('system_filled/icons8_activity_feed.ico');
+}
+.icons8-filled.address {
+  --i8-icon-img: url('system_filled/icons8_address.ico');
+}
+.icons8-filled.administrator-male {
+  --i8-icon-img: url('system_filled/icons8_administrator_male.ico');
+}
+.icons8-filled.ad-banner {
+  --i8-icon-img: url('system_filled/icons8_ad_banner.ico');
+}
+.icons8-filled.approval {
+  --i8-icon-img: url('system_filled/icons8_approval.ico');
+}
+.icons8-filled.back {
+  --i8-icon-img: url('system_filled/icons8_back.ico');
+}
+.icons8-filled.ball-point-pen {
+  --i8-icon-img: url('system_filled/icons8_ball_point_pen.ico');
+}
+.icons8-filled.bar-chart {
+  --i8-icon-img: url('system_filled/icons8_bar_chart.ico');
+}
+.icons8-filled.bill {
+  --i8-icon-img: url('system_filled/icons8_bill.ico');
+}
+.icons8-filled.blog {
+  --i8-icon-img: url('system_filled/icons8_blog.ico');
+}
+.icons8-filled.books {
+  --i8-icon-img: url('system_filled/icons8_books.ico');
+}
+.icons8-filled.book-reading {
+  --i8-icon-img: url('system_filled/icons8_book_reading.ico');
+}
+.icons8-filled.business {
+  --i8-icon-img: url('system_filled/icons8_business.ico');
+}
+.icons8-filled.buying {
+  --i8-icon-img: url('system_filled/icons8_buying.ico');
+}
+.icons8-filled.cake {
+  --i8-icon-img: url('system_filled/icons8_cake.ico');
+}
+.icons8-filled.calendar {
+  --i8-icon-img: url('system_filled/icons8_calendar.ico');
+}
+.icons8-filled.camera {
+  --i8-icon-img: url('system_filled/icons8_camera.ico');
+}
+.icons8-filled.checkmark {
+  --i8-icon-img: url('system_filled/icons8_Checkmark.ico');
+}
+.icons8-filled.checkout {
+  --i8-icon-img: url('system_filled/icons8_checkout.ico');
+}
+.icons8-filled.check-document {
+  --i8-icon-img: url('system_filled/icons8_check_document.ico');
+}
+.icons8-filled.city {
+  --i8-icon-img: url('system_filled/icons8_city.ico');
+}
+.icons8-filled.clapperboard {
+  --i8-icon-img: url('system_filled/icons8_clapperboard.ico');
+}
+.icons8-filled.classroom {
+  --i8-icon-img: url('system_filled/icons8_classroom.ico');
+}
+.icons8-filled.clipboard-list {
+  --i8-icon-img: url('system_filled/icons8_clipboard_list.ico');
+}
+.icons8-filled.clock {
+  --i8-icon-img: url('system_filled/icons8_clock.ico');
+}
+.icons8-filled.cloud-mail {
+  --i8-icon-img: url('system_filled/icons8_cloud_mail.ico');
+}
+.icons8-filled.coffee-cup {
+  --i8-icon-img: url('system_filled/icons8_Coffee_cup.ico');
+}
+.icons8-filled.coffee-to-go {
+  --i8-icon-img: url('system_filled/icons8_coffee_to_go.ico');
+}
+.icons8-filled.comments {
+  --i8-icon-img: url('system_filled/icons8_comments.ico');
+}
+.icons8-filled.cookbook {
+  --i8-icon-img: url('system_filled/icons8_cookbook.ico');
+}
+.icons8-filled.cookies {
+  --i8-icon-img: url('system_filled/icons8_cookies.ico');
+}
+.icons8-filled.create {
+  --i8-icon-img: url('system_filled/icons8_create.ico');
+}
+.icons8-filled.crescent-moon {
+  --i8-icon-img: url('system_filled/icons8_crescent_moon.ico');
+}
+.icons8-filled.cupcake {
+  --i8-icon-img: url('system_filled/icons8_cupcake.ico');
+}
+.icons8-filled.dashboard-layout {
+  --i8-icon-img: url('system_filled/icons8_dashboard_layout.ico');
+}
+.icons8-filled.degrees {
+  --i8-icon-img: url('system_filled/icons8_degrees.ico');
+}
+.icons8-filled.delete {
+  --i8-icon-img: url('system_filled/icons8_delete.ico');
+}
+.icons8-filled.delete-row {
+  --i8-icon-img: url('system_filled/icons8_delete_row.ico');
+}
+.icons8-filled.document {
+  --i8-icon-img: url('system_filled/icons8_document.ico');
+}
+.icons8-filled.done {
+  --i8-icon-img: url('system_filled/icons8_Done.ico');
+}
+.icons8-filled.down {
+  --i8-icon-img: url('system_filled/icons8_down.ico');
+}
+.icons8-filled.downloading-updates {
+  --i8-icon-img: url('system_filled/icons8_downloading_updates.ico');
+}
+.icons8-filled.edit-property {
+  --i8-icon-img: url('system_filled/icons8_edit_property.ico');
+}
+.icons8-filled.edit-row {
+  --i8-icon-img: url('system_filled/icons8_edit_row.ico');
+}
+.icons8-filled.exit {
+  --i8-icon-img: url('system_filled/icons8_exit.ico');
+}
+.icons8-filled.eye {
+  --i8-icon-img: url('system_filled/icons8_eye.ico');
+}
+.icons8-filled.fire {
+  --i8-icon-img: url('system_filled/icons8_fire.ico');
+}
+.icons8-filled.forward {
+  --i8-icon-img: url('system_filled/icons8_forward.ico');
+}
+.icons8-filled.full-image {
+  --i8-icon-img: url('system_filled/icons8_full_image.ico');
+}
+.icons8-filled.github {
+  --i8-icon-img: url('system_filled/icons8_github.ico');
+}
+.icons8-filled.heart {
+  --i8-icon-img: url('system_filled/icons8_heart.ico');
+}
+.icons8-filled.hide {
+  --i8-icon-img: url('system_filled/icons8_hide.ico');
+}
+.icons8-filled.hide-sidepanel {
+  --i8-icon-img: url('system_filled/icons8_hide_sidepanel.ico');
+}
+.icons8-filled.home {
+  --i8-icon-img: url('system_filled/icons8_home.ico');
+}
+.icons8-filled.ice-cream-sundae {
+  --i8-icon-img: url('system_filled/icons8_ice_cream_sundae.ico');
+}
+.icons8-filled.info {
+  --i8-icon-img: url('system_filled/icons8_info.ico');
+}
+.icons8-filled.inquiry {
+  --i8-icon-img: url('system_filled/icons8_inquiry.ico');
+}
+.icons8-filled.iphone-se {
+  --i8-icon-img: url('system_filled/icons8_iPhone_SE.ico');
+}
+.icons8-filled.linkedin {
+  --i8-icon-img: url('system_filled/icons8_linkedin.ico');
+}
+.icons8-filled.location {
+  --i8-icon-img: url('system_filled/icons8_Location.ico');
+}
+.icons8-filled.lock {
+  --i8-icon-img: url('system_filled/icons8_lock.ico');
+}
+.icons8-filled.mail {
+  --i8-icon-img: url('system_filled/icons8_mail.ico');
+}
+.icons8-filled.menu {
+  --i8-icon-img: url('system_filled/icons8_Menu.ico');
+}
+.icons8-filled.menu-vertical {
+  --i8-icon-img: url('system_filled/icons8_menu_vertical.ico');
+}
+.icons8-filled.more {
+  --i8-icon-img: url('system_filled/icons8_more.ico');
+}
+.icons8-filled.mouse-scrolling {
+  --i8-icon-img: url('system_filled/icons8_mouse_scrolling.ico');
+}
+.icons8-filled.music {
+  --i8-icon-img: url('system_filled/icons8_music.ico');
+}
+.icons8-filled.new {
+  --i8-icon-img: url('system_filled/icons8_new.ico');
+}
+.icons8-filled.notification {
+  --i8-icon-img: url('system_filled/icons8_notification.ico');
+}
+.icons8-filled.password {
+  --i8-icon-img: url('system_filled/icons8_password.ico');
+}
+.icons8-filled.phone {
+  --i8-icon-img: url('system_filled/icons8_phone.ico');
+}
+.icons8-filled.pin {
+  --i8-icon-img: url('system_filled/icons8_pin.ico');
+}
+.icons8-filled.pin-code {
+  --i8-icon-img: url('system_filled/icons8_pin_code.ico');
+}
+.icons8-filled.plus {
+  --i8-icon-img: url('system_filled/icons8_plus.ico');
+}
+.icons8-filled.plus-math {
+  --i8-icon-img: url('system_filled/icons8_plus_math.ico');
+}
+.icons8-filled.print {
+  --i8-icon-img: url('system_filled/icons8_print.ico');
+}
+.icons8-filled.purchase-order {
+  --i8-icon-img: url('system_filled/icons8_purchase_order.ico');
+}
+.icons8-filled.reboot {
+  --i8-icon-img: url('system_filled/icons8_reboot.ico');
+}
+.icons8-filled.search {
+  --i8-icon-img: url('system_filled/icons8_search.ico');
+}
+.icons8-filled.search-more {
+  --i8-icon-img: url('system_filled/icons8_search_more.ico');
+}
+.icons8-filled.settings {
+  --i8-icon-img: url('system_filled/icons8_settings.ico');
+}
+.icons8-filled.shopping-cart {
+  --i8-icon-img: url('system_filled/icons8_shopping_cart.ico');
+}
+.icons8-filled.show-sidepanel {
+  --i8-icon-img: url('system_filled/icons8_show_sidepanel.ico');
+}
+.icons8-filled.sorting {
+  --i8-icon-img: url('system_filled/icons8_sorting.ico');
+}
+.icons8-filled.subtract {
+  --i8-icon-img: url('system_filled/icons8_subtract.ico');
+}
+.icons8-filled.sun {
+  --i8-icon-img: url('system_filled/icons8_sun.ico');
+}
+.icons8-filled.total-sales {
+  --i8-icon-img: url('system_filled/icons8_total_sales.ico');
+}
+.icons8-filled.trash {
+  --i8-icon-img: url('system_filled/icons8_trash.ico');
+}
+.icons8-filled.two-hearts {
+  --i8-icon-img: url('system_filled/icons8_two_hearts.ico');
+}
+.icons8-filled.up {
+  --i8-icon-img: url('system_filled/icons8_up.ico');
+}
+.icons8-filled.upload {
+  --i8-icon-img: url('system_filled/icons8_upload.ico');
+}
+.icons8-filled.user {
+  --i8-icon-img: url('system_filled/icons8_user.ico');
+}
+.icons8-filled.whatsapp {
+  --i8-icon-img: url('system_filled/icons8_whatsapp.ico');
+}
+.icons8-filled.left-arrow {
+  --i8-icon-img: url('system_filled/icons8_left_arrow.ico');
+}
+.icons8-filled.right-arrow {
+  --i8-icon-img: url('system_filled/icons8_right_arrow.ico');
+}
+.icons8-filled.enter {
+  --i8-icon-img: url('system_filled/icons8_enter.ico');
+}

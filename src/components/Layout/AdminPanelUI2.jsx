@@ -1,14 +1,62 @@
-import 'react-lazy-load-image-component/src/effects/opacity.css'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import 'react-lazy-load-image-component/src/effects/opacity.css'
+import { setAsideActive, setNavActive, toggleAsideActive, toggleNavActive } from '../../redux/slice/adminPanelSlice'
+import useAutoExpandNavigation from '../../hooks/useAutoExpandNavigation'
+import usePathName from '../../hooks/usePathname'
+import Button from '../Elements/Button'
 
-const AdminPanelUI2 = ({ Header, Nav, isNavActive = true, children, Aside, isAsideActive = true }) => {
+const AdminPanelUI2 = ({ Header, Nav, children, Aside }) => {
   document.body.style.overflow = 'hidden'
+  const dispatch = useDispatch()
+  const pathName = usePathName()
+  const { navActive, asideActive } = useSelector((state) => state.adminPanel.data)
+  const toggleNav = () => {
+    dispatch(toggleNavActive())
+  }
+  const toggleAside = () => {
+    dispatch(toggleAsideActive())
+  }
+  const setAside = (payload) => {
+    dispatch(setAsideActive(payload))
+  }
+  const setNav = (payload) => {
+    dispatch(setNavActive(payload))
+  }
+  useAutoExpandNavigation({ pathName, setNav, setAside })
   return (
     <div className="admin-panel-ui2">
       <div className="w-screen">
-        <header className="header">{Header}</header>
-        <nav className={`nav${isNavActive ? ' active' : ''}`}>{Nav}</nav>
-        <aside className={`aside${isAsideActive ? ' active' : ''}`}>{Aside}</aside>
+        <header className="header">
+          <Button
+            icon={navActive ? 'hide-sidepanel' : 'show-sidepanel'}
+            height="40px"
+            iconSize="24px"
+            moreClass={'icon'}
+            onClick={toggleNav}
+          />
+          <div className="box dsp-flex justify-between gap-10 fl-1 align-itms-center">{Header}</div>
+          <Button
+            icon={asideActive ? 'hide-sidepanel' : 'show-sidepanel'}
+            height="40px"
+            iconSize="24px"
+            moreClass={'btn-aside icon'}
+            onClick={toggleAside}
+          />
+        </header>
+        <nav className={`nav${navActive ? ' active' : ''}`}>
+          <div className="close">
+            <Button
+              brightness={'var(--icon1)'}
+              iconSize={'20px'}
+              moreClass={'icon'}
+              icon={'hide-sidepanel'}
+              onClick={toggleNav}
+            />
+          </div>
+          {Nav}
+        </nav>
+        <aside className={`aside${asideActive ? ' active' : ''}`}>{Aside}</aside>
         <div className={`content`}>{children}</div>
       </div>
     </div>

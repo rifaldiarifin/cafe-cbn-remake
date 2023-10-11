@@ -12,8 +12,6 @@ import { setFormGroup, setFormGroupMenus, setFormMenu, setFormUser } from '../..
 // import components
 import AdminPanelUI2 from '../Layout/AdminPanelUI2'
 import Button from '../Elements/Button'
-import SimpleComboLi from '../Elements/SimpleCombobox/SimpleComboLi'
-import SimpleCombobox from '../Elements/SimpleCombobox'
 import InputField from '../Elements/InputField'
 import BannerSlidesPromote from './BannerSlidesPromote'
 import { FormGroup, FormMenu, FormMenus, FormUser } from './PopupForms'
@@ -41,6 +39,7 @@ import useDeleteGroupMenu from '../../hooks/useDeleteGroupMenu'
 import DefaultSpinner from './DefaultSpinner'
 import { getDate, getTime } from '../../utils/date'
 import getImage from '../../utils/getImage'
+import useSearchFilter from '../../hooks/useSearchFilter'
 
 export const Default = ({ staticOverview, totalMostOrderingGroup, totalOrderPerWeek, totalSaleCurrentYear }) => {
   useDocumentTitle('Default')
@@ -200,6 +199,9 @@ export const UserDashboard = () => {
 
 export const Users = ({ usersData }) => {
   useDeleteAccount()
+  const { searchResult, searchInput, setSearchInput } = useSearchFilter((input, curr) => {
+    return `${curr.firstname}${curr.lastname ? ' ' + curr.lastname : ''}`.toLowerCase().includes(input.toLowerCase())
+  }, usersData)
   const userSession = useSelector((state) => state.auth.data?.userSession)
   const dispatch = useDispatch()
   const deleteUser = (data) => {
@@ -225,52 +227,39 @@ export const Users = ({ usersData }) => {
   const newAccount = () => {
     dispatch(setFormUser({ action: 'create' }))
   }
-
+  const handleInputValue = (event) => setSearchInput(event.target.value)
   return (
     <>
       {usersData.length > 0 ? (
         <>
           <div
-            className="box dsp-flex justify-between w-100 mrgn-b-30 gap-10"
+            className="box dsp-flex justify-between w-100 border-box mrgn-b-30"
             style={{ position: 'sticky', top: 0, zIndex: 1 }}
           >
-            <div
-              className="box w-100 rounded30"
-              style={{ maxWidth: '300px', backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
-            >
-              <InputField
-                type="search"
-                width="100%"
-                iconSize="20px"
-                id={'searchUser'}
-                addLabel={false}
-                icon="search"
-                placeHolder="Search User"
-              />
-            </div>
-            <div className="box dsp-flex align-itms-center gap-14">
-              <div
+            <div className="box dsp-flex align-itms-center gap-14"></div>
+            <div className="box dsp-flex align-itms-center gap-14 fl-1">
+              {/* <div
                 className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
                 style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
               >
                 <p className="font-size-14 disabled-text-1 nowrap">Type</p>
                 <SimpleCombobox select="All" styleBox="fill">
-                  <SimpleComboLi value="All" />
-                  <SimpleComboLi value="CBN Service" />
-                  <SimpleComboLi value="Regular" />
+                  <SimpleComboLi onSelected={(value) => console.log(value)} value="All" />
+                  <SimpleComboLi onSelected={(value) => console.log(value)} value="CBN Service" />
+                  <SimpleComboLi onSelected={(value) => console.log(value)} value="Regular" />
                 </SimpleCombobox>
-              </div>
-              <div
-                className="box dsp-flex align-itms-center pad-l-10 gap-6 rounded10"
-                style={{ backgroundColor: 'var(--main-color)', boxShadow: 'var(--box-shadow-1)' }}
-              >
-                <p className="font-size-14 disabled-text-1 nowrap">Signed up</p>
-                <SimpleCombobox select="All" styleBox="fill">
-                  <SimpleComboLi value="All" />
-                  <SimpleComboLi value="Today" />
-                  <SimpleComboLi value="Current Month" />
-                  <SimpleComboLi value="Current Year" />
-                </SimpleCombobox>
+              </div> */}
+              <div className="box w-100 rounded30 bg-main box-shadow1">
+                <InputField
+                  type="search"
+                  width="100%"
+                  iconSize="20px"
+                  id={'searchUser'}
+                  addLabel={false}
+                  icon="search"
+                  onInput={handleInputValue}
+                  placeHolder="Search User"
+                />
               </div>
               <Button
                 style="fill"
@@ -293,13 +282,14 @@ export const Users = ({ usersData }) => {
                 { label: 'Signed up', width: '100px' },
                 { label: 'Options', width: '90px' }
               ]}
-              moreClass="w-100"
+              moreClass={`w-100${searchInput.length > 0 && searchResult?.length === 0 ? ' dsp-none' : ''}`}
             >
-              {usersData
-                ? usersData.map((user, i) => {
+              {searchInput.length > 0 ? (
+                <>
+                  {searchResult.map((user, i) => {
                     return (
                       <AdminPanelUI2.TRow
-                        key={`${user.uuid}${i}`}
+                        key={user.uuid}
                         firstColm={i + 1}
                         tRow={[
                           {
@@ -355,9 +345,85 @@ export const Users = ({ usersData }) => {
                         style={{ '--delay-show': `${0.04 * i}s` }}
                       />
                     )
-                  })
-                : null}
+                  })}
+                </>
+              ) : (
+                <>
+                  {usersData.map((user, i) => {
+                    return (
+                      <AdminPanelUI2.TRow
+                        key={user.uuid}
+                        firstColm={i + 1}
+                        tRow={[
+                          {
+                            label: (
+                              <LazyLoadImage
+                                effect="opacity"
+                                src={getImage(user?.profileImage)}
+                                placeholderSrc="/img/noavatar.jpg"
+                                style={styleImg}
+                                alt={user.name}
+                              />
+                            )
+                          },
+                          { label: `${user.firstname} ${user.lastname}` },
+                          {
+                            label:
+                              userSession?.uuid === user.uuid ? (
+                                <p
+                                  className="accent-bgcol-3 font-size-13 text-center rounded10"
+                                  style={{ padding: '2px 8px', color: 'white' }}
+                                >
+                                  Current
+                                </p>
+                              ) : (
+                                user.access.role
+                              )
+                          },
+                          { label: user.contact.email.length > 0 ? user.contact.email : '-' },
+                          { label: user.createdAt.split(' ')[0] },
+                          {
+                            label: (
+                              <div key={i} className="box dsp-flex align-itms-center">
+                                <Button
+                                  icon="ball-point-pen"
+                                  height="40px"
+                                  iconSize="24px"
+                                  brightness="var(--icon2)"
+                                  onClick={() => editUser(user?.uuid, user?.profileImage)}
+                                />
+                                {userSession?.uuid !== user.uuid ? (
+                                  <Button
+                                    icon="trash"
+                                    height="40px"
+                                    iconSize="24px"
+                                    brightness="var(--icon2)"
+                                    onClick={() => deleteUser(user)}
+                                  />
+                                ) : null}
+                              </div>
+                            )
+                          }
+                        ]}
+                        style={{ '--delay-show': `${0.04 * i}s` }}
+                      />
+                    )
+                  })}
+                </>
+              )}
             </AdminPanelUI2.Table>
+            <div
+              className={`box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100${
+                (searchInput.length > 0 && searchResult.length > 0) || searchInput.length === 0 ? ' dsp-none' : ''
+              }`}
+              style={{ height: '300px' }}
+            >
+              <span
+                className="icons8-regular search-more"
+                style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+              ></span>
+              <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+            </div>
           </div>
           <FormUser />
         </>
@@ -377,6 +443,15 @@ export const Users = ({ usersData }) => {
 }
 
 export const UsersActivity = ({ activityData }) => {
+  useDocumentTitle('Users Activity')
+  const { searchInput, searchResult, setSearchInput } = useSearchFilter((input, curr) => {
+    return (
+      `${curr.activity}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getDate(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getTime(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase())
+    )
+  }, activityData)
+  const handleInputValue = (event) => setSearchInput(event.target.value)
   return (
     <>
       {activityData.length > 0 ? (
@@ -397,14 +472,15 @@ export const UsersActivity = ({ activityData }) => {
                 addLabel={false}
                 icon="search"
                 placeHolder="Search Activity"
+                onInput={handleInputValue}
               />
             </div>
           </div>
           <div className="box" style={{ marginTop: '0px' }}>
             <AdminPanelUI2.ListGroup>
-              {activityData &&
-                activityData.map((data, i) => {
-                  return (
+              {searchInput.length > 0 ? (
+                <>
+                  {searchResult.map((data, i) => (
                     <AdminPanelUI2.ListType1
                       key={`${data.uuid}${i}`}
                       imgSize="50px"
@@ -420,8 +496,29 @@ export const UsersActivity = ({ activityData }) => {
                         'DD-MM-YYYY HH:mm'
                       ).fromNow()}
                     />
-                  )
-                })}
+                  ))}
+                </>
+              ) : (
+                <>
+                  {activityData.map((data, i) => (
+                    <AdminPanelUI2.ListType1
+                      key={`${data.uuid}${i}`}
+                      imgSize="50px"
+                      gap={'10px'}
+                      titleSize={'14px'}
+                      delayAnim={`${0.04 * i}s`}
+                      moreClass="separator w-100"
+                      img={getImage(data.user?.data?.profileImage)}
+                      alt={data.user?.fullname}
+                      title={data.activity}
+                      subTitle={moment(
+                        `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
+                        'DD-MM-YYYY HH:mm'
+                      ).fromNow()}
+                    />
+                  ))}
+                </>
+              )}
             </AdminPanelUI2.ListGroup>
           </div>
         </>
@@ -441,12 +538,24 @@ export const UsersActivity = ({ activityData }) => {
       ) : (
         <DefaultSpinner />
       )}
+      <div
+        className={`box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100${
+          (searchInput.length > 0 && searchResult.length > 0) || searchInput.length === 0 ? ' dsp-none' : ''
+        }`}
+        style={{ height: '300px' }}
+      >
+        <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
+        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+      </div>
     </>
   )
 }
 
 const MenuAll = ({ menuData }) => {
   useDeleteMenu()
+  const { searchInput, searchResult, setSearchInput } = useSearchFilter((input, curr) => {
+    return `${curr.name}`.toLowerCase().includes(input.toLowerCase())
+  }, menuData)
   const dispatch = useDispatch()
   const addMenu = () => {
     dispatch(setFormMenu({ action: 'create' }))
@@ -466,11 +575,12 @@ const MenuAll = ({ menuData }) => {
   const editMenu = (data) => {
     dispatch(setFormMenu({ action: 'update', formData: data }))
   }
+  const handleInputValue = (event) => setSearchInput(event.target.value)
   const styleImg = { width: '60px', height: '60px', objectFit: 'cover', objectPosition: 'center', borderRadius: '50%' }
   return (
     <>
       <div className="box dsp-flex fl-colm gap-20">
-        {menuData && menuData.length > 0 ? (
+        {menuData.length > 0 ? (
           <>
             <div className="box dsp-flex justify-between align-itms-center gap-10">
               <div className="box fl-1">
@@ -483,6 +593,7 @@ const MenuAll = ({ menuData }) => {
                   icon="search"
                   iconSize="20px"
                   addLabel={false}
+                  onInput={handleInputValue}
                 />
               </div>
               <div className="box">
@@ -508,62 +619,118 @@ const MenuAll = ({ menuData }) => {
                 { label: 'Sold', width: '30px' },
                 { label: 'Options', width: '90px' }
               ]}
-              moreClass={'w-100'}
+              moreClass={`w-100${searchInput.length > 0 && searchResult?.length === 0 ? ' dsp-none' : ''}`}
             >
-              {menuData &&
-                menuData.map((menu, index) => (
-                  <AdminPanelUI2.TRow
-                    key={menu.uuid}
-                    firstColm={index + 1}
-                    tRow={[
-                      {
-                        label: (
-                          <LazyLoadImage
-                            effect="opacity"
-                            src={getImage(menu.image, 'nofoodphoto')}
-                            placeholderSrc="/img/nofoodphoto.jpg"
-                            style={styleImg}
-                            alt={menu.name}
-                          />
-                        )
-                      },
-                      {
-                        label: menu.menuCode,
-                        style: { fontSize: '12px', fontWeight: '600', color: 'var(--disabled-color2)' }
-                      },
-                      { label: menu.name },
-                      {
-                        label: `Rp ${menu.price.toLocaleString('id-ID', { currency: 'IDR' })}`,
-                        style: { whiteSpace: 'nowrap' }
-                      },
-                      { label: menu.sold, style: { textAlign: 'center' } },
-                      {
-                        label: (
-                          <div className="box dsp-flex align-itms-center">
-                            <Button
-                              icon="ball-point-pen"
-                              height="40px"
-                              iconSize="24px"
-                              brightness="var(--icon2)"
-                              onClick={() => editMenu(menu)}
+              {searchInput.length > 0 ? (
+                <>
+                  {searchResult.map((menu, index) => (
+                    <AdminPanelUI2.TRow
+                      key={menu.uuid}
+                      firstColm={index + 1}
+                      tRow={[
+                        {
+                          label: (
+                            <LazyLoadImage
+                              effect="opacity"
+                              src={getImage(menu.image, 'nofoodphoto')}
+                              placeholderSrc="/img/nofoodphoto.jpg"
+                              style={styleImg}
+                              alt={menu.name}
                             />
-                            <Button
-                              icon="trash"
-                              height="40px"
-                              iconSize="24px"
-                              brightness="var(--icon2)"
-                              onClick={() => deleteMenu(menu)}
+                          )
+                        },
+                        {
+                          label: menu.menuCode,
+                          style: { fontSize: '12px', fontWeight: '600', color: 'var(--disabled-color2)' }
+                        },
+                        { label: menu.name },
+                        {
+                          label: `Rp ${menu.price.toLocaleString('id-ID', { currency: 'IDR' })}`,
+                          style: { whiteSpace: 'nowrap' }
+                        },
+                        { label: menu.sold, style: { textAlign: 'center' } },
+                        {
+                          label: (
+                            <div className="box dsp-flex align-itms-center">
+                              <Button
+                                icon="ball-point-pen"
+                                height="40px"
+                                iconSize="24px"
+                                brightness="var(--icon2)"
+                                onClick={() => editMenu(menu)}
+                              />
+                              <Button
+                                icon="trash"
+                                height="40px"
+                                iconSize="24px"
+                                brightness="var(--icon2)"
+                                onClick={() => deleteMenu(menu)}
+                              />
+                            </div>
+                          )
+                        }
+                      ]}
+                      style={{ '--delay-show': `${0.04 * index}s` }}
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {menuData.map((menu, index) => (
+                    <AdminPanelUI2.TRow
+                      key={menu.uuid}
+                      firstColm={index + 1}
+                      tRow={[
+                        {
+                          label: (
+                            <LazyLoadImage
+                              effect="opacity"
+                              src={getImage(menu.image, 'nofoodphoto')}
+                              placeholderSrc="/img/nofoodphoto.jpg"
+                              style={styleImg}
+                              alt={menu.name}
                             />
-                          </div>
-                        )
-                      }
-                    ]}
-                    style={{ '--delay-show': `${0.04 * index}s` }}
-                  />
-                ))}
+                          )
+                        },
+                        {
+                          label: menu.menuCode,
+                          style: { fontSize: '12px', fontWeight: '600', color: 'var(--disabled-color2)' }
+                        },
+                        { label: menu.name },
+                        {
+                          label: `Rp ${menu.price.toLocaleString('id-ID', { currency: 'IDR' })}`,
+                          style: { whiteSpace: 'nowrap' }
+                        },
+                        { label: menu.sold, style: { textAlign: 'center' } },
+                        {
+                          label: (
+                            <div className="box dsp-flex align-itms-center">
+                              <Button
+                                icon="ball-point-pen"
+                                height="40px"
+                                iconSize="24px"
+                                brightness="var(--icon2)"
+                                onClick={() => editMenu(menu)}
+                              />
+                              <Button
+                                icon="trash"
+                                height="40px"
+                                iconSize="24px"
+                                brightness="var(--icon2)"
+                                onClick={() => deleteMenu(menu)}
+                              />
+                            </div>
+                          )
+                        }
+                      ]}
+                      style={{ '--delay-show': `${0.04 * index}s` }}
+                    />
+                  ))}
+                </>
+              )}
             </AdminPanelUI2.Table>
           </>
-        ) : menuData ? (
+        ) : menuData.length === 0 ? (
           <div
             className="box dsp-flex justify-center align-itms-center fl-colm gap-10 pad-y-30 w-100"
             style={{ height: '350px' }}
@@ -581,6 +748,15 @@ const MenuAll = ({ menuData }) => {
         ) : (
           <DefaultSpinner />
         )}
+        <div
+          className={`box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100${
+            (searchInput.length > 0 && searchResult.length > 0) || searchInput.length === 0 ? ' dsp-none' : ''
+          }`}
+          style={{ height: '300px' }}
+        >
+          <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+        </div>
       </div>
       <FormMenu />
     </>
@@ -632,7 +808,7 @@ const MenuGroups = ({ menuData, menuGroup }) => {
           <>
             <div className="box dsp-flex justify-between align-itms-center gap-10">
               <div className="box fl-1">
-                <InputField
+                {/* <InputField
                   type="search"
                   width="100%"
                   height="40px"
@@ -641,7 +817,7 @@ const MenuGroups = ({ menuData, menuGroup }) => {
                   icon="search"
                   iconSize="20px"
                   addLabel={false}
-                />
+                /> */}
               </div>
               <div className="box">
                 <Button
@@ -651,9 +827,10 @@ const MenuGroups = ({ menuData, menuGroup }) => {
                   iconSize={'22px'}
                   brightness={'brightness(9)'}
                   height={'40px'}
-                  moreClass={'icon'}
                   onClick={addGroup}
-                />
+                >
+                  New Group
+                </Button>
               </div>
             </div>
             <div
@@ -730,6 +907,15 @@ export const Menu = ({ menuData, menuGroup }) => {
 
 export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
   useDocumentTitle('Transaction')
+  const { searchInput, searchResult, setSearchInput } = useSearchFilter((input, curr) => {
+    return (
+      `${curr.orderCode}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${curr.payment}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${curr.bill}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getDate(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getTime(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase())
+    )
+  }, transactionData)
   const date = (date) => {
     const fulldate = date.split(' ')
     const time = fulldate[1].split(':')
@@ -738,14 +924,12 @@ export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
   const checkTransaction = () => {
     return transactionData.findIndex((find) => find?.orderStatus.toLowerCase() === 'complete')
   }
+  const handleInputValue = (event) => setSearchInput(event.target.value)
   return (
     <div className="box dsp-flex fl-colm gap-20">
       {transactionData && checkTransaction() >= 0 ? (
         <>
-          <div
-            className="box dsp-grid gap-20 pad-b-20"
-            style={{ '--gd-colm': '.5fr .7fr 1fr', '--gd-rows': '140px', borderBottom: '1px solid var(--separator)' }}
-          >
+          <div className="transaction-ov">
             <AdminPanelUI2.CardOverview
               name="Orders"
               icon="purchase-order"
@@ -771,16 +955,8 @@ export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
                 icon="search"
                 iconSize="20px"
                 addLabel={false}
+                onInput={handleInputValue}
               />
-            </div>
-            <div className="box">
-              <SimpleCombobox select="1 August - 7 August" styleBox="fill">
-                <SimpleComboLi value="1 August - 6 August" />
-                <SimpleComboLi value="7 August - 13 August" />
-                <SimpleComboLi value="14 August - 20 August" />
-                <SimpleComboLi value="21 August - 27 August" />
-                <SimpleComboLi value="28 August - 31 August" />
-              </SimpleCombobox>
             </div>
           </div>
           <AdminPanelUI2.Table
@@ -793,50 +969,105 @@ export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
               { label: 'Time' },
               { label: 'Status', width: '120px' }
             ]}
-            moreClass="w-100"
+            moreClass={`w-100${searchInput.length > 0 && searchResult?.length === 0 ? ' dsp-none' : ''}`}
           >
-            {transactionData.map((data, i) => {
-              if (data.orderStatus === 'complete') {
-                const fullDate = date(data.createdAt)
-                return (
-                  <AdminPanelUI2.TRow
-                    key={`${data.uuid}${i}`}
-                    firstColm={i + 1}
-                    tRow={[
-                      {
-                        label: data.orderCode,
-                        style: { fontFamily: 'consolas', fontWeight: '600', letterSpacing: '1px' }
-                      },
-                      { label: data?.payment, className: 'font-weg-600' },
-                      { label: `Rp ${data?.bill.toLocaleString('id-ID', { currency: 'IDR' })}`, className: 'nowrap' },
-                      { label: fullDate[0], className: 'nowrap' },
-                      { label: fullDate[1], className: 'nowrap' },
-                      {
-                        label: (
-                          <div className="box dsp-flex justify-start">
-                            <div
-                              className={`box font-size-13 pad-t-4 pad-b-4 pad-x-10 dsp-flex justify-center align-itms-center rounded30 ${
-                                data.orderStatus === 'complete'
-                                  ? 'success'
-                                  : data.orderStatus === 'cancel'
-                                  ? 'danger'
-                                  : data.orderStatus === 'cooking'
-                                  ? 'warning'
-                                  : 'info'
-                              }-bgcol`}
-                              style={{ color: 'whitesmoke' }}
-                            >
-                              {data.orderStatus.toUpperCase()}
-                            </div>
-                          </div>
-                        )
-                      }
-                    ]}
-                    style={{ '--delay-show': `${0.04 * i}s` }}
-                  />
-                )
-              }
-            })}
+            {searchInput.length > 0 ? (
+              <>
+                {searchResult.map((data, i) => {
+                  if (data.orderStatus === 'complete') {
+                    const fullDate = date(data.createdAt)
+                    return (
+                      <AdminPanelUI2.TRow
+                        key={data.uuid}
+                        firstColm={i + 1}
+                        tRow={[
+                          {
+                            label: data.orderCode,
+                            style: { fontFamily: 'consolas', fontWeight: '600', letterSpacing: '1px' }
+                          },
+                          { label: data?.payment, className: 'font-weg-600' },
+                          {
+                            label: `Rp ${data?.bill.toLocaleString('id-ID', { currency: 'IDR' })}`,
+                            className: 'nowrap'
+                          },
+                          { label: fullDate[0], className: 'nowrap' },
+                          { label: fullDate[1], className: 'nowrap' },
+                          {
+                            label: (
+                              <div className="box dsp-flex justify-start">
+                                <div
+                                  className={`box font-size-13 pad-t-4 pad-b-4 pad-x-10 dsp-flex justify-center align-itms-center rounded30 ${
+                                    data.orderStatus === 'complete'
+                                      ? 'success'
+                                      : data.orderStatus === 'cancel'
+                                      ? 'danger'
+                                      : data.orderStatus === 'cooking'
+                                      ? 'warning'
+                                      : 'info'
+                                  }-bgcol`}
+                                  style={{ color: 'whitesmoke' }}
+                                >
+                                  {data.orderStatus.toUpperCase()}
+                                </div>
+                              </div>
+                            )
+                          }
+                        ]}
+                        style={{ '--delay-show': `${0.04 * i}s` }}
+                      />
+                    )
+                  }
+                })}
+              </>
+            ) : (
+              <>
+                {transactionData.map((data, i) => {
+                  if (data.orderStatus === 'complete') {
+                    const fullDate = date(data.createdAt)
+                    return (
+                      <AdminPanelUI2.TRow
+                        key={data.uuid}
+                        firstColm={i + 1}
+                        tRow={[
+                          {
+                            label: data.orderCode,
+                            style: { fontFamily: 'consolas', fontWeight: '600', letterSpacing: '1px' }
+                          },
+                          { label: data?.payment, className: 'font-weg-600' },
+                          {
+                            label: `Rp ${data?.bill.toLocaleString('id-ID', { currency: 'IDR' })}`,
+                            className: 'nowrap'
+                          },
+                          { label: fullDate[0], className: 'nowrap' },
+                          { label: fullDate[1], className: 'nowrap' },
+                          {
+                            label: (
+                              <div className="box dsp-flex justify-start">
+                                <div
+                                  className={`box font-size-13 pad-t-4 pad-b-4 pad-x-10 dsp-flex justify-center align-itms-center rounded30 ${
+                                    data.orderStatus === 'complete'
+                                      ? 'success'
+                                      : data.orderStatus === 'cancel'
+                                      ? 'danger'
+                                      : data.orderStatus === 'cooking'
+                                      ? 'warning'
+                                      : 'info'
+                                  }-bgcol`}
+                                  style={{ color: 'whitesmoke' }}
+                                >
+                                  {data.orderStatus.toUpperCase()}
+                                </div>
+                              </div>
+                            )
+                          }
+                        ]}
+                        style={{ '--delay-show': `${0.04 * i}s` }}
+                      />
+                    )
+                  }
+                })}
+              </>
+            )}
           </AdminPanelUI2.Table>
         </>
       ) : transactionData && checkTransaction() === -1 ? (
@@ -855,11 +1086,29 @@ export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
       ) : (
         <DefaultSpinner />
       )}
+      <div
+        className={`box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100${
+          (searchInput.length > 0 && searchResult.length > 0) || searchInput.length === 0 ? ' dsp-none' : ''
+        }`}
+        style={{ height: '300px' }}
+      >
+        <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
+        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+      </div>
     </div>
   )
 }
 export const Activity = ({ activityData }) => {
   useDocumentTitle('Activity')
+  const { searchInput, searchResult, setSearchInput } = useSearchFilter((input, curr) => {
+    return (
+      `${curr.activity}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${curr.user?.fullname}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getDate(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase()) ||
+      `${getTime(curr.createdAt)}`.toLowerCase().includes(input.toLowerCase())
+    )
+  }, activityData)
+  const handleInputValue = (event) => setSearchInput(event.target.value)
   return (
     <>
       {activityData.length > 0 ? (
@@ -880,32 +1129,70 @@ export const Activity = ({ activityData }) => {
                 addLabel={false}
                 icon="search"
                 placeHolder="Search Activity"
+                onInput={handleInputValue}
               />
             </div>
           </div>
           <div className="box" style={{ marginTop: '0px' }}>
             <AdminPanelUI2.ListGroup>
-              {activityData &&
-                activityData.map((data, i) => {
-                  return (
-                    <AdminPanelUI2.ListType1
-                      key={`${data.uuid}${i}`}
-                      imgSize="50px"
-                      gap={'10px'}
-                      titleSize={'14px'}
-                      delayAnim={`${0.04 * i}s`}
-                      moreClass="separator w-100"
-                      img={getImage(data.user?.data?.profileImage)}
-                      alt={data.user?.fullname}
-                      title={data.activity}
-                      subTitle={moment(
-                        `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
-                        'DD-MM-YYYY HH:mm'
-                      ).fromNow()}
-                    />
-                  )
-                })}
+              {searchInput.length > 0 ? (
+                <>
+                  {searchResult.map((data, i) => {
+                    return (
+                      <AdminPanelUI2.ListType1
+                        key={`${data.uuid}${i}`}
+                        imgSize="50px"
+                        gap={'10px'}
+                        titleSize={'14px'}
+                        delayAnim={`${0.04 * i}s`}
+                        moreClass="separator w-100"
+                        img={getImage(data.user?.data?.profileImage)}
+                        alt={data.user?.fullname}
+                        title={data.activity}
+                        subTitle={moment(
+                          `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
+                          'DD-MM-YYYY HH:mm'
+                        ).fromNow()}
+                      />
+                    )
+                  })}
+                </>
+              ) : (
+                <>
+                  {activityData.map((data, i) => {
+                    return (
+                      <AdminPanelUI2.ListType1
+                        key={`${data.uuid}${i}`}
+                        imgSize="50px"
+                        gap={'10px'}
+                        titleSize={'14px'}
+                        delayAnim={`${0.04 * i}s`}
+                        moreClass="separator w-100"
+                        img={getImage(data.user?.data?.profileImage)}
+                        alt={data.user?.fullname}
+                        title={data.activity}
+                        subTitle={moment(
+                          `${getDate(data.createdAt)} ${getTime(data.createdAt)}`,
+                          'DD-MM-YYYY HH:mm'
+                        ).fromNow()}
+                      />
+                    )
+                  })}
+                </>
+              )}
             </AdminPanelUI2.ListGroup>
+          </div>
+          <div
+            className={`box dsp-flex justify-center align-itms-center fl-colm gap-30 pad-y-30 w-100${
+              (searchInput.length > 0 && searchResult.length > 0) || searchInput.length === 0 ? ' dsp-none' : ''
+            }`}
+            style={{ height: '300px' }}
+          >
+            <span
+              className="icons8-regular search-more"
+              style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
+            ></span>
+            <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
           </div>
         </>
       ) : activityData.length === 0 ? (

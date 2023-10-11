@@ -3,7 +3,6 @@ import { useDocumentTitle } from '../hooks/useDocumentHandler'
 import { Home, OnCooking, Complete } from '../components/Fragments/Kitchen'
 import Button from '../components/Elements/Button'
 import UserProfile from '../components/Elements/UserProfile'
-import CompanyLogo from '../components/Elements/CompanyLogo'
 import AdminPanelUI1 from '../components/Layout/AdminPanelUI1'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAlert } from '../redux/slice/popupScreenSlice'
@@ -12,6 +11,7 @@ import getImage from '../utils/getImage'
 import { toggleDarkMode } from '../redux/slice/darkModeSlice'
 import useMenuData from '../hooks/useMenuData'
 import useTransactionToday from '../hooks/useTransactionToday'
+import CBNProfile from '../components/Fragments/CBNProfile'
 
 const Cashier = () => {
   useDocumentTitle('Home')
@@ -39,7 +39,7 @@ const Cashier = () => {
       Header={
         <>
           <div className="box dsp-flex justify-start align-itms-center gap-10 fl-1">
-            <CompanyLogo img="/img/logos/coffeecup_x128.png" alt="cafecbn" companyName="Cafe CBN" />
+            <CBNProfile darkMode={darkMode} />
           </div>
           <div className="box dsp-flex justify-end align-itms-center gap-10 fl-1">
             <Button
@@ -74,6 +74,32 @@ const Cashier = () => {
           <AdminPanelUI1.CustomLink to="/kitchen/oncooking" name="On-Cooking" />
           <AdminPanelUI1.CustomLink to="/kitchen/complete" name="Complete" />
         </ul>
+      }
+      NavResponsive={
+        <div className="box h-100 dsp-flex fl-colm align-itms-start">
+          <CBNProfile darkMode={darkMode} />
+          <div className="box border-box dsp-flex fl-colm justify-between mrgn-t-20">
+            <UserProfile
+              img={getImage(userSession?.profileImage, 'noavatar')}
+              alt={userSession?.firstname ?? 'noavatar'}
+              name={`${userSession?.firstname ?? 'Hello'} ${userSession?.lastname ?? 'World'}`}
+              roleName="Kitchen"
+              moreClass={'noline'}
+            />
+          </div>
+          <Button
+            icon={'exit'}
+            height={'40px'}
+            moreClass={'mrgn-t-auto'}
+            style={'fill'}
+            color="classic"
+            brightness={'var(--icon2)'}
+            onClick={signOut}
+            iconSize={'20px'}
+          >
+            Sign out
+          </Button>
+        </div>
       }
       Footer={
         <>

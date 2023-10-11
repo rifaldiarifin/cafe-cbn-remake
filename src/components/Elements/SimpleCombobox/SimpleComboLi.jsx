@@ -1,8 +1,9 @@
-const SimpleComboLi = ({ value }) => {
+const SimpleComboLi = ({ value, onSelected = () => {} }) => {
   const switchSelection = (e) => {
     const simplePreview = e.target.parentElement.previousElementSibling
     simplePreview.parentElement.classList.remove('active')
     simplePreview.children[0].value = value
+    onSelected(value)
     return (simplePreview.dataset.selected = value)
   }
   const switchPoint = (e) => {

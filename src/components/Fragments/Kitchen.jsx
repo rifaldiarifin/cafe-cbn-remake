@@ -7,6 +7,7 @@ import OrderGroup from './OrderGroup'
 import DefaultSpinner from './DefaultSpinner'
 import { useDispatch } from 'react-redux'
 import { addTransactionChanges } from '../../redux/slice/transactionChangesSlice'
+import { setAlert } from '../../redux/slice/popupScreenSlice'
 
 export const Home = () => {
   useDocumentTitle('Home')
@@ -57,7 +58,14 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
       dispatch(addTransactionChanges())
       setIsLoading([-1, false])
     } catch (error) {
-      console.error(error)
+      dispatch(
+        setAlert({
+          title: 'Finished cooking',
+          description: "Can't finish this order",
+          alertStyle: 'danger',
+          alertType: 'message'
+        })
+      )
       setIsLoading([-1, false])
     }
   }
@@ -75,7 +83,9 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
       setIsLoading([-1, false])
     }
   }
-
+  const checkCookingProgress = () => {
+    return transactionToday.cooking.findIndex((find) => find.handleCooking === userSession.username)
+  }
   return (
     <>
       <div className="header-content">
@@ -96,18 +106,24 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
                 index={i1}
               >
                 {i1 === isLoading[0] && isLoading[1] && <DefaultSpinner />}
-                <div className="box dsp-flex justify-between gap-10" style={{ height: '60px' }}>
+                <div className="box dsp-flex justify-between gap-10">
                   <div className="box dsp-flex fl-colm justify-between">
-                    <h3 className="font-size-18">Order : {order.orderCode}</h3>
-                    <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
+                    <div className="box dsp-flex fl-colm justify-between gap-14">
+                      <h3 className="font-size-18">Order : {order.orderCode}</h3>
+                      <p className="font-size-14 font-weg-600 disabled-text-2">
+                        Customer : <span className="text-2 font-size-16">{order.customer}</span>
+                      </p>
+                      <p className="disabled-text-2 font-size-14 font-weg-600">
+                        Qty : <span className="text-2 font-size-16">{getTotalQty(order.orders)}</span>
+                      </p>
+                    </div>
                   </div>
                   <div className="box dsp-flex fl-colm justify-between align-itms-end">
                     <h4 className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</h4>
                     <div className="box dsp-flex align-itms-center gap-10">
-                      {/* {order.orderStatus === 'Ready' && <Button style="fill" color="classic" height="40px" onClick={launched}>Launched</Button>} */}
                       <p className="font-size-14 font-weg-600 disabled-text-2 space-1">
-                        Handle:{' '}
                         <span className="text-2">
+                          {'Handle by : '}
                           {order.handleCooking === userSession?.username ? 'You' : order.handleCooking}
                         </span>
                       </p>
@@ -123,7 +139,7 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
                   style={{
                     minHeight: '60px',
                     borderTop: '1px solid var(--separator)',
-                    borderBottom: '1px solid var(--separator)'
+                    borderBottom: order?.handleCooking !== userSession.username ? null : '1px solid var(--separator)'
                   }}
                 >
                   <ul className="orders">
@@ -134,7 +150,11 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
                       })}
                   </ul>
                 </div>
-                <div className="box dsp-flex align-itms-center justify-end align-self-center h-100">
+                <div
+                  className={`box ${
+                    order?.handleCooking !== userSession.username ? 'dsp-none' : 'dsp-flex'
+                  } align-itms-center justify-end align-self-center h-100`}
+                >
                   <Button style="fill" color="third" height="40px" onClick={() => finish(order?.uuid, i1)}>
                     {`Finished cooking`}
                   </Button>
@@ -142,6 +162,9 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
               </OrderGroup.List>
             )
           })}
+          {transactionToday?.cooking.length > 0 && transactionToday?.pending.length > 0 && (
+            <div className="separator-x"></div>
+          )}
           {transactionToday.pending.map((order, i1) => {
             return (
               <OrderGroup.List
@@ -155,15 +178,19 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
                 index={i1}
               >
                 {i1 === isLoading[0] && isLoading[1] && <DefaultSpinner />}
-                <div className="box dsp-flex justify-between gap-10" style={{ height: '60px' }}>
-                  <div className="box dsp-flex fl-colm justify-between">
+                <div className="box dsp-flex justify-between gap-10">
+                  <div className="box dsp-flex fl-colm justify-between gap-14">
                     <h3 className="font-size-18">Order : {order.orderCode}</h3>
-                    <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
+                    <p className="font-size-14 font-weg-600 disabled-text-2">
+                      Customer : <span className="text-2 font-size-16">{order.customer}</span>
+                    </p>
+                    <p className="disabled-text-2 font-size-14 font-weg-600">
+                      Qty : <span className="text-2 font-size-16">{getTotalQty(order.orders)}</span>
+                    </p>
                   </div>
                   <div className="box dsp-flex fl-colm justify-between align-itms-end">
                     <h4 className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</h4>
                     <div className="box dsp-flex align-itms-center gap-10">
-                      {/* {order.orderStatus === 'Ready' && <Button style="fill" color="classic" height="40px" onClick={launched}>Launched</Button>} */}
                       <p className="font-size-22 font-weg-600 mrgn-l-10 accent-col-3">
                         Rp {order.bill.toLocaleString('id-ID', { currency: 'IDR' })},00
                       </p>
@@ -189,7 +216,7 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
                 </div>
                 <div
                   className="box dsp-flex align-itms-center justify-end align-self-center h-100"
-                  style={{ display: i1 !== 0 || transactionToday.cooking.length > 0 ? 'none' : null }}
+                  style={{ display: i1 !== 0 || !checkCookingProgress() ? 'none' : null }}
                 >
                   <Button style="fill" color="third" height="40px" onClick={() => start(order?.uuid, i1)}>
                     Start
@@ -248,8 +275,15 @@ export const Complete = ({ menuData, transactionToday }) => {
                 >
                   <div className="box dsp-flex justify-between">
                     <div className="box dsp-flex fl-colm justify-between">
-                      <h3 className="font-size-18">Order : {order.orderCode}</h3>
-                      <p className="disabled-text-1 font-size-14">Qty : {getTotalQty(order.orders)}</p>
+                      <div className="box dsp-flex fl-colm justify-between gap-14">
+                        <h3 className="font-size-18">Order : {order.orderCode}</h3>
+                        <p className="font-size-14 font-weg-600 disabled-text-2">
+                          Customer : <span className="text-2 font-size-16">{order.customer}</span>
+                        </p>
+                        <p className="disabled-text-2 font-size-14 font-weg-600">
+                          Qty : <span className="text-2 font-size-16">{getTotalQty(order.orders)}</span>
+                        </p>
+                      </div>
                     </div>
                     <div className="box dsp-flex fl-colm justify-between align-itms-end">
                       <h4 className="font-weg-500 disabled-text-2 font-size-14">{getTime(order.createdAt)}</h4>

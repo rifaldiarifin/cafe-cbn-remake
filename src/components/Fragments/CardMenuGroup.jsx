@@ -24,7 +24,6 @@ const CardMenuGroup = ({
     useEffect(() => {
       const handleOutsideClick = (e) => {
         if (ref.current && !ref.current.contains(e.target)) {
-          // ref.current.classList.remove('active')
           setMoreOptions(false)
         }
       }

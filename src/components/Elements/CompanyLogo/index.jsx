@@ -6,14 +6,11 @@ const CompanyLogo = ({
   alt = null,
   companyName = 'Company Name',
   moreClass = 'font-size-18 space-2',
-  fontSize = null
+  fontSize = null,
+  color = 'var(--accent-color1)'
 }) => {
   return (
-    <Link
-      to={to}
-      className={`company-logo${moreClass ? ' ' + moreClass : ''}`}
-      style={{ color: 'var(--accent-color1)', fontSize }}
-    >
+    <Link to={to} className={`company-logo${moreClass ? ' ' + moreClass : ''}`} style={{ color, fontSize }}>
       {img && <img src={img} alt={alt} />}
       {companyName}
     </Link>

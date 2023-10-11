@@ -10,6 +10,8 @@ import menuChangesReducer from './slice/menuChangesSlice'
 import groupChangesReducer from './slice/groupChangesSlice'
 import activityChangesReducer from './slice/activityChangesSlice'
 import transactionChangesReducer from './slice/transactionChangesSlice'
+import adminPanelReducer from './slice/adminPanelSlice'
+import landingHighlightNavReducer from './slice/landingHighlightNavSlice'
 
 const store = configureStore({
   reducer: {
@@ -19,6 +21,8 @@ const store = configureStore({
     darkMode: darkModeReducer,
     popupForm: popupFormReducer,
     auth: authReducer,
+    adminPanel: adminPanelReducer,
+    landingHighlightNav: landingHighlightNavReducer,
     userChanges: userChangesReducer,
     menuChanges: menuChangesReducer,
     activityChanges: activityChangesReducer,
@@ -26,11 +30,5 @@ const store = configureStore({
     transactionChanges: transactionChangesReducer
   }
 })
-
-// console.log("Oncreate Store : ", store.getState())
-
-// store.subscribe(() => {
-//     console.log("Store Change : ", store.getState().userChanges.data)
-// })
 
 export default store

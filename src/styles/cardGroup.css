@@ -1,34 +1,34 @@
-.card-group-x{
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
+.card-group-x {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
 }
 
-.card-box{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--rounded1);
-    border: 1px solid var(--separator);
-    box-sizing: border-box;
-    overflow: hidden;
+.card-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--rounded1);
+  border: 1px solid var(--separator);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.card-box .actions{
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    opacity: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    z-index: 1;
-    transition: var(--trns-02) var(--Cubic-Bezier1);
+.card-box .actions {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  opacity: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  z-index: 1;
+  transition: var(--trns-02) var(--Cubic-Bezier1);
 }
 
-.card-box:hover .actions{
-    opacity: 1;
+.card-box:hover .actions {
+  opacity: 1;
 }

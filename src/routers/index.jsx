@@ -15,7 +15,11 @@ const router = createBrowserRouter([
   // Landing Page
   {
     path: '/',
-    element: <Landing />,
+    element: (
+      <PopupScreen>
+        <Landing />
+      </PopupScreen>
+    ),
     errorElement: (
       <PopupScreen>
         <Page404 />

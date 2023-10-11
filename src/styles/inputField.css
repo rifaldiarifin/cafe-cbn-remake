@@ -8,7 +8,7 @@
   min-width: 40px;
 }
 
-.inputfield.currency .box >.curr {
+.inputfield.currency .box > .curr {
   font-size: 14px;
   color: var(--disabled-color2);
   position: absolute;
@@ -70,6 +70,10 @@
   transition: var(--trns-04) var(--Cubic-Bezier1);
 }
 
+.inputfield.noline input {
+  border: none;
+}
+
 .inputfield.icon input {
   padding-left: calc(var(--icon-ratio) + (var(--h-input) / 2));
 }
@@ -86,7 +90,7 @@
 }
 
 .inputfield input:focus {
-  border-color: var(--i-color)
+  border-color: var(--i-color);
 }
 
 .inputfield input::placeholder {
@@ -107,7 +111,7 @@
   transition: var(--trns-02);
 }
 
-.inputfield input[type="password"]::-ms-reveal {
+.inputfield input[type='password']::-ms-reveal {
   display: none;
 }
 
@@ -117,12 +121,12 @@
 
 /* number */
 
-.inputfield input[type="number"]::-webkit-outer-spin-button,
-.inputfield input[type="number"]::-webkit-inner-spin-button {
+.inputfield input[type='number']::-webkit-outer-spin-button,
+.inputfield input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.inputfield input[type="number"] {
+.inputfield input[type='number'] {
   -moz-appearance: textfield;
 }

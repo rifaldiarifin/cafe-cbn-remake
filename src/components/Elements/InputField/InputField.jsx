@@ -6,6 +6,7 @@ const Input = ({
   ariaLabel = undefined,
   autoComplete = 'on',
   value = 'asdasd',
+  autoFocus = false,
   onInput = () => {}
 }) => {
   return (
@@ -18,6 +19,7 @@ const Input = ({
       autoComplete={autoComplete}
       defaultValue={value}
       onInput={(e) => onInput(e)}
+      autoFocus={autoFocus}
     />
   )
 }

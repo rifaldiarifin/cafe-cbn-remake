@@ -16,6 +16,10 @@ export const getTransactionToday = async () => {
   return await api.get('/transaction/today')
 }
 
+export const getTransactionCompleteThisMonth = async () => {
+  return await api.get('/transaction/month')
+}
+
 export const updateTransactionByID = async (id, body) => {
   return await api.put(`/transaction/${id}`, JSON.stringify(body), {
     headers: {
