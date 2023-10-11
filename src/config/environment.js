@@ -1,5 +1,5 @@
 const CONFIG = {
-  BaseUrlAPI: 'http://localhost:4000/api'
+  BaseUrlAPI: 'https://cafecbnapi.vercel.app'
 }
 
 export default CONFIG

@@ -62,7 +62,7 @@ const SignInPage = () => {
 
     // Request to api
     try {
-      const response = await axios.post('/auth/login', JSON.stringify(validateForm), {
+      const response = await axios.post('/api/auth/login', JSON.stringify(validateForm), {
         baseURL: CONFIG.BaseUrlAPI,
         withCredentials: true,
         headers: {

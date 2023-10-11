@@ -4,13 +4,11 @@ import jwtDecode from 'jwt-decode'
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setAlert } from '../redux/slice/popupScreenSlice'
-import CONFIG from '../config/environment'
 import { verifyToken, refreshToken } from '../services/auth.service'
 
 const useValidateToken = async () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const BASE_URL = CONFIG.BaseUrlAPI
   const accessToken = localStorage.getItem('access_token')
   const ref = useRef(false)
 
@@ -79,7 +77,7 @@ const useValidateToken = async () => {
 
       return () => (ref.current = true)
     }
-  }, [BASE_URL, accessToken, dispatch, navigate])
+  }, [accessToken, dispatch, navigate])
 }
 
 export default useValidateToken

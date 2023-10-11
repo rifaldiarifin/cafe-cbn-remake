@@ -3,7 +3,7 @@ import CONFIG from '../config/environment'
 const BASE_URL = CONFIG.BaseUrlAPI
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${BASE_URL}/api`,
   withCredentials: true
 })
 
