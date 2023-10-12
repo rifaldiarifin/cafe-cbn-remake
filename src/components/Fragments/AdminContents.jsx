@@ -422,7 +422,7 @@ export const Users = ({ usersData }) => {
                 className="icons8-regular search-more"
                 style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
               ></span>
-              <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+              <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">{`No result for "${searchInput}"`}</p>
             </div>
           </div>
           <FormUser />
@@ -547,7 +547,7 @@ export const UsersActivity = ({ activityData }) => {
         style={{ height: '300px' }}
       >
         <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
-        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">{`No result for "${searchInput}"`}</p>
       </div>
     </>
   )
@@ -757,7 +757,7 @@ const MenuAll = ({ menuData }) => {
           style={{ height: '300px' }}
         >
           <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
-          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+          <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">{`No result for "${searchInput}"`}</p>
         </div>
       </div>
       <FormMenu />
@@ -1095,7 +1095,7 @@ export const Transaction = ({ transactionData, totalSale, totalOrder }) => {
         style={{ height: '300px' }}
       >
         <span className="icons8-regular search-more" style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}></span>
-        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+        <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">{`No result for "${searchInput}"`}</p>
       </div>
     </div>
   )
@@ -1196,7 +1196,7 @@ export const Activity = ({ activityData }) => {
               className="icons8-regular search-more"
               style={{ filter: 'var(--icon1)', '--i8-ratio': '64px' }}
             ></span>
-            <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10">{`No result for "${searchInput}"`}</p>
+            <p className="font-size-18 font-weg-500 disabled-text-1 mrgn-b-10 text-center">{`No result for "${searchInput}"`}</p>
           </div>
         </>
       ) : activityData.length === 0 ? (

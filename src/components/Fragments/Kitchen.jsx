@@ -228,7 +228,7 @@ export const OnCooking = ({ userSession, menuData, transactionToday }) => {
         </OrderGroup>
       ) : transactionToday?.pending?.length === 0 || transactionToday?.cooking?.length === 0 ? (
         <div className="box dsp-flex fl-colm align-itms-center mrgn-t-30">
-          <p className="font-size-16 disabled-text-1">No orders at this time</p>
+          <p className="font-size-16 disabled-text-1 text-center">No orders at this time</p>
         </div>
       ) : (
         <DefaultSpinner />
@@ -316,7 +316,7 @@ export const Complete = ({ menuData, transactionToday }) => {
       </OrderGroup>
       {transactionToday.complete && !checkComplete(transactionToday.complete) && (
         <div className="box dsp-flex fl-colm align-itms-center">
-          <p className="font-size-16 disabled-text-1">No orders completed at this time</p>
+          <p className="font-size-16 disabled-text-1 text-center">No orders completed at this time</p>
         </div>
       )}
     </>

@@ -104,7 +104,7 @@ const Cashier = () => {
       Footer={
         <>
           <div className="box dsp-flex h-100 justify-center align-itms-center">
-            <span className="disabled-text-2">Copyright © 2023, All Rights Reserved.</span>
+            <span className="disabled-text-2 text-center">Copyright © 2023, All Rights Reserved.</span>
           </div>
         </>
       }

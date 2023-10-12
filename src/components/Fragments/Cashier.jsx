@@ -151,7 +151,7 @@ export const OnProcess = ({ menuData, transactionToday }) => {
         </OrderGroup>
       ) : transactionToday?.pending?.length === 0 || transactionToday?.cooking?.length === 0 ? (
         <div className="box dsp-flex fl-colm align-itms-center pad-y-30">
-          <p className="font-size-16 disabled-text-1">No orders completed at this time</p>
+          <p className="font-size-16 disabled-text-1 text-center">No orders completed at this time</p>
         </div>
       ) : (
         <DefaultSpinner />
@@ -229,7 +229,7 @@ export const Complete = ({ menuData, transactionToday }) => {
         </OrderGroup>
       ) : transactionToday?.complete?.length === 0 ? (
         <div className="box dsp-flex fl-colm align-itms-center  pad-y-30">
-          <p className="font-size-16 disabled-text-1">No orders completed at this time</p>
+          <p className="font-size-16 disabled-text-1 text-center">No orders completed at this time</p>
         </div>
       ) : (
         <DefaultSpinner />
@@ -324,7 +324,7 @@ export const History = ({ menuData, transactionData }) => {
         </OrderGroup>
       ) : transactionData.length === 0 ? (
         <div className="box dsp-flex fl-colm align-itms-center pad-y-30">
-          <p className="font-size-16 disabled-text-1">No orders at the last month</p>
+          <p className="font-size-16 disabled-text-1 text-center">No orders at the last month</p>
         </div>
       ) : (
         <DefaultSpinner />

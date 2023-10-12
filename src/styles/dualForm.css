@@ -35,6 +35,10 @@
   padding: 50px 0 50px 60px;
 }
 
+.dual-panel-form .btn-bth {
+  display: none;
+}
+
 .dual-panel-form .form-banner {
   grid-area: banner;
   width: 100%;
@@ -134,6 +138,10 @@
   .dual-panel-form {
     grid-template-columns: 1fr;
     grid-template-areas: 'content';
+  }
+
+  .dual-panel-form .btn-bth {
+    display: inline-block;
   }
 
   .dual-panel-form.reverse {

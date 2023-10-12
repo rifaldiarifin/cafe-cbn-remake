@@ -146,6 +146,12 @@ const SignInPage = () => {
                 Forget Password?
               </Link>
             </div> */}
+            <p className="mrgn-t-20 btn-bth" style={{ fontSize: '14px' }}>
+              Back to{' '}
+              <Link to={'/'} className="hyperlink" style={{ fontSize: '15px' }}>
+                Home
+              </Link>
+            </p>
             <div className="box pad-x-20 pad-t-30 text-center border-box w-100">
               {formMessage && (
                 <p className="font-size-14 font-weg-600" style={{ color: 'var(--danger-color)' }}>

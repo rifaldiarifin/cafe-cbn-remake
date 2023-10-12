@@ -240,7 +240,7 @@
   grid-area: content;
   background-color: var(--main-color);
   padding: var(--main-pad);
-  max-height: calc(100vh - 60px);
+  max-height: calc(100vh - 61px);
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -724,9 +724,11 @@
   .admin-panel-ui2 {
     --main-pad: 30px;
   }
-  .admin-panel-ui2 .header,
+  .admin-panel-ui2 .header {
+    padding: 0 16px;
+  }
   .admin-panel-ui2 .content {
-    padding: var(--main-pad) 10px;
+    padding: 16px;
   }
   .admin-panel-ui2 .transaction-ov {
     width: 100%;

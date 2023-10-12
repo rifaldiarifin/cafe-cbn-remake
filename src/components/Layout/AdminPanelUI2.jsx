@@ -7,7 +7,6 @@ import usePathName from '../../hooks/usePathname'
 import Button from '../Elements/Button'
 
 const AdminPanelUI2 = ({ Header, Nav, children, Aside }) => {
-  document.body.style.overflow = 'hidden'
   const dispatch = useDispatch()
   const pathName = usePathName()
   const { navActive, asideActive } = useSelector((state) => state.adminPanel.data)
